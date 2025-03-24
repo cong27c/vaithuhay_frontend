@@ -1,0 +1,38 @@
+.wrapper {
+    margin-left: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+.wrapper .SearchForm {
+    width: 300px;
+    position: relative;
+    padding: 15px 20px ;
+    border: none;
+    background-color: yellow;
+    border-radius: 24px;
+    z-index: 0;
+    transition: all 0.5s ease
+}
+.wrapper .search-icon {
+    position: absolute;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border: 2px solid transparent;
+    box-shadow: 0 0 8px rgba(255, 185, 0, 0.8);  
+    transition: box-shadow 0.3s ease;
+}
+
+

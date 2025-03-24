@@ -1,0 +1,27 @@
+.cart-icon {
+    position: relative;
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 30px;
+    margin-left: 40px;
+    color: rgba(95, 91, 83, 1);
+    transition: color 0.3s;
+}
+
+.cart-icon:hover {
+    color: #ffed00;
+}
+
+.cart-icon span {
+    position: absolute;
+    font-size: 15px;
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    color: whitesmoke;
+    border-radius: 50%;
+    top: -20%;
+    left: 60%;
+}

@@ -1,0 +1,32 @@
+.container {
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+}
+.container h3 {
+    font-size: 20px;
+    font-weight: 800;
+}
+.footer-column {
+    max-width: 285px;
+}
+.footer-column ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+}
+.sale-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+}
+.footer-column p {
+    text-align: center;
+    margin-top: 20px;
+    line-height: 25px;
+}

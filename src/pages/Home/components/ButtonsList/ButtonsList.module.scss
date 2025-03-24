@@ -1,0 +1,41 @@
+/* prev next */
+.list-button {
+    position: absolute;
+    top: var(--top, 50%);
+    width: var(--width, 100%);
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 20;
+  }
+  
+  .list-button button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    pointer-events: all;
+  }
+  
+  .list-button button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.2);
+  }
+  
+  .list-button button:active {
+    transform: scale(0.95);
+  }
+  
+  .prev {
+    margin-left: 10px;
+  }
+  
+  .next {
+    margin-right: 10px;
+  }

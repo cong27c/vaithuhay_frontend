@@ -1,0 +1,50 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+    gap: 30px;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/bg-workspace-mb.png?v=7149");
+    background-color: #E7E7E7;
+}
+.wrapper {
+    .listLogo {
+        display: flex;
+        gap: 120px;
+    }
+    img {
+        width: 130px;
+        height: 130px;
+    }
+    .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .desc {
+        width: 230px;
+        margin-top: 20px;
+        font-size: 36px;
+        font-weight: bold;
+        color: #494949;
+    }
+    .title {
+        font-size: 50px;
+        font-weight: bold;
+        color: #494949;
+    
+      }
+    
+
+
+}
+
+
+
+
+
+
+
+

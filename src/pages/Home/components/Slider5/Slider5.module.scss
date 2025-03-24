@@ -1,0 +1,110 @@
+
+.Slider5 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    width: 1420px;
+    height: 600px;
+    margin: 0 auto 40px;
+    border-radius: 24px;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+    // background-color: #ccc;
+    overflow: hidden;
+ 
+}
+.Slider5 .title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
+}
+
+ .Slider5 .line {
+    height: 3px;
+    width: 180px;
+    background-color: #fff; 
+}
+
+.Slider5 .main-title {
+    font-size: 36px;
+    color: #fff;
+    font-weight: 700;
+    margin: 20px 40px;
+    white-space: nowrap; 
+}
+.Slider5 .desc {
+    margin-top: -20px;
+    font-weight: 700;
+    color: #fff;
+    font-size: 24x;
+    text-align: center;
+    width: 240px;
+    
+}
+.Slider5 .listCard {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+.Slider5 .listCard .cartItem {
+    width: 323px;
+    height: 402px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+.Slider5 .listCard .cartItem .images {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.Slider5 .cartItem  img:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2)
+}
+.Slider5 .listCard .cartItem .images img {
+    border: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    transition: transform 0.3s ease;
+
+}
+.Slider5 .listCard .cartItem .introduce {
+    position: absolute;
+    top: -40px;
+    right: 22%;
+    border: none;
+    background-color: #5a5a5abf;
+    padding: 7px 15px;
+    border-radius: 24px;
+    font-style: 18px;
+    font-weight: 700;
+    color: white;
+}
+.Slider5 .listCard .cartItem .images .content {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+}
+.Slider5 .listCard .cartItem .listBtn {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    padding: 5px 10px;
+    background-color: #5a5a5abf;
+    border-radius: 24px;
+    font-style: 14px;
+    font-weight: 700;
+    color: white;
+}
+.Slider5 .listCard .cartItem .listBtn i{
+    margin-right: 10px;
+    color: red;
+}

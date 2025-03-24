@@ -1,0 +1,78 @@
+.wrapper {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/footer-bg.png?v=7149");
+    background-repeat: no-repeat;
+    background-size: 100% 410px; 
+    padding: 80px ;
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+      }
+    
+      .info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+    
+      .logoSection {
+        flex: 1;
+        margin-right: 20px;
+        p {
+          margin: 0.5rem 0;
+          line-height: 1.5;
+        }
+        .logos {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+          margin-bottom: 20px;
+          img {
+            height: 40px;
+          }
+        }
+        .socialIcons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+          margin-top: 20px;
+          a {
+            color: #fff;
+            margin-right: 0.5rem;
+            font-size: 36px;
+            transition: color 0.3s ease;
+          }
+        }
+      }
+    
+      .contactSection {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    
+        h4 {
+          margin-bottom: 0.3rem;
+          font-weight: bold;
+        }
+    
+        p {
+          margin: 0;
+          line-height: 1.5;
+          font-size: 0.95rem;
+        }
+      }
+
+
+}

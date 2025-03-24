@@ -1,0 +1,125 @@
+
+// Hero
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    border-radius: 36px 36px 0px 0px ;
+    width: 370px;
+    height: 70px;
+    margin: 20px;
+    background-color: yellow;
+}
+
+.toggle-input {
+    display: none;
+}
+.toggle-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 1);
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.toggle-text {
+    flex: 1;
+    padding: 20px;
+    border-radius: 999px;
+    text-align: center;
+    z-index: 2;
+    user-select: none;
+    transition: color 0.4s;
+}
+
+.toggle-slider {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: white;
+    border-radius: 25px;
+    transition: transform 0.3s;
+    z-index: 1;
+}
+
+.toggle-input:checked + .toggle-label .toggle-slider {
+    transform: translateX(100%);
+}
+
+
+.toggle-input:checked + .toggle-label .toggle-text:first-child {
+    background-color: whitesmoke;
+    color:rgba(0, 0, 0, 0.8);
+}
+
+.toggle-input:not(:checked) + .toggle-label .toggle-text:last-child {
+    background-color: whitesmoke;
+    color:rgba(0, 0, 0, 0.8);
+}
+.hero  .body {
+    display: flex;
+    gap: 40px;
+    max-width: 100vw;
+    overflow: hidden;
+    padding: 20px 10px 40px 10px;
+}
+/* .body-left */
+.hero .body-left {
+    flex-shrink: 0;
+    width: 370px;
+}
+
+.hero .body-left .content {
+    min-height: 600px;
+    padding: 5px 10px;
+    border-radius: 0px 0px 36px 36px;
+    background-color: #fff;
+    box-shadow: 16px 16px 40px 5px rgba(0, 0, 0, 0.2); 
+}
+
+.hero .body-left .content .list-item .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    padding: 0px 5px;
+    margin-top: 10px;
+
+}
+
+.hero .body-left .content .list-item .item img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+.hero .body-left .content .list-item .item .desc {
+    width: 200px;
+}
+.hero .body-left .content .list-item .line {
+    margin-top: 10px;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* body-right */
+.hero .body-right {
+    flex: 1;
+}
+.hero .body-right .listImage img {
+    margin-top: 20px;
+    max-width: calc(100vw - 370px - 110px); 
+    height: 670px;
+    object-fit: cover;
+    border-radius: 24px;
+}
+.hero .body-right .listImage {
+    position: relative;
+}

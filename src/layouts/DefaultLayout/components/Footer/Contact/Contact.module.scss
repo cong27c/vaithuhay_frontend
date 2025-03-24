@@ -1,0 +1,99 @@
+.wrapper {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px 0;
+    position: relative;
+    box-sizing: border-box;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/preorder-bg.png?v=7149");
+    background-repeat: no-repeat;
+    background-size: 100% 410px;  
+    
+    .title {
+        font-size: 41px;
+        font-weight: normal;
+        color: #494949;
+
+    }
+    .content {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+    }
+    .type {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 24px;
+    }
+    .type .btn {
+        width: 100%;
+        border: none;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #F3F3F3;
+        padding: 16px 15px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .type .btn:hover {
+        background-color: #FFD700;
+        transform: scale(1.05);
+        color: white;
+    }
+    .register .form{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .register .form input {
+        font-size: 18px;
+        border: none;
+        padding: 15px 20px;
+        width: 300px;
+        border-radius: 24px;
+    }
+    .btnRegister {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: darkred;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 24px;
+        cursor: pointer;
+        outline: none;
+        font-size: 18px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btnRegister:hover {
+        background-color: red;
+    }
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .btnRegister:hover .icon {
+        color: #F3F3F3;
+        transform: translateX(10px);
+    }
+}
