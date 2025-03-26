@@ -21,7 +21,6 @@ html, body {
 
 .header .body {
     width: 100%;
-    overflow: hidden;
     display: flex;
     align-items: center;
     padding: 5px 0;
@@ -31,12 +30,4 @@ html, body {
     margin-left: 20px;
     font-size: 30px;
     
-}
-// circleUser
-.circleUser {
-    margin-left: 40px;
-    border: none;
-    background-color: transparent;
-    font-size: 40px;
-    padding: 5px;
 }

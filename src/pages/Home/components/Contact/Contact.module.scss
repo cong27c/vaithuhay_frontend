@@ -1,4 +1,8 @@
-.wrapper {
+.wrapper {  
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+    background-repeat: no-repeat;
+    background-size: 100% 2010px;  
+    .contact {
     z-index: 2;
     display: flex;
     align-items: center;
@@ -9,8 +13,8 @@
     box-sizing: border-box;
     background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/preorder-bg.png?v=7149");
     background-repeat: no-repeat;
-    background-size: 100% 410px;  
-    
+    background-size: 100% 410px;
+    }
     .title {
         font-size: 41px;
         font-weight: normal;

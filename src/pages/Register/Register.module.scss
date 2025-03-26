@@ -1,0 +1,125 @@
+.wrapper {
+  padding: 40px;
+    width: 100%;
+     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+    background-color: #ccc;
+}
+.container {
+    margin:  auto;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 682px;
+    padding: 30px 95px ;
+    border-radius: 50px;
+    background-color: #fff;
+}
+.title {
+    font-style: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #222222;
+}
+.desc {
+    text-align: center;
+    font-style: 12px;
+    color: rgba(0,0,0,0.7);
+    font-weight: 500;
+    line-height: 24px;
+    margin-bottom: 20px;
+}
+.checkList {
+    display: flex;
+    gap: 50px;
+} 
+.checkList div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checkList label {
+    white-space: nowrap;
+    margin: 10px 0 20px;
+    font-weight: 700;
+    font-style: 12px;
+    color: #222222;
+    
+    label::after {
+      display: inline-block;
+      content: "*";
+      color: red;
+      margin-left: 5px;
+    }
+}
+
+
+.listInput form{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.input-container {
+    display: grid;
+    grid-template-columns: 100px 300px;
+    white-space: nowrap;
+    gap: 0 70px;
+    width: 100%;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    outline: none;
+  
+    &:focus {
+      border-color: #FFFF00;
+      box-shadow: 0 0 8px rgba(255, 255, 0, 0.4);
+    }
+  }
+  
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+}
+
+  .buttons .btn {
+    background-color: #000; 
+    color: #fff;
+    padding: 12px 34px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  
+    &:hover {
+      color: #000;
+      background: linear-gradient(90deg, #ffcc00, #FFFF00);
+      border: 2px solid #FFFF00;
+      box-shadow: 0 4px 15px rgba(255, 255, 0, 0.5);
+      transform: scale(1.05);
+    }
+  
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 10px rgba(255, 255, 0, 0.3);
+    }
+  }
+

@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import config from "~/config";
+import productService from "~/utils/productService";
 
 function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`https://api01.f8team.dev/api/products`)
-      .then((res) => res.json())
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((error) => console.log(error));
+    const fetchData = async () => {
+      const res = await productService.getAll();
+      console.log(res);
+      setProducts(res.data);
+    };
+    fetchData();
   }, []);
 
   return (

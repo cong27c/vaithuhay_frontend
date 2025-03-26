@@ -2,28 +2,26 @@ import CartIcon from "./CartIcon";
 import Navigation from "./Navigation";
 import SearchForm from "./SearchForm";
 import styles from "./Header.module.scss";
+import { Link } from "react-router-dom";
+import config from "~/config";
+import CircleUser from "./CircleUser";
 
 function Header() {
   return (
     <>
       <header className={styles.header}>
         <div className={styles.body}>
-          {/* logo */}
-          <a href="#!">
-            {" "}
+          <Link to={config.routes.home}>
             <img
               src="//theme.hstatic.net/1000069970/1001119059/14/logo_medium.png?v=7149"
               alt="Lesson"
               className={styles.logo}
             />
-          </a>
+          </Link>
           <Navigation />
           <SearchForm />
           <CartIcon />
-          {/*  circle-User  */}
-          <button className={styles.circleUser}>
-            <i className="fa-solid fa-circle-user"></i>
-          </button>
+          <CircleUser />
         </div>
       </header>
     </>

@@ -1,26 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DefaultLayout from "~/layouts/DefaultLayout";
+import { BrowserRouter as Router } from "react-router-dom";
 import ScrollTop from "./components/ScrollTop";
-import routes from "./routes";
+import AppRoutes from "./components/AppRoutes";
 
 function App() {
   return (
     <Router>
       <ScrollTop />
-      <Routes>
-        <Route element={<DefaultLayout />}>
-          {routes.map((route) => {
-            const Component = route.component;
-            return (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<Component />}
-              />
-            );
-          })}
-        </Route>
-      </Routes>
+      <AppRoutes />
     </Router>
   );
 }

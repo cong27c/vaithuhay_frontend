@@ -2,6 +2,7 @@ import Banner from "./components/Banner";
 import BrandList from "./components/BrandList";
 import Carousel from "./components/Carousel";
 import Category from "./components/Category";
+import Contact from "./components/Contact";
 import Hero from "./components/Hero";
 import Service from "./components/Service";
 import Slider1 from "./components/Slider1";
@@ -10,7 +11,6 @@ import Slider3 from "./components/Slider3";
 import Slider4 from "./components/Slider4";
 import Slider5 from "./components/Slider5";
 import Slider6 from "./components/Slider6";
-// import Slider6 from "./components/Slider6";
 import styles from "./Home.module.scss";
 
 function Home() {
@@ -36,6 +36,7 @@ function Home() {
       <Category />
       <Service />
       <BrandList />
+      <Contact />
     </div>
   );
 }
