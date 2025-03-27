@@ -14,7 +14,7 @@ function Button({
   to = "",
   href = "",
   arrowButton = false,
-  dualButton = false,
+  SubmitButton = false,
   draculaButton = false,
   tabButton = false,
   disabled = false,
@@ -44,7 +44,7 @@ function Button({
       {...passProps}
       className={clsx(styles.wrapper, className, styles[size], {
         [styles.arrowButton]: arrowButton,
-        [styles.dualButton]: dualButton,
+        [styles.SubmitButton]: SubmitButton,
         [styles.draculaButton]: draculaButton,
         [styles.tabButton]: tabButton,
         [styles.disabled]: disabled || loading,
@@ -72,7 +72,7 @@ Button.propTypes = {
   size: PropTypes.oneOf(["small", "medium", "large"]),
   icon: PropTypes.object,
   arrowButton: PropTypes.bool,
-  dualButton: PropTypes.bool,
+  SubmitButton: PropTypes.bool,
   draculaButton: PropTypes.bool,
   tabButton: PropTypes.bool,
   disabled: PropTypes.bool,

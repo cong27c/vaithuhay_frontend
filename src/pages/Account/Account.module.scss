@@ -36,9 +36,10 @@ p {
     background-color: #fff;
     gap: 20px;
     .crown {
+        text-align: center;
         margin-left: 10px;
-        font-size: 10px;
-        padding: 5px;
+        font-size: 12px;
+        padding: 8px;
         background-color: black;
         color: white;
         border-radius: 50%;
@@ -84,7 +85,6 @@ p {
 }
 
 .account-content {
-    
     display: flex;
     align-items: center;
     justify-content: center;

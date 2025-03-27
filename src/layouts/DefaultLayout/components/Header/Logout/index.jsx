@@ -3,7 +3,10 @@ import config from "~/config";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { logoutUser } from "~/Services/authServices";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRightToBracket,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import Button from "~/components/Button";
 
 function Logout() {
@@ -35,7 +38,7 @@ function Logout() {
         <Button
           draculaButton
           size="large"
-          icon={faPaperPlane}
+          icon={faSignOutAlt}
           onClick={handleLogout}
         >
           Đăng xuất
@@ -45,7 +48,7 @@ function Logout() {
           to={config.routes.login}
           draculaButton
           size="large"
-          icon={faPaperPlane}
+          icon={faRightToBracket}
         >
           Đăng nhập
         </Button>

@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.scss";
 import { useState } from "react";
 import Loading from "~/layouts/DefaultLayout/components/Loading";
 import config from "~/config";
 import { postUser } from "~/Services/authServices";
+import Button from "~/components/Button";
 
 function Register() {
   const navigate = useNavigate();
@@ -151,10 +152,16 @@ function Register() {
               )}
             </div>
             <div className={styles.buttons}>
-              <button className={styles.btn}>ĐĂNG KÝ</button>
-              <Link to={config.routes.login}>
-                <button className={styles.btn}>TRỞ VỀ</button>
-              </Link>
+              <Button className={styles.btn} SubmitButton>
+                ĐĂNG KÝ
+              </Button>
+              <Button
+                className={styles.btn}
+                to={config.routes.login}
+                SubmitButton
+              >
+                TRỞ VỀ
+              </Button>
             </div>
           </form>
         </div>

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styles from "./Login.module.scss";
 import config from "~/config";
 import { useState } from "react";
@@ -6,8 +5,6 @@ import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
 import { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
-import { faPaperPlane, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
   const query = useQuery();
@@ -39,21 +36,6 @@ function Login() {
 
   return (
     <div className={styles.wrapper}>
-      <Button
-        to={config.routes.home}
-        size="large"
-        arrowButton
-        icon={faArrowRight}
-      >
-        KHÁM PHÁ NGAY
-      </Button>
-
-      <Button draculaButton size="large" icon={faSignOutAlt}>
-        Đăng xuất
-      </Button>
-      <Button tabButton>Sản phẩm mới nhất</Button>
-      {/*<Button />
-      <Button /> */}
       <div className={styles.container}>
         <h1 className={styles.title}>Đăng nhập</h1>
         <div className={styles.listInput}>
@@ -74,10 +56,16 @@ function Login() {
             />
 
             <div className={styles.buttons}>
-              <button className={styles.btn}>Đăng nhập</button>
-              <Link to={config.routes.register}>
-                <button className={styles.btn}>Đăng ký</button>
-              </Link>
+              <Button className={styles.btn} SubmitButton>
+                Đăng nhập
+              </Button>
+              <Button
+                className={styles.btn}
+                to={config.routes.register}
+                SubmitButton
+              >
+                Đăng ký
+              </Button>
             </div>
             {hasError && <p>Email hoặc mật khẩu không hợp lệ.</p>}
           </form>
