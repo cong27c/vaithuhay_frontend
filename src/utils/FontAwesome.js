@@ -4,6 +4,8 @@ import {
   faSignOutAlt,
   faSearch,
   faHome,
+  faArrowRight,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
@@ -17,15 +19,15 @@ import {
   faGem,
   faRightFromBracket,
   faBox,
-  faHeart,
+  faHeart as faHeartSolid,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 library.add(
   faUser,
   faSignOutAlt,
   faSearch,
   faHome,
-  faHeart,
+  faHeartSolid,
   faFacebook,
   faTwitter,
   faGithub,
@@ -34,5 +36,8 @@ library.add(
   faTicket,
   faGem,
   faRightFromBracket,
-  faBox
+  faBox,
+  faHeartRegular,
+  faArrowRight,
+  faPaperPlane
 );

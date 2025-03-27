@@ -1,4 +1,6 @@
+import Button from "~/components/Button";
 import styles from "./Contact.module.scss";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 function Contact() {
   return (
@@ -24,14 +26,14 @@ function Contact() {
               <input type="text" placeholder="Tên:" />
               <input type="text" placeholder="Số Điện Thoại:" />
               <input type="text" placeholder="Email:" />
-              <button className={styles.btnRegister}>
-                ĐĂNG KÝ
-                <img
-                  className={styles.icon}
-                  src="https://cdn-icons-png.flaticon.com/512/60/60525.png"
-                  alt="icon"
-                />
-              </button>
+              <Button
+                draculaButton
+                size="large"
+                className={styles.btnRegister}
+                icon={faPaperPlane}
+              >
+                Đăng ký
+              </Button>
             </form>
           </div>
         </div>

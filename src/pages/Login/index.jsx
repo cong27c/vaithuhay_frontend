@@ -5,6 +5,9 @@ import { useState } from "react";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
 import { postUser } from "~/Services/authServices";
+import Button from "~/components/Button";
+import { faPaperPlane, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
   const query = useQuery();
@@ -36,6 +39,21 @@ function Login() {
 
   return (
     <div className={styles.wrapper}>
+      <Button
+        to={config.routes.home}
+        size="large"
+        arrowButton
+        icon={faArrowRight}
+      >
+        KHÁM PHÁ NGAY
+      </Button>
+
+      <Button draculaButton size="large" icon={faSignOutAlt}>
+        Đăng xuất
+      </Button>
+      <Button tabButton>Sản phẩm mới nhất</Button>
+      {/*<Button />
+      <Button /> */}
       <div className={styles.container}>
         <h1 className={styles.title}>Đăng nhập</h1>
         <div className={styles.listInput}>

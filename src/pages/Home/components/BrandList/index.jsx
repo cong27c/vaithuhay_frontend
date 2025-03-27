@@ -1,3 +1,4 @@
+import Button from "~/components/Button";
 import styles from "./BrandList.module.scss";
 import images from "~/assets/images";
 
@@ -25,7 +26,9 @@ function BrandList() {
             </div>
           </div>
           <div className={styles.button}>
-            <div className={styles.btn}>Câu chuyện phía sau</div>
+            <Button className={styles.btn} tabButton>
+              Câu chuyện phía sau
+            </Button>
           </div>
         </div>
         <div className={styles.brand}>
@@ -47,7 +50,9 @@ function BrandList() {
             </div>
           </div>
           <div className={styles.button}>
-            <div className={styles.btn}>Câu chuyện phía sau</div>
+            <Button className={styles.btn} tabButton>
+              Câu chuyện phía sau
+            </Button>
           </div>
         </div>
         <div className={styles.brand}>
@@ -69,7 +74,9 @@ function BrandList() {
             </div>
           </div>
           <div className={styles.button}>
-            <div className={styles.btn}>Câu chuyện phía sau</div>
+            <Button className={styles.btn} tabButton>
+              Câu chuyện phía sau
+            </Button>
           </div>
         </div>
         <div className={styles.brand}>
@@ -91,7 +98,9 @@ function BrandList() {
             </div>
           </div>
           <div className={styles.button}>
-            <div className={styles.btn}>Câu chuyện phía sau</div>
+            <Button className={styles.btn} tabButton>
+              Câu chuyện phía sau
+            </Button>
           </div>
         </div>
       </div>

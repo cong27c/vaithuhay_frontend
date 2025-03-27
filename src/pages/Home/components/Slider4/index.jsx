@@ -2,6 +2,8 @@ import images from "~/assets/images";
 import styles from "./Slider4.module.scss";
 import ButtonsList from "../ButtonsList";
 import PropTypes from "prop-types";
+import Button from "~/components/Button";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Slider4({ title, backGroundImage }) {
   return (
@@ -98,10 +100,9 @@ function Slider4({ title, backGroundImage }) {
           </div>
         </div>
 
-        <button className={styles["explore-button"]}>
-          KHÁM PHÁ THÊM
-          <span className={styles.arrow}>&#8594;</span>
-        </button>
+        <Button size="large" arrowButton icon={faArrowRight}>
+          KHÁM PHÁ NGAY
+        </Button>
         <img src={backGroundImage} className={styles.backGround} alt="" />
       </div>
     </div>

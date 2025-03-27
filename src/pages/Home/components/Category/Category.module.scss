@@ -57,55 +57,23 @@
 
   
   .category-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap:30px;
     h3 {
-        margin-top: 20px;
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 25px;
     }
   
     p {
       font-size: 14px;
       color: #555;
-      margin-bottom: 10px;
     }
   }
   
-  .btn-explore {
-    display: flex;
-    align-items: center;
-    background: white;
-    border: 2px solid #ff9800;
-    padding: 8px 15px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: background 0.3s ease;
-  
-    &:hover {
-      background: #ff9800;
-      color: white;
-    }
-  
-    .icon-arrow {
-      margin-left: 10px;
-      font-size: 16px;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #ff9800;
-      color: white;
-      transition: background 0.3s;
-    }
-  
-    &:hover .icon-arrow {
-      background: white;
-      color: #ff9800;
-    }
+  .btn {
+    outline: 3.5px solid #ffeb3b;
   }
   
 

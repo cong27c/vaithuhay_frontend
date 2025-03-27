@@ -1,6 +1,7 @@
 import images from "~/assets/images";
 import ButtonsList from "../ButtonsList";
 import styles from "./Slider3.module.scss";
+import Button from "~/components/Button";
 
 function Slider3() {
   return (
@@ -11,11 +12,9 @@ function Slider3() {
         </h2>
         <div className={styles.top}>
           <div className={styles.btnList}>
-            <button className={`${styles.btn} ${styles.active}`}>
-              Sản phẩm mới nhất
-            </button>
-            <button className={styles.btn}>Sản phẩm được quan tâm</button>
-            <button className={styles.btn}>Sản phẩm độc đáo</button>
+            <Button tabButton>Sản phẩm mới nhất</Button>
+            <Button tabButton>Sản phẩm được quan tâm</Button>
+            <Button tabButton>Sản phẩm độc đáo</Button>
           </div>
           <button className={styles.btnMore}>
             Khám phá thêm <i className="fa-solid fa-chevron-right"></i>

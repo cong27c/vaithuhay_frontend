@@ -1,9 +1,10 @@
 import styles from "./Logout.module.scss";
 import config from "~/config";
-import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { logoutUser } from "~/Services/authServices";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import Button from "~/components/Button";
 
 function Logout() {
   const navigate = useNavigate();
@@ -14,9 +15,11 @@ function Logout() {
     window.addEventListener("storage", checkToken);
     return () => window.removeEventListener("storage", checkToken);
   }, []);
+
   const handleLogout = async () => {
     try {
       await logoutUser();
+      localStorage.removeItem("token");
       setHasToken(false);
       if (window.location.pathname !== config.routes.login) {
         navigate(config.routes.home);
@@ -29,23 +32,23 @@ function Logout() {
   return (
     <div className={styles.wrapper}>
       {hasToken ? (
-        <button className={styles.btn} onClick={handleLogout}>
-          Log out
-          <FontAwesomeIcon
-            className={styles.icon}
-            icon={["fas", "right-from-bracket"]}
-          />
-        </button>
+        <Button
+          draculaButton
+          size="large"
+          icon={faPaperPlane}
+          onClick={handleLogout}
+        >
+          Đăng xuất
+        </Button>
       ) : (
-        <Link to={config.routes.login}>
-          <button className={styles.btn} onClick={handleLogout}>
-            Log in
-            <FontAwesomeIcon
-              className={styles.icon}
-              icon={["fas", "right-from-bracket"]}
-            />
-          </button>
-        </Link>
+        <Button
+          to={config.routes.login}
+          draculaButton
+          size="large"
+          icon={faPaperPlane}
+        >
+          Đăng nhập
+        </Button>
       )}
     </div>
   );

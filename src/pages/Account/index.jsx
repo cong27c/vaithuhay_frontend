@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Account.module.scss";
 import Loyalty from "./Loyalty";
-import UserInfo from "./UserInfo";
-import YourOrder from "./YourOrder";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+// import UserInfo from "./UserInfo";
+// import YourOrder from "./YourOrder";
 
 function Account() {
   return (
@@ -63,7 +64,7 @@ function Account() {
           </nav>
         </aside>
         <main className={styles["account-content"]}>
-          {/* <Loyalty /> */}
+          <Loyalty />
           {/* <UserInfo /> */}
           {/* <YourOrder /> */}
         </main>

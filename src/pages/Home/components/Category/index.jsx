@@ -1,5 +1,7 @@
+import Button from "~/components/Button";
 import styles from "./Category.module.scss";
 import images from "~/assets/images";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Category() {
   const categories = [
@@ -67,9 +69,14 @@ function Category() {
             <div className={styles["category-content"]}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <button className={styles["btn-explore"]}>
-                KHÁM PHÁ THÊM <span className={styles["icon-arrow"]}>→</span>
-              </button>
+              <Button
+                size="medium"
+                className={styles.btn}
+                arrowButton
+                icon={faArrowRight}
+              >
+                KHÁM PHÁ NGAY
+              </Button>
             </div>
           </div>
         ))}
