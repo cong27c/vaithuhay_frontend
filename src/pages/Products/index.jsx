@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import config from "~/config";
-import productService from "~/utils/productService";
+import { getAll } from "~/Services/productService";
 
 function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await productService.getAll();
-      console.log(res);
+    (async () => {
+      const res = await getAll();
       setProducts(res.data);
-    };
-    fetchData();
+    })();
   }, []);
 
   return (

@@ -163,13 +163,12 @@
 }
 .banner-down .card-item .content {
     margin-top: 0;
-    height: 38%;
     width: 100%;
+    padding: 0 0 5px 0;
     border-radius: 0 0 12px 12px ;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     background-color: white;
-    bottom: -100px;
 }
 
 .banner-down .card-item .content .title {
@@ -234,8 +233,8 @@
     border-radius: 0 999px 999px 0;
 }
 .banner-down .card-item .content .list-btn .btn:hover {
-    background-color: #FFD700; /* Màu vàng */
+    background-color: #FFD700;
     color: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-3px); /* Hiệu ứng nhấn nổi lên */
+    transform: translateY(-3px); 
 }

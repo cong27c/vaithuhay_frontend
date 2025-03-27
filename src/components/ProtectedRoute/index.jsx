@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-
-import config from "~/config";
 // import authService from "~/services/authService";
+import config from "~/config";
 
 function ProtectedRoute({ children }) {
   const location = useLocation();
@@ -16,7 +15,7 @@ function ProtectedRoute({ children }) {
 
     (async () => {
       try {
-        const data = await authService.getCurrentUser();
+        // const data = await authService.getCurrentUser();
         setCurrentUser(data.user);
         setIsLoading(false);
       } catch (error) {

@@ -1,3 +1,8 @@
+.wrapper {
+    margin-top: 5px;
+    position: relative;
+}
+
 .btn {
     display: flex;
     align-items: center;
@@ -8,20 +13,26 @@
     border: none;
     border-radius: 30px;
     padding: 12px 24px;
+    width: 130px;
     cursor: pointer;
     outline: none;
     font-size: 18px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease-in-out;
-    position: relative;
     overflow: hidden;
+}
+.icon {
+    position: absolute;
+    right: 10%;
 }
 
 .btn:hover {
+    transform: scale(1.05);
     background-color: red;
 }
 
 .btn:hover .icon {
+    transition: transform 0.3s ease-in-out;
     color: #F3F3F3;
-    transform: translateX(10px);
+    transform: translateX(5px);
 }

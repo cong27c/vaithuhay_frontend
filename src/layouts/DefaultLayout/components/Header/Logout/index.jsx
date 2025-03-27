@@ -1,31 +1,53 @@
 import styles from "./Logout.module.scss";
 import config from "~/config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect } from "react";
+import { logoutUser } from "~/Services/authServices";
 
 function Logout() {
   const navigate = useNavigate();
+  const [hasToken, setHasToken] = useState(!!localStorage.getItem("token"));
 
-  const handleLogout = () => {
-    fetch("https://api01.f8team.dev/api/auth/logout", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        localStorage.removeItem("token");
+  useEffect(() => {
+    const checkToken = () => setHasToken(!!localStorage.getItem("token"));
+    window.addEventListener("storage", checkToken);
+    return () => window.removeEventListener("storage", checkToken);
+  }, []);
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      setHasToken(false);
+      if (window.location.pathname !== config.routes.login) {
         navigate(config.routes.home);
-      })
-      .catch((error) => console.error("Lỗi khi đăng xuất:", error));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <button className={styles.btn} onClick={handleLogout}>
-      Log out
-    </button>
+    <div className={styles.wrapper}>
+      {hasToken ? (
+        <button className={styles.btn} onClick={handleLogout}>
+          Log out
+          <FontAwesomeIcon
+            className={styles.icon}
+            icon={["fas", "right-from-bracket"]}
+          />
+        </button>
+      ) : (
+        <Link to={config.routes.login}>
+          <button className={styles.btn} onClick={handleLogout}>
+            Log in
+            <FontAwesomeIcon
+              className={styles.icon}
+              icon={["fas", "right-from-bracket"]}
+            />
+          </button>
+        </Link>
+      )}
+    </div>
   );
 }
 

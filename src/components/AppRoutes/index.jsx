@@ -7,13 +7,13 @@ import ProtectedRoute from "../ProtectedRoute";
 function AppRoutes() {
   return (
     <Routes>
-      {routes.map((route) => {
+      {routes.map((route, index) => {
         const Layout =
           route.layout === undefined ? DefaultLayout : route.layout || Fragment;
         const Component = route.component;
         const RouteWrapper = route.protected ? ProtectedRoute : Fragment;
         return (
-          <Route key={route.path} element={<Layout />}>
+          <Route key={index} element={<Layout />}>
             <Route
               path={route.path}
               element={

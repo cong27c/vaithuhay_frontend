@@ -6,6 +6,7 @@ const config = {
     notfound: "*",
     register: "/register",
     login: "/login",
+    account: "/account",
   },
 };
 

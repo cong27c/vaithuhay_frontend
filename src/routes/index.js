@@ -6,7 +6,7 @@ import Products from "~/pages/Products";
 // import AdminLayout from "~/layouts/AdminLayout";
 import Register from "~/pages/Register";
 import Login from "~/pages/Login";
-
+import Account from "~/pages/Account";
 const routes = [
   {
     path: config.routes.home,
@@ -23,16 +23,18 @@ const routes = [
   {
     path: config.routes.products,
     component: Products,
-    protected: true,
   },
   {
     path: config.routes.productDetail,
     component: ProductDetail,
-    layout: null,
   },
   {
     path: config.routes.notfound,
     component: NotFound,
+  },
+  {
+    path: config.routes.account,
+    component: Account,
   },
 ];
 

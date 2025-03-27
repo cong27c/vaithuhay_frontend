@@ -1,0 +1,93 @@
+.Loyalty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.notification {
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 9px;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+    
+}
+.desc {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: whitesmoke;
+    span {
+        margin: 10px;
+    }
+}
+.content {
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 17px;
+        background-color: rgba(0, 0, 0, 0.4);
+}
+.ListItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    .item {
+        gap: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        width: 166px;
+        height: 122px;
+    }
+    .boxText {
+        font-weight: 600;
+        font-size: 12px;
+        width: 60%;
+        color: #222;
+        line-height: 1.618;
+    }
+    .boxIcon {
+        width: 58px;
+        height: 58px;
+        font-style: 12px;
+        padding: 13px;
+        border-radius: 8px;
+        background: #FFCF00;
+        img {
+            height: 32px;
+            width: 32px;
+            object-fit: contain;
+            object-position: center;
+        }
+    }
+}
+
+.btn {
+    margin-top: 15px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 220px;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    font-size: 18px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color: red;
+}

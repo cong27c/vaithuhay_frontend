@@ -4,6 +4,7 @@ import config from "~/config";
 import { useState } from "react";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
+import { postUser } from "~/Services/authServices";
 
 function Login() {
   const query = useQuery();
@@ -22,28 +23,15 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    fetch("https://api01.f8team.dev/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formValues),
-    })
-      .then((res) => {
-        if (!res.ok) throw res;
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        localStorage.setItem("token", data.access_token);
-        navigate(query.get("continue") || config.routes.home);
-      })
-      .catch(() => {
-        setHasError(true);
-      });
+    try {
+      const data = await postUser("/auth/login", formValues);
+      localStorage.setItem("token", data.access_token);
+      navigate(query.get("continue") || config.routes.home);
+    } catch {
+      setHasError(true);
+    }
   };
 
   return (

@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getOne } from "~/Services/productService";
 
 function ProductDetail() {
   const [product, setProduct] = useState({});
 
   const params = useParams();
 
-  console.log(params.slug);
   useEffect(() => {
-    fetch(`https://api01.f8team.dev/api/products/${params.slug}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data);
-      })
-      .catch((error) => console.log(error));
+    (async () => {
+      const res = await getOne(params.slug);
+      console.log(res);
+      setProduct(res);
+    })();
   }, [params.slug]);
   return (
     <div>

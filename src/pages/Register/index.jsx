@@ -3,6 +3,7 @@ import styles from "./Register.module.scss";
 import { useState } from "react";
 import Loading from "~/layouts/DefaultLayout/components/Loading";
 import config from "~/config";
+import { postUser } from "~/Services/authServices";
 
 function Register() {
   const navigate = useNavigate();
@@ -31,52 +32,38 @@ function Register() {
     };
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     const { firstName, lastName } = splitFullName(formValues.fullName);
 
-    fetch("https://api01.f8team.dev/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      const data = await postUser("/auth/register", {
         firstName,
         lastName,
         email: formValues.email,
         password: formValues.password,
         password_confirmation: formValues.password_confirmation,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data.errors) {
-          const newErrors = {};
-          Object.entries(data.errors).forEach(([fieldName, [message]]) => {
-            newErrors[fieldName] = message;
-          });
-          if (newErrors.email && newErrors.email.includes("takens")) {
-            newErrors.email =
-              " Email này đã được sử dụng. Vui lòng sử dụng email khác.";
-          }
+      });
 
-          setErrors(newErrors);
-        } else {
-          localStorage.setItem("token", data.access_token);
-          navigate(config.routes.home);
-        }
-      })
-      .catch((error) => console.error("Lỗi khi gửi dữ liệu:", error))
-      .finally(() => setIsLoading(false));
+      localStorage.setItem("token", data.access_token);
+      navigate(config.routes.home);
+    } catch (error) {
+      if (error.errors) {
+        const newErrors = {};
+        Object.entries(error.errors).forEach(([field, messages]) => {
+          newErrors[field] = messages.join(", ");
+          if (newErrors.email && newErrors.email.includes("taken")) {
+            newErrors.email =
+              "Email này đã được sử dụng. Vui lòng thử email khác.";
+          }
+        });
+        setErrors(newErrors);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -107,12 +94,12 @@ function Register() {
               <label htmlFor="fullName">Họ và Tên</label>
               <input
                 type="text"
-                value={formValues.firstName}
+                value={formValues.fullName}
                 onChange={setFormValue}
                 name="fullName"
               />
               {errors.fullName && (
-                <p className="error-message">{errors.fullName}</p>
+                <p className={styles["error-message"]}>{errors.fullName}</p>
               )}
             </div>
 
@@ -133,7 +120,9 @@ function Register() {
                 onChange={setFormValue}
                 name="email"
               />
-              {errors.email && <p className="error-message">{errors.email}</p>}
+              {errors.email && (
+                <p className={styles["error-message"]}>{errors.email}</p>
+              )}
             </div>
             <div className={styles["input-container"]}>
               <label htmlFor="password">Mật khẩu</label>
@@ -144,7 +133,7 @@ function Register() {
                 name="password"
               />
               {errors.password && (
-                <p className="error-message">{errors.password}</p>
+                <p className={styles["error-message"]}>{errors.password}</p>
               )}
             </div>
             <div className={styles["input-container"]}>
@@ -156,7 +145,9 @@ function Register() {
                 name="password_confirmation"
               />
               {errors.confirmPassword && (
-                <p className="error-message">{errors.confirmPassword}</p>
+                <p className={styles["error-message"]}>
+                  {errors.confirmPassword}
+                </p>
               )}
             </div>
             <div className={styles.buttons}>
