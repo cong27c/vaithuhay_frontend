@@ -1,0 +1,51 @@
+.sliderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1200px;
+    .sliderWrapper {
+        padding: 30px;
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        overflow-x: hidden; 
+        white-space: nowrap;
+        &.wrap {
+            flex-wrap: wrap;
+          }
+    }
+
+
+    .prevButton,
+.nextButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); 
+  border: none;
+  color: white;
+  font-size: 28px;
+  padding:30px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+  z-index: 10;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8); 
+    transform: translateY(-50%) scale(1.1); 
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.9); 
+  }
+}
+
+.prevButton {
+  left: 10px;
+}
+
+.nextButton {
+  right: 10px;
+}
+}

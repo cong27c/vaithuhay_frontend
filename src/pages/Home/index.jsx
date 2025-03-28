@@ -5,34 +5,35 @@ import Category from "./components/Category";
 import Contact from "./components/Contact";
 import Hero from "./components/Hero";
 import Service from "./components/Service";
-import Slider1 from "./components/Slider1";
-import Slider2 from "./components/Slider2";
-import Slider3 from "./components/Slider3";
-import Slider4 from "./components/Slider4";
-import Slider5 from "./components/Slider5";
-import Slider6 from "./components/Slider6";
+import SlideImageDefault from "./components/SlideImage/SlideImageDefault";
+import Slider6 from "./components/Youtube";
 import styles from "./Home.module.scss";
+import SlideHalfImageDefault from "./components/SlideHalfImages/SlideHalfImageDefault";
+import SlideHalfImageAlternative from "./components/SlideHalfImages/SlideHalfImageAlternative";
+import Workspace from "./components/Workspace";
+import SlideImageAlternative from "./components/SlideImage/SlideImageAlternative";
+import Youtube from "./components/Youtube";
 
 function Home() {
   return (
     <div className={styles.wrapper}>
       <Hero />
       <Carousel />
-      <Slider1 />
+      <SlideImageDefault />
       <Banner />
-      <Slider2 />
-      <Slider3 />
-      <Slider4 />
-      <Slider4
+      <SlideImageAlternative />
+      <SlideHalfImageDefault />
+      <SlideHalfImageAlternative />
+      <SlideHalfImageAlternative
         title="ƯU ĐÃI ĐẦU NĂM – SĂN NGAY GIÁ SỐC"
         backGroundImage="//theme.hstatic.net/1000069970/1001119059/14/block_home_category2.jpg?v=7149"
       />
-      <Slider5 />
-      <Slider4
+      <Workspace />
+      <SlideHalfImageAlternative
         title="SẢN PHẨM CHƯA TỪNG XUẤT HIỆN TRÊN THỊ TRƯỜNG"
         backGroundImage="//theme.hstatic.net/1000069970/1001119059/14/block_home_category3.jpg?v=7149"
       />
-      <Slider6 />
+      <Youtube />
       <Category />
       <Service />
       <BrandList />

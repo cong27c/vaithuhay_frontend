@@ -1,0 +1,62 @@
+.wrapper {
+    padding-top: 20px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    background-image: url(https://theme.hstatic.net/1000069970/1001119059/14/sec_bg.png?v=7149);
+    background-repeat: no-repeat;
+    background-size: 100% 734px;  
+}
+
+.explore-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+}
+
+.line {
+    height: 2px;
+    width: 180px;
+    background-color: #333; 
+}
+
+.main-title {
+    font-size: 30px;
+    color: #4f4f4f;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap; 
+}
+.Slider4 .listCard {
+    display: flex;
+    margin-top: 40px;
+    width: 100%;
+    flex-wrap: wrap;
+
+}
+
+
+
+
+.Slider4 .backGround {
+    background-image: url("https://file.hstatic.net/1000069970/file/setup_goc_lam_viec_12e3aa0a0a434faea058e43ee1c05d64.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    max-width: 1236px;
+    width: 100%;
+    vertical-align: bottom;
+    height: 189px;
+    border-radius: 24px;
+}

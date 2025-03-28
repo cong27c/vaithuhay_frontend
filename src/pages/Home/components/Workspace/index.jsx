@@ -1,8 +1,8 @@
 import images from "~/assets/images";
-import styles from "./Slider5.module.scss";
+import styles from "./Workspace.module.scss";
 import ButtonsList from "../ButtonsList";
 
-function Slider5() {
+function Workspace() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.Slider5}>
@@ -60,4 +60,4 @@ function Slider5() {
   );
 }
 
-export default Slider5;
+export default Workspace;

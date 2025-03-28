@@ -1,10 +1,10 @@
 import images from "~/assets/images";
-import styles from "./Slider6.module.scss";
+import styles from "./Youtube.module.scss";
 import ButtonsList from "../ButtonsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
-function Slider6() {
+function Youtube() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.Slider6}>
@@ -65,4 +65,4 @@ function Slider6() {
   );
 }
 
-export default Slider6;
+export default Youtube;

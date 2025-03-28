@@ -1,0 +1,98 @@
+
+
+.Slider3 {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: url(https://file.hstatic.net/1000069970/file/d2c-bg-pc.png);
+    box-sizing: border-box;
+    background-size: 100% 514px; 
+    background-repeat: no-repeat;
+    padding-bottom: 20px;
+}
+
+.Slider3 .Maintitle {
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4F4F4F;
+    font-weight: 700;
+    font-size: 32px;
+}
+.Slider3 .top, .Slider3 .middle {
+    margin: 0 0 20px;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 440px;
+    align-items: center;
+}
+
+.Slider3 .top .btnList {
+    display: flex;
+    gap: 15px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 24px;
+}
+
+
+.Slider3 .btnMore   {
+    background: #000;
+    color: #fff;
+    padding: 12px 24px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transition: color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 300%;
+        height: 100%;
+        background: linear-gradient(120deg, #777, #000, #fff);
+        transition: 0.4s ease;
+        z-index: -1;
+    }
+
+    &:hover {
+        color: #fff;
+        background-color: #333;
+        box-shadow: 0 8px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    &:hover::before {
+        left: -50%;
+    }
+}
+
+.Slider3 .top .btnMore:hover {
+    transform: scale(1.05);
+    color: black;
+    background-color: white;
+    outline: 2px solid black;
+}
+
+.Slider3 .ListCard {
+    width: 100%;
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

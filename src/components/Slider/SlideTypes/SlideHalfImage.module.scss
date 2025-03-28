@@ -1,0 +1,276 @@
+
+
+.default  {
+    position: relative;
+    height: 456px;
+    width: 273px;
+    cursor: pointer;
+}
+.default .images {
+    width: 95%;
+    height: 55%;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+}
+.default .images img {
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+.default img:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2)
+}
+.default .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+    position: absolute;
+    right: 5%;
+    bottom: 45%;
+    padding: 10px 10px;
+    border-radius: 12px 0 0 0;
+    font-weight: 600;
+    background-color: #000000A6;
+    color: rgba(255,255,255,0.8);
+}
+
+.default .price .sale {
+    margin-bottom: 5px;
+    font-size: 21px;
+}
+.default.price .cost {
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(255,255,255,0.6);
+    margin-left: 30px;
+
+}
+.default.price .cost:before {
+    content: "";
+    position: absolute;
+    top: 50%; 
+    left: 0;
+    width: 100%;
+    height: 2px; 
+    background-color: #fff; 
+    transform: translateY(-50%); 
+}
+
+.default:before {
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #e02417;
+    position: absolute;
+    top: -25px;
+    right: -00px;
+    content: "50%";
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: 800;
+    border-radius: 50%;
+    color: white;
+    border: 1px dashed white;
+    outline: 3px solid #e02417;
+    cursor: pointer;
+}
+
+.default .content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    width: 95%;
+    padding: 10px 10px;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+    white-space: normal; 
+}
+.default .content .title {
+    height: 50px;
+    margin-top: 0px;
+    line-height: 20px;    
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    transition: all 0.3s ease;
+}
+.default .content .title:hover {
+    color:#FFC107 ;
+
+}
+
+.default .content .desc {
+    color: #333333;
+    font-size: 12px;
+    margin-top: 0px;
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    display: -webkit-box; 
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 16px;
+
+}
+
+
+
+
+// alternative //////////////////////////////
+
+.alternative {
+    position: relative;
+    height: 456px;
+    width: 270px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
+}
+.alternative:hover {
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+.alternative img {
+    line-height: 0;
+    width: 100%;
+    height: 60%;
+    border-radius: 20px 20px 0 0;
+    vertical-align: bottom;
+    object-fit: cover;
+    transition: filter 0.3s ease-in-out
+}
+.alternative:hover img {
+    filter: blur(2px);
+}
+.alternative .content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 7px;
+    padding: 10px 10px;
+    bottom: 20px;
+    width: 100%;
+    height: 40%;
+    background-color: #fff;
+    border-radius: 0 0 20px 20px;
+    cursor: pointer;
+    white-space: normal; 
+}
+
+.alternative .content .title {
+    min-height: 50px;
+    line-height: 25px;    
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;  
+}
+.alternative .content .desc {
+    font-size: 11px;
+    color: #222222;
+}
+.alternative   .price {
+    font-size: 20px;
+    color: #222222;
+    font-weight: bold;
+
+}
+.alternative .content .notification {
+    color: #0FD07F;
+    font-size: 11px;
+    font-weight: 700;
+}
+.alternative .content .buttonList {
+   display: flex;
+   align-items: center;
+   text-align: center;
+    justify-content: center;
+    color: #D62727;
+    gap: 30px;
+    cursor: pointer;
+}
+
+.alternative .content .buttonList .btn{
+    white-space: nowrap;
+    padding: 10px 20px;
+    border: 1px  solid #D62727;
+    color: #D62727;
+    background-color: white;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 999px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.alternative .content .buttonList .btn:hover {
+    background-color: #D62727;
+    transform: scale(1.05);
+    color: white;
+}
+.alternative.cart-icon {
+    position: relative;
+    display: inline-block;
+    color: red;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.alternative.plus-icon {
+    position: absolute;
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 4px;
+    border: 1px solid red;
+    transition: transform 0.3s ease;
+}
+
+.alternative.cart-icon:hover {
+    transform: scale(1.1);
+}
+
+.alternative.cart-icon:hover .plus-icon {
+    transform: rotate(20deg);
+}
+
+
+.dotList {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.dot {
+    width: 5px;
+    height: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: transparent;
+}
+.dot.active {
+    background-color: black;
+}
+
+

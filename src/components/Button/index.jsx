@@ -16,6 +16,7 @@ function Button({
   arrowButton = false,
   SubmitButton = false,
   draculaButton = false,
+  discoverButton = false,
   tabButton = false,
   disabled = false,
   loading = false,
@@ -30,7 +31,7 @@ function Button({
   }
   if (href) {
     Component = "a";
-    passProps.to = to;
+    passProps.href = href;
   }
 
   const handleClick = () => {
@@ -46,6 +47,7 @@ function Button({
         [styles.arrowButton]: arrowButton,
         [styles.SubmitButton]: SubmitButton,
         [styles.draculaButton]: draculaButton,
+        [styles.discoverButton]: discoverButton,
         [styles.tabButton]: tabButton,
         [styles.disabled]: disabled || loading,
       })}
@@ -75,6 +77,7 @@ Button.propTypes = {
   SubmitButton: PropTypes.bool,
   draculaButton: PropTypes.bool,
   tabButton: PropTypes.bool,
+  discoverButton: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   onClick: PropTypes.func,

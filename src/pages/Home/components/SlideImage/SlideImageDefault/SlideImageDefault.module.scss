@@ -1,0 +1,35 @@
+.Slider {
+    box-sizing: border-box;
+    padding: 20px 0 0;
+    margin: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    flex-direction: column;
+    background-image: url(https://file.hstatic.net/1000069970/file/d2c-bg-pc.png);
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: 100% 514px; 
+}
+.Slider .list-button {
+    position: absolute;
+    top: 55%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+  } 
+.Slider .list-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 5px;
+    padding: 10px 20px;
+    background-color: white;
+    border-radius: 24px;
+}
+

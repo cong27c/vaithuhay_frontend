@@ -2,6 +2,8 @@ import ButtonsList from "../ButtonsList";
 import styles from "./Carousel.module.scss";
 import CountDown from "../CountDown/index.jsx";
 import images from "~/assets/images";
+import Button from "~/components/Button";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Carousel() {
   return (
@@ -14,7 +16,9 @@ function Carousel() {
               <i className="fa-solid fa-rocket"></i>
             </span>
           </h2>
-          <button className={styles.btn}>{"KHÁM PHÁ THÊM >"}</button>
+          <Button discoverButton className={styles.btn} icon={faArrowRight}>
+            Khám phá ngay
+          </Button>
         </div>
         <div className={styles["body-carousel"]}>
           <div className={styles["list-item"]}>

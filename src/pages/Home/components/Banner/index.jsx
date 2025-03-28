@@ -1,3 +1,4 @@
+import Button from "~/components/Button";
 import ButtonsList from "../ButtonsList";
 import styles from "./Banner.module.scss";
 import images from "~/assets/images";
@@ -12,10 +13,11 @@ function Banner() {
               <i className="fas fa-bolt" style={{ color: "yellow" }}></i> Tháng
               3 ấm áp, trọn vẹn nghĩa tình
             </h2>
-            <button className={styles.btn}>
-              XEM THÊM <i className="fa-solid fa-chevron-right"></i>
-            </button>
           </div>
+
+          <Button discoverButton className={styles.btnMore} size="large">
+            Xem thêm
+          </Button>
           <div className={styles.countdown}>
             <p className={styles.desc}>Deal này sắp hết thời gian</p>
             <div className={styles["list-item"]}>
