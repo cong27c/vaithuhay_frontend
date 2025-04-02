@@ -1,0 +1,194 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: -30px;
+}
+.partner {
+    .title {
+        width: 960px;
+        height: 529.9px;
+    }
+
+    .listbtn {
+        display: flex;
+        position: absolute;
+        bottom: 59%;
+        right: 50%;
+        transform: translateX(50%);
+        .btn {
+            border-radius: 99px;
+            min-width: 200px;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 15px 45px;
+        }
+        .btn:last-child {
+            margin-left: 50px;
+        }
+    }
+    .icon img{
+        bottom: 37%;
+        right: 50%;
+        transform: translateX(50%);
+        position: absolute;
+        object-fit: cover;
+        width: 730px;
+        height: 275px;
+        border-radius: 36px;
+    }
+    .content {
+        width: 100%;
+        height: 100%;
+    
+        .desc {
+            width: 577px;
+            height: 102px;
+            position: absolute;
+            bottom: 27.5%;
+            right: 50%;
+            transform: translateX(50%);
+        }
+        .listIn4 {
+            display: flex;
+            gap: 30px;
+            position: absolute;
+            bottom: 4%;
+            right: 50%;
+            transform: translateX(50%);
+            .item {
+                position: relative;
+            }
+            .in4 {
+                width: 265px;
+                height: 323px;
+            }
+            .btn {
+                cursor: pointer;
+                z-index: 1;
+                position: absolute;
+                bottom: -7%;
+                right: 50%;
+                transform: translateX(50%);
+                width: 183px;
+                height: 44px;
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            .btn:hover {
+                transform: translateX(50%) scale(1.05);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                border-radius: 24px;
+            }
+        }
+       
+    }
+}
+
+.benefit {
+    position: relative;
+    width: 960px;
+    min-height: 2300px;
+    padding: 30px 0;
+    .desc img{
+        position: absolute;
+        width: 273px;
+        height: 43px;
+        left: 0;
+    }
+    .title img {
+        position: absolute;
+        width: 523px;
+        height: 62px;
+        top: 5%;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .slideImage img{
+        width: 865px;
+        height: 452px;
+        top: 9%;
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .text img {
+        width: 788px;
+        height: 155px;
+        top: 27%;
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .desc2 img{
+        position: absolute;
+        top: 34%;
+        width: 273px;
+        height: 43px;
+        left: 0;
+    }
+    .image2 {
+        position: relative;
+        margin-top: 870px;
+        width: 960px;
+        height: 1180px;
+
+    }
+    .image2 img {
+        width: 100%;
+        height: 100%;
+       
+    }
+    .text2 {
+        z-index: 1;
+        position: absolute;
+        bottom: 0;
+        width: 823px;
+        height: 100px;
+        top: 59%;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .listDiscount {
+        position: absolute;
+        display: flex;
+        top: 72%;
+        right: 50%;
+        transform: translateX(50%);
+        gap: 120px;
+
+    }
+    .listDiscount img {
+        width: 200px;
+        height: 200px;
+    }
+    .image3 {
+        position: absolute;
+        bottom: -14%;
+    }
+    .image4 {
+        position: relative;
+        width: 960px;
+        height: 403px;
+    }
+    .image4 img{
+        width: 100%;
+        height: 100%;
+    }
+    .listTag {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        top: -5%;
+        gap: 30px;
+
+    }
+    .listTag img {
+        width: 390px;
+        height: 185px;
+    }
+}

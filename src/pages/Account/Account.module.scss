@@ -50,17 +50,18 @@ p {
         flex-direction: column;
         gap: 20px;
         li {
+            white-space: nowrap;
             display: flex;
-            gap: 20px;
-        font-weight: 700;
-        font-size: 16px;
-        cursor: pointer;
-        padding: 10px 25px;
-        display: flex;
-        align-items: center;
-        transition: color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
-        border-radius: 99px;
-        background-color: #ccc;
+            gap: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px 25px;
+            display: flex;
+            align-items: center;
+            transition: color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+            border-radius: 99px;
+            background-color: #ccc;
         }
         li:hover {
             background: linear-gradient(135deg, #888, #222);
@@ -68,9 +69,6 @@ p {
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
         .icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding:8px;
             background-color: white;
             border-radius: 50%;
@@ -87,7 +85,6 @@ p {
 .account-content {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     padding: 30px;
     border-radius: 30px;

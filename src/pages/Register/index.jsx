@@ -1,71 +1,96 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.scss";
-import { useState } from "react";
-import Loading from "~/layouts/DefaultLayout/components/Loading";
+// import { useState } from "react";
+// import Loading from "~/layouts/DefaultLayout/components/Loading";
 import config from "~/config";
-import { postUser } from "~/Services/authServices";
+// import { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import registerSchema from "~/schema/registerSchema";
+import * as yup from "yup";
+import { useEffect, useState } from "react";
+import InputText from "~/components/InputText";
+import Loading from "~/layouts/DefaultLayout/components/Loading";
+import { useNavigate } from "react-router-dom";
+import authServices from "~/Services/authServices";
+import useDebounce from "~/Hooks/useDebounce";
+
+let timeout;
 
 function Register() {
   const navigate = useNavigate();
-
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [formValues, setFormValues] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
+  const [registerType, setRegisterType] = useState("email");
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    trigger,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
+    resolver: yupResolver(registerSchema),
+    context: { registerType },
   });
 
-  const setFormValue = (e) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const splitFullName = (fullName) => {
-    const parts = fullName.trim().split(" ");
-    return {
-      firstName: parts.pop(),
-      lastName: parts.join(" "),
-    };
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setIsLoading(true);
-
-    const { firstName, lastName } = splitFullName(formValues.fullName);
-
+    console.log(data);
     try {
-      const data = await postUser("/auth/register", {
-        firstName,
-        lastName,
-        email: formValues.email,
-        password: formValues.password,
-        password_confirmation: formValues.password_confirmation,
-      });
+      const payLoad = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+        [registerType]: registerType === "email" ? data.email : data.phone,
+      };
 
-      localStorage.setItem("token", data.access_token);
+      const res = await authServices.postUser("/auth/register", payLoad);
+      localStorage.setItem("token", res.access_token);
       navigate(config.routes.home);
     } catch (error) {
-      if (error.errors) {
-        const newErrors = {};
-        Object.entries(error.errors).forEach(([field, messages]) => {
-          newErrors[field] = messages.join(", ");
-          if (newErrors.email && newErrors.email.includes("taken")) {
-            newErrors.email =
-              "Email này đã được sử dụng. Vui lòng thử email khác.";
-          }
-        });
-        setErrors(newErrors);
-      }
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const emailValue = watch("email");
+  const debouncedEmail = useDebounce(emailValue, 800);
+
+  useEffect(() => {
+    if (!debouncedEmail || registerType !== "email") return;
+
+    const checkEmailExists = async () => {
+      const isValid = await trigger("email");
+      if (isValid) {
+        try {
+          const exists = await authServices.checkEmail(debouncedEmail);
+          if (exists) {
+            setError("email", {
+              type: "manual",
+              message: "Email này đã tồn tại",
+            });
+          } else {
+            clearErrors("email");
+          }
+        } catch (error) {
+          console.error("Email check error:", error);
+        }
+      }
+    };
+
+    checkEmailExists();
+  }, [debouncedEmail, trigger, setError, registerType, clearErrors]);
 
   if (isLoading) {
     return <Loading />;
@@ -81,78 +106,85 @@ function Register() {
         </p>
         <div className={styles.checkList}>
           <div>
-            <input type="radio" name="withEmail" />
+            <input
+              type="radio"
+              name="email"
+              checked={registerType === "email"}
+              onChange={() => setRegisterType("email")}
+            />
             <label htmlFor="withEmail">Đăng ký bằng email</label>
           </div>
           <div>
-            <input type="radio" name="withNumber" />
+            <input
+              type="radio"
+              name="phone"
+              checked={registerType === "phone"}
+              onChange={() => setRegisterType("phone")}
+            />
             <label htmlFor="withNumber">Đăng ký bằng số điện thoại</label>
           </div>
         </div>
         <div className={styles.listInput}>
-          <form action="" className="todoForm" onSubmit={handleSubmit}>
+          <form
+            action=""
+            onSubmit={handleSubmit(onSubmit)}
+            className="todoForm"
+          >
             <div className={styles["input-container"]}>
-              <label htmlFor="fullName">Họ và Tên</label>
-              <input
-                type="text"
-                value={formValues.fullName}
-                onChange={setFormValue}
-                name="fullName"
+              <label htmlFor="lastName">Họ</label>
+              <InputText
+                type="lastName"
+                register={register}
+                message={errors.lastName?.message}
               />
-              {errors.fullName && (
-                <p className={styles["error-message"]}>{errors.fullName}</p>
-              )}
+            </div>
+            <div className={styles["input-container"]}>
+              <label htmlFor="firstName">Tên</label>
+              <InputText
+                type="firstName"
+                register={register}
+                message={errors.firstName?.message}
+              />
             </div>
 
-            {/* <div className={styles["input-container"]}>
-              <label htmlFor="number">Số điện thoại</label>
-              <input
-                type="text"
-                value={formValues.number}
-                onChange={setFormValue}
-                name="number"
-              />
-            </div> */}
-            <div className={styles["input-container"]}>
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                value={formValues.email}
-                onChange={setFormValue}
-                name="email"
-              />
-              {errors.email && (
-                <p className={styles["error-message"]}>{errors.email}</p>
-              )}
-            </div>
+            {registerType === "email" ? (
+              <div className={styles["input-container"]}>
+                <label htmlFor="email">Email</label>
+                <InputText
+                  type="email"
+                  register={register}
+                  message={errors.email?.message}
+                />
+              </div>
+            ) : (
+              <div className={styles["input-container"]}>
+                <label htmlFor="phone">Số điện thoại</label>
+                <InputText
+                  type="phone"
+                  register={register}
+                  message={errors.phone?.message}
+                />
+              </div>
+            )}
+
             <div className={styles["input-container"]}>
               <label htmlFor="password">Mật khẩu</label>
-              <input
+              <InputText
                 type="password"
-                value={formValues.password}
-                onChange={setFormValue}
-                name="password"
+                register={register}
+                message={errors.password?.message}
               />
-              {errors.password && (
-                <p className={styles["error-message"]}>{errors.password}</p>
-              )}
             </div>
             <div className={styles["input-container"]}>
               <label htmlFor="password_confirmation">Xác nhận mật khẩu</label>
-              <input
-                type="password"
-                value={formValues.password_confirmation}
-                onChange={setFormValue}
-                name="password_confirmation"
+              <InputText
+                type="password_confirmation"
+                register={register}
+                message={errors.password_confirmation?.message}
               />
-              {errors.confirmPassword && (
-                <p className={styles["error-message"]}>
-                  {errors.confirmPassword}
-                </p>
-              )}
             </div>
             <div className={styles.buttons}>
-              <Button className={styles.btn} SubmitButton>
+              <Button className={styles.btn} type="submit" SubmitButton>
                 ĐĂNG KÝ
               </Button>
               <Button

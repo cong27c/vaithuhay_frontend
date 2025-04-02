@@ -23,7 +23,6 @@ function Slider({ slides, type = "image" }) {
   };
 
   const renderSlideItem = (slide) => {
-    console.log(slide);
     switch (type) {
       case "image":
         return <SlideImage {...slide} variant={slide.variant || "default"} />;

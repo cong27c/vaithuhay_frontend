@@ -13,7 +13,7 @@ const send = async (method, url, data, config) => {
       method,
       url,
       data,
-      config,
+      ...config,
     });
     return res.data;
   } catch (error) {
@@ -22,8 +22,13 @@ const send = async (method, url, data, config) => {
 };
 
 export const setToken = (token) => {
-  localStorage.setItem("token", token);
-  httpRequest.defaults.headers["Authorization"] = `Bearer ${token}`;
+  if (token) {
+    localStorage.setItem("token", token);
+    httpRequest.defaults.headers["Authorization"] = `Bearer ${token}`;
+  } else {
+    localStorage.removeItem("token");
+    delete httpRequest.defaults.headers["Authorization"];
+  }
 };
 
 export const get = (url, config) => {

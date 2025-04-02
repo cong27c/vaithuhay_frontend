@@ -9,7 +9,7 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 20px;
+        gap: 25px;
     }
     
     .form-group{
@@ -23,6 +23,13 @@
         align-items: center;
         gap: 10px; 
     }
+    
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+  }
 }
 
 label {
@@ -66,3 +73,24 @@ button {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-3px); 
 }
+.form-group span {
+    margin-top: 10px;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    color: #222;
+}
+
+.verification-status {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+    
+    &:not([data-verified="true"]) {
+      color: #d9534f; 
+    }
+    
+    &[data-verified="true"] {
+      color: #5cb85c; 
+    }
+  }

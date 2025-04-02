@@ -12,7 +12,19 @@ function AppRoutes() {
           route.layout === undefined ? DefaultLayout : route.layout || Fragment;
         const Component = route.component;
         const RouteWrapper = route.protected ? ProtectedRoute : Fragment;
-        return (
+        return route.children ? (
+          <Route key={index} element={<Layout />}>
+            <Route path={route.path} element={<Component />}>
+              {route.children.map((child, childIndex) => (
+                <Route
+                  key={childIndex}
+                  path={child.path}
+                  element={<child.component />}
+                />
+              ))}
+            </Route>
+          </Route>
+        ) : (
           <Route key={index} element={<Layout />}>
             <Route
               path={route.path}

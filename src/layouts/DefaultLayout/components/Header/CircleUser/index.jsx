@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from "./CircleUser.module.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faCircleUser,
   faCrown,
@@ -10,9 +9,11 @@ import {
   faGem,
 } from "@fortawesome/free-solid-svg-icons";
 import Logout from "../Logout";
+import { useAuth } from "~/contexts/AuthContext";
 
 function CircleUser() {
   const [isOpen, setIsOpen] = useState(false);
+  const userIn4 = useAuth();
   return (
     <>
       <div
@@ -28,7 +29,7 @@ function CircleUser() {
             <div className={styles.listItem}>
               <div className={styles.item}>
                 <Link>
-                  Xin chào <strong>Nguyễn Công</strong>
+                  Xin chào <strong>{userIn4.user?.username}</strong>
                 </Link>
                 <FontAwesomeIcon className={styles.crown} icon={faCrown} />
               </div>

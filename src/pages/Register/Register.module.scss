@@ -47,13 +47,6 @@
     font-weight: 700;
     font-style: 12px;
     color: #222222;
-
-    label::after {
-      display: inline-block;
-      content: "*";
-      color: red;
-      margin-left: 5px;
-    }
 }
 
 
@@ -64,11 +57,19 @@
     justify-content: center;
     flex-direction: column;
     gap: 20px;
+
+    label::after {
+      display: inline-block;
+      content: "*";
+      color: red;
+      margin-left: 5px;
+    }
 }
 .input-container {
     display: grid;
     grid-template-columns: 100px 300px;
     white-space: nowrap;
+    align-items: center;
     gap: 0 70px;
     width: 100%;
   }

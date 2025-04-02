@@ -22,8 +22,8 @@ function Button({
   loading = false,
   onClick,
 }) {
-  let Component = type;
-  const passProps = {};
+  let Component = type === "submit" ? "button" : type;
+  const passProps = { type };
 
   if (to) {
     Component = Link;
@@ -32,12 +32,16 @@ function Button({
   if (href) {
     Component = "a";
     passProps.href = href;
+  } else {
+    passProps.type = type;
   }
 
   const handleClick = () => {
     if (disabled || loading) return;
     // logic
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
 
   return (
