@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, Outlet } from "react-router-dom";
 import config from "~/config/index.js";
+import { useAuth } from "~/contexts/AuthContext";
 
 const menuItems = [
   {
@@ -48,6 +49,10 @@ const menuItems = [
 ];
 
 function Account() {
+  const userName = useAuth().user?.username;
+  console.log(userName);
+  console.log(menuItems[1].path);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.Account}>
@@ -68,7 +73,14 @@ function Account() {
                   }
                 >
                   <FontAwesomeIcon className={styles.icon} icon={item.icon} />
-                  <Link to={item.path} className={styles.menuItem}>
+                  <Link
+                    to={
+                      item.label === "Thông tin cá nhân"
+                        ? `${item.path.split(":")[0]}${userName}`
+                        : item.path
+                    }
+                    className={styles.menuItem}
+                  >
                     {item.label}
                     {item.isNew && <span className={styles.newTag}>Mới</span>}
                   </Link>

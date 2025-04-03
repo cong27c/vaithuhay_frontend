@@ -109,7 +109,7 @@ function UserInfo() {
       )
     );
 
-    console.log(filterData.id);
+    console.log(filterData.id, filterData.username);
     try {
       await authServices.updateUser(mainUserName, filterData);
       toast.success("Cập nhật thành công!", { autoClose: 3000 });

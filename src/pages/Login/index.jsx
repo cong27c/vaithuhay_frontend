@@ -8,9 +8,11 @@ import { useForm } from "react-hook-form";
 import InputText from "~/components/InputText";
 import loginSchema from "~/schema/loginSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 
 function Login() {
   const query = useQuery();
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const {
@@ -33,7 +35,7 @@ function Login() {
       localStorage.setItem("token", res.access_token);
       navigate(query.get("continue") || config.routes.home);
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error);
     }
   };
 
@@ -68,6 +70,11 @@ function Login() {
                 placeholder="Điền password vào đây..."
               />
             </div>
+            {errorMessage && (
+              <span className={styles["error-message"]}>
+                Thông tin đăng nhập ko chính xác
+              </span>
+            )}
 
             <div className={styles.buttons}>
               <Button
