@@ -59,7 +59,7 @@ function Account() {
         <aside className={styles.sideBar}>
           <div className="userInfo">
             <p>
-              Xin chào, <strong>Nguyễn Công</strong>
+              Xin chào, <strong>{userName}</strong>
               <FontAwesomeIcon className={styles.crown} icon={faCrown} />
             </p>
           </div>
