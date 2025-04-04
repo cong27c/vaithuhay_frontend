@@ -16,8 +16,6 @@ import { useNavigate } from "react-router-dom";
 import authServices from "~/Services/authServices";
 import useDebounce from "~/Hooks/useDebounce";
 
-let timeout;
-
 function Register() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +53,7 @@ function Register() {
       };
 
       const res = await authServices.postUser("/auth/register", payLoad);
+      console.log(res);
       localStorage.setItem("token", res.access_token);
       navigate(config.routes.home);
     } catch (error) {
@@ -75,6 +74,7 @@ function Register() {
       if (isValid) {
         try {
           const exists = await authServices.checkEmail(debouncedEmail);
+          console.log(exists);
           if (exists) {
             setError("email", {
               type: "manual",

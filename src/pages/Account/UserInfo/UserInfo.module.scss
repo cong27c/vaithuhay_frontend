@@ -94,3 +94,10 @@ button {
       color: #5cb85c; 
     }
   }
+
+  .imageFile {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: 0 0 10px -10px;
+  }

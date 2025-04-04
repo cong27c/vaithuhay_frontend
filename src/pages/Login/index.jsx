@@ -35,7 +35,7 @@ function Login() {
       localStorage.setItem("token", res.access_token);
       navigate(query.get("continue") || config.routes.home);
     } catch (error) {
-      setErrorMessage(error);
+      setErrorMessage(error.message);
     }
   };
 

@@ -11,8 +11,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await authServices.getCurrentUser();
-        setUser(data.user);
+        const res = await authServices.getCurrentUser();
+        setUser(res);
       } catch (error) {
         console.log(error);
       } finally {
@@ -28,11 +28,6 @@ export function AuthProvider({ children }) {
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }
-
-// AuthProvider.propTypes = {
-//   children: PropTypes.node.isRequired,
-//   value: PropTypes.shape(authValuePropTypes).isRequired,
-// };
 
 export function useAuth() {
   return useContext(AuthContext);

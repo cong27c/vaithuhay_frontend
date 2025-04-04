@@ -2,12 +2,12 @@ import * as httpRequest from "~/utils/httpRequest";
 
 export const getCurrentUser = async () => {
   const response = await httpRequest.get("/auth/me");
-  return response;
+  return response.data;
 };
 
 export const getUser = async (username) => {
   const response = await httpRequest.get(`/users/${username}`);
-  return response;
+  return response.data;
 };
 
 export const checkDuplicate = async (endpoint) => {
@@ -20,6 +20,12 @@ export const updateUser = async (username, data) => {
   return response.data;
 };
 
+export const updateImage = async (data) => {
+  const response = await httpRequest.put(`/users/me`, data);
+  console.log(response);
+  return response.data;
+};
+
 export const checkEmail = async (email) => {
   const response = await httpRequest.get("/auth/check-email", {
     params: {
@@ -27,13 +33,14 @@ export const checkEmail = async (email) => {
     },
   });
   console.log("API Response:", response);
-  return response.exists;
+  return response.data?.exists;
 };
 
 export const postUser = async (url, userData) => {
   try {
     const response = await httpRequest.post(url, userData);
-    return response;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     throw error.response?.data;
   }
@@ -57,4 +64,5 @@ export default {
   getUser,
   updateUser,
   checkDuplicate,
+  updateImage,
 };

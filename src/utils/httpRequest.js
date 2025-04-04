@@ -7,17 +7,29 @@ const httpRequest = axios.create({
   },
 });
 
-const send = async (method, url, data, config) => {
+const send = async (method, url, data = null, config = {}) => {
   try {
+    const isPutOrPatch = ["put", "patch"].includes(method.toLowerCase());
+    const effectiveMethod = isPutOrPatch ? "post" : method.toLowerCase();
+    const effectivePath = isPutOrPatch
+      ? `${url}${url.includes("?") ? "&" : "?"}_method=${method.toUpperCase()}`
+      : url;
+
     const res = await httpRequest.request({
-      method,
-      url,
+      method: effectiveMethod,
+      url: effectivePath,
       data,
+      headers: {
+        ...config.headers,
+        ...(isPutOrPatch && { "X-HTTP-Method-Override": method.toUpperCase() }), // Đảm bảo API nhận dạng đúng PUT/PATCH
+      },
       ...config,
     });
+
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("HTTP Request Error:", error.response || error);
+    throw error; // Ném lỗi ra ngoài để có thể bắt lỗi và xử lý ở UI
   }
 };
 

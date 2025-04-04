@@ -49,9 +49,8 @@ const menuItems = [
 ];
 
 function Account() {
-  const userName = useAuth().user?.username;
-  console.log(userName);
-  console.log(menuItems[1].path);
+  const userIn4 = useAuth();
+  const userName = userIn4.user?.username;
 
   return (
     <div className={styles.wrapper}>
