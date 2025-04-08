@@ -2,6 +2,7 @@ import Button from "~/components/Button";
 import ButtonsList from "../ButtonsList";
 import styles from "./Banner.module.scss";
 import images from "~/assets/images";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Banner() {
   return (
@@ -15,8 +16,13 @@ function Banner() {
             </h2>
           </div>
 
-          <Button discoverButton className={styles.btnMore} size="large">
-            Xem thêm
+          <Button
+            discoverButton
+            className={styles.btnMore}
+            icon={faArrowRight}
+            size="large"
+          >
+            XEM THÊM NGAY
           </Button>
           <div className={styles.countdown}>
             <p className={styles.desc}>Deal này sắp hết thời gian</p>

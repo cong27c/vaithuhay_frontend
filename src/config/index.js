@@ -23,6 +23,9 @@ const config = {
   seeMoreRoutes: {
     introduce: "/seeMore/introduce",
     affiliate: "/seeMore/affiliate",
+    recruitment: "/recruitment",
+    parTimeJobs: "/parTimeJobs",
+    Showcase: "/seeMore/Showcase",
   },
 };
 

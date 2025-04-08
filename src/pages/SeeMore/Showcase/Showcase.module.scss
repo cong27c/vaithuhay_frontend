@@ -1,0 +1,342 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/bg-workspace-mb.png?v=7149");
+    background-color: #E7E7E7;
+    padding-bottom: 40px;
+
+    .headerBanner {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        background-image: url("https://file.hstatic.net/1000069970/file/banner_thanh_ly_1__1__74c955b6a6c84ae2b73a3904083dfb44_51c62320e09d452a9263fc9f22f25b13.png");
+    }
+
+    .body {
+        display: flex;
+        flex-direction: column;
+        width: 1044px;
+        gap: 40px;
+    }
+
+    .breadcrumb {
+        height: 36px;
+        background-color: #fff;
+        font-size: 14px;
+        color: #666;
+        padding: 10px 10px;
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+          }
+          
+          a:hover {
+            text-decoration: underline;
+          }
+          
+          span {
+            margin: 0 5px;
+          }
+          
+          .current {
+            color: #999;
+          }
+      }
+      
+  
+  .promIn4 {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .title {
+        font-size: 36px;
+        font-weight: 700;
+    }
+    .desc {
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .sectionIntro {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .lisbtn {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        .btn {
+            border-radius: 99px;
+            font-size: 16px;
+            width: 170px;
+            padding: 14px 30px;
+            box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+.promDeal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+
+    .deal-container {
+        background: linear-gradient(to right, #FF416C, #FF4B2B);     
+        border-radius: 15px;
+        padding: 20px;
+        width: 300px;
+        max-height:  190px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        color: #333;
+    }
+    
+    .deal-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 50px;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: white;
+    }
+    
+    .deal-subtitle {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .deal-content {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: rgba(255,255,255,0.8);
+    }
+    
+    .save-button {
+        background-color:white ;
+        color: #d23369;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all ease-in-out 0.3s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .save-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(210, 51, 105, 0.3);
+        color: white;
+        background-color: #d90509;
+    }
+}
+  
+
+
+    .categoryNav {
+        width: 100%;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-direction: column;
+        .top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .btnIcon {
+                color: white;
+            }
+            .title {
+                font-size: 26px;
+                font-weight: 700;
+            }
+        }
+    }
+
+   .product-tags {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 40px;
+
+    .tag-item {
+        cursor: pointer;
+        gap: 10px;
+        padding: 10px;
+        width: 110px;
+        height: 110px;
+        border-radius: 24px;
+        background-color: #fff;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .tag-item:hover {
+        background-color: #FFD700;
+        transform: scale(1.05);
+        color: white;
+    }
+    
+    .tag-item .box {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        justify-content: center; 
+        height: 100%; 
+    }
+
+    .tag-item .image img {
+        width: 44px;
+        height: 44px;
+        object-fit: cover;
+    }
+
+    .tag-item .title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #000;
+        text-align: center; 
+        width: 100%; 
+    }
+
+   }
+   .bot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    .desc {
+        font-size: 20px;
+        font-weight: 500;
+        color: #222;
+    }
+    .sortList {
+        display: flex;
+        gap: 15px;
+    }
+    .sortItem {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+        transition: all 0.3s ease;
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 14px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+             border-radius: 50%;
+        }
+        span {
+            position: absolute;
+            top: 100%;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 16px;
+            background-color: #FFD700;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: inherit;
+            pointer-events: none
+        }
+    }
+    .sortItem:hover {
+        transform: translateY(-3px);
+      }
+      
+      .sortItem:hover .icon {
+        background-color: #f5f5f5;
+        background-color: #FFD700;
+        transform: scale(1.05);
+        color: white;
+      }
+      
+      .sortItem:hover span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    
+   }
+  
+}
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/collection-bg-2.png?v=7171"), url("https://theme.hstatic.net/1000069970/1001119059/14/collection-bg-2.png?v=7171");
+    background-repeat: no-repeat, no-repeat;
+    background-size: contain;
+    background-position: top, bottom;
+
+    .box1,.box2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        flex-direction: column;
+    }
+    .box1 {
+        .background {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 78%;
+            height: 178px;
+            border-radius: 24px;
+            background-image: url("https://file.hstatic.net/1000069970/file/banner_refresh_goc_lam_viec.jpg");
+            object-fit: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    }
+    .box2 {
+        padding-top: 100px  ;
+        .background {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 88%;
+            height: 178px;
+            border-radius: 24px;
+            background-image: url("https://file.hstatic.net/1000069970/file/banner_cart_45748359f152493da59f3608d7d2028d.png");
+            object-fit: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    }
+   
+  }
+  .youtube {
+    width: 100%;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-intro-1920-bg.png?v=7171");
+    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+   }
+

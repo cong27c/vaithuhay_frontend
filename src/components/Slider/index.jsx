@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 
-function Slider({ slides, type = "image" }) {
+function Slider({ slides, type = "image", wrap = false }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -37,7 +37,7 @@ function Slider({ slides, type = "image" }) {
     }
   };
 
-  const isAlternative = slides[0]?.variant === "alternative";
+  const isWrap = wrap;
 
   return (
     <div className={styles.sliderContainer}>
@@ -47,7 +47,7 @@ function Slider({ slides, type = "image" }) {
 
       <div
         className={clsx(styles.sliderWrapper, {
-          [styles.wrap]: isAlternative,
+          [styles.wrap]: isWrap,
         })}
       >
         {slides.map((slide, index) => (
@@ -70,6 +70,7 @@ function Slider({ slides, type = "image" }) {
 }
 Slider.propTypes = {
   slides: PropTypes.array.isRequired,
+  wrap: PropTypes.bool,
   type: PropTypes.oneOf(["image", "content", "half-image"]),
 };
 export default Slider;

@@ -9,7 +9,9 @@ function SlideHalfImage({
   notification = "",
   sale = "",
   cost = "",
+  content = "Nhận ưu đãi ngay",
   variant = "default",
+  show = false,
 }) {
   return (
     <>
@@ -25,6 +27,14 @@ function SlideHalfImage({
           <div className={styles.content}>
             <div className={styles.title}>{title}</div>
             <div className={styles.desc}>{desc}</div>
+            {show && (
+              <div className={styles.buttonList}>
+                <button className={styles.btn}>{content}</button>
+                <div className={styles["cart-icon"]}>
+                  <i className="fa-solid fa-cart-plus"></i>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (
@@ -38,7 +48,9 @@ function SlideHalfImage({
             <div className={styles.price}>{price}</div>
             <div className={styles.notification}>{notification}</div>
             <div className={styles.buttonList}>
-              <button className={styles.btn}>Nhận ưu đãi ngay {sale}</button>
+              <button className={styles.btn}>
+                {content} {sale}
+              </button>
               <div className={styles["cart-icon"]}>
                 <i className="fa-solid fa-cart-plus"></i>
               </div>
@@ -58,6 +70,8 @@ SlideHalfImage.propTypes = {
   notification: PropTypes.string,
   sale: PropTypes.string,
   cost: PropTypes.string,
+  content: PropTypes.string,
+  show: PropTypes.bool,
   variant: PropTypes.oneOf(["default", "alternative"]),
 };
 

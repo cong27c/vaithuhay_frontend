@@ -19,11 +19,23 @@ function UserInfo() {
   const [isEditing, setIsEditing] = useState(false);
   const userIn4 = useAuth();
   const userId = userIn4.user?.id;
+  const userImage = userIn4.user?.image;
   const isCurrentUser = userIn4.user?.username === mainUserName;
-  const [preview, setPreview] = useState(null);
-  const [fileImage, setFileImage] = useState(null);
-  const [originalImage, setOriginalImage] = useState(null);
+  const [fileImage, setFileImage] = useState(userImage);
   const { loading, setLoading } = useLoading();
+  const [originalData, setOriginalData] = useState({});
+  const [preview, setPreview] = useState(userImage || null);
+
+  useEffect(() => {
+    if (fileImage) {
+      const objectUrl = URL.createObjectURL(fileImage);
+      setPreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setPreview(userImage);
+    }
+  }, [fileImage, userImage]);
 
   const {
     register,
@@ -45,12 +57,9 @@ function UserInfo() {
     const fetchUserData = async () => {
       try {
         const userData = await authServices.getUser(mainUserName);
+        setOriginalData(userData);
         reset(userData);
         console.log(userData);
-        if (userData.image) {
-          setOriginalImage(userData.image);
-          setPreview(userData.image);
-        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -95,7 +104,6 @@ function UserInfo() {
         }
       }
     };
-    console.log("Checking duplicate for:", debounceValues.email);
     checkDuplicates();
   }, [
     debounceValues.email,
@@ -130,13 +138,9 @@ function UserInfo() {
     console.log(formData);
 
     try {
-      if (fileImage) {
-        await authServices.updateImage(userId, formData);
-      }
-      await authServices.updateUser(mainUserName, formData);
+      const updatedUser = await authServices.updateUser(formData);
       toast.success("Cập nhật thành công!", { autoClose: 3000 });
-      reset(data);
-      setOriginalImage(fileImage);
+      reset(updatedUser);
       setIsEditing(false);
     } catch (error) {
       console.log(error);
@@ -147,9 +151,7 @@ function UserInfo() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const previewUrl = URL.createObjectURL(file);
       setFileImage(file);
-      setPreview(previewUrl);
     }
   };
 
@@ -159,24 +161,14 @@ function UserInfo() {
     };
   }, [preview]);
 
-  const handleCancel = () => {
-    setIsEditing(false);
-    setPreview(originalImage);
-    setFileImage(null);
-    reset();
-  };
-
   return (
     <div className={styles.UserInfo}>
       <form className={styles.todoForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles["form-group"]}>
           {/* Image */}
-          <img
-            className={styles.imageFile}
-            src={preview || originalImage}
-            alt=""
-          />
+          <img className={styles.imageFile} src={preview} alt="" />
           <input
+            id="fileInput"
             type="file"
             accept="image/*"
             disabled={!isEditing}
@@ -275,7 +267,6 @@ function UserInfo() {
             control={control}
             render={({ field }) => (
               <DatePicker
-                id="birthDate"
                 selected={field.value ? new Date(field.value) : null}
                 onChange={(date) => field.onChange(date)}
                 dateFormat="dd/MM/yyyy"
@@ -311,7 +302,10 @@ function UserInfo() {
               <button
                 type="button"
                 className={styles["submit-btn"]}
-                onClick={handleCancel}
+                onClick={() => {
+                  reset(originalData);
+                  setIsEditing(!isEditing);
+                }}
               >
                 HỦY
               </button>

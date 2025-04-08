@@ -15,16 +15,16 @@ export const checkDuplicate = async (endpoint) => {
   return response.exists;
 };
 
-export const updateUser = async (username, data) => {
-  const response = await httpRequest.put(`/users/${username}`, data);
+export const updateUser = async (data) => {
+  const response = await httpRequest.put(`/users/me`, data);
   return response.data;
 };
 
-export const updateImage = async (data) => {
-  const response = await httpRequest.put(`/users/me`, data);
-  console.log(response);
-  return response.data;
-};
+// export const updateImage = async (data) => {
+//   const response = await httpRequest.put(`/users/me`, data);
+//   console.log(response);
+//   return response.data;
+// };
 
 export const checkEmail = async (email) => {
   const response = await httpRequest.get("/auth/check-email", {
@@ -64,5 +64,4 @@ export default {
   getUser,
   updateUser,
   checkDuplicate,
-  updateImage,
 };

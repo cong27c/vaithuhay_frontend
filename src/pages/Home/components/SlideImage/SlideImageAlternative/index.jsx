@@ -58,7 +58,7 @@ function SlideImageAlternative() {
           </Button>
         </div>
         <div className={styles["list-card"]}>
-          <Slider slides={slidesData} type="image" />
+          <Slider slides={slidesData} type="image" wrap={true} />
         </div>
         <div className={styles.dotList}>
           <div className={`${styles.dot} ${styles.active}`}></div>

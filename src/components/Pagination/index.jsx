@@ -1,9 +1,27 @@
 import styles from "./Pagination.module.scss";
+import PropTypes from "prop-types";
 
-function Pagination() {
+function Pagination({
+  size = 40,
+  fontSize = 1,
+  gap = 8,
+  prevNextWidth = "auto",
+  prevNextPadding = "0 15px",
+  ...props
+}) {
   return (
     <>
-      <div className={styles["pagination-gradient"]}>
+      <div
+        className={styles["pagination-gradient"]}
+        style={{
+          "--pagination-size": `${size}px`,
+          "--pagination-font-size": `${fontSize}px`,
+          "--pagination-gap": `${gap}px`,
+          "--pagination-prev-next-width": prevNextWidth,
+          "--pagination-prev-next-padding": prevNextPadding,
+        }}
+        {...props}
+      >
         <a href="#" className={styles["prev-next"]}>
           Prev
         </a>
@@ -21,5 +39,11 @@ function Pagination() {
     </>
   );
 }
-
+Pagination.propTypes = {
+  size: PropTypes.number,
+  fontSize: PropTypes.number,
+  gap: PropTypes.number,
+  prevNextWidth: PropTypes.string,
+  prevNextPadding: PropTypes.string,
+};
 export default Pagination;

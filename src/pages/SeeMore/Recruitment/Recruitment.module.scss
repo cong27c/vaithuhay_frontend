@@ -1,0 +1,77 @@
+.container{
+    width: 100vw;  
+    height: 870px;
+    background-image: url("https://w.ladicdn.com/s1440x906/5c0b681b8b014a0649e90d0a/bg-den-trang-20230224093924-0e9rn.png");
+    background-color: #222;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+  }
+.content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+}
+
+.logo img{
+    width: 200px;
+    height: 167px;
+}
+
+.title {
+    width: 845px;
+    word-break: break-word;
+    font-size: 45px;
+    line-height: 1.6;
+    text-align: left;
+    color: #fff;
+    strong {
+        font-family: "Bungee", cursive;
+        font-size: 90px;
+        font-weight: 900;
+    }
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    gap: 20px;
+    .desc {
+        font-size: 18px;
+        color: #fff;
+    }
+    .listbtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        
+        .btn {
+            font-size: 18px;
+            font-weight: bold;
+            width: 300px;
+            padding: 14px 180px;
+            border-radius: 12px;
+        }
+    }
+}

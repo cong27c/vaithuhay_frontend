@@ -130,6 +130,63 @@
 
 }
 
+.default  .buttonList {
+    display: flex;
+    align-items: center;
+    text-align: center;
+     justify-content: center;
+     color: #D62727;
+     gap: 20px;
+     cursor: pointer;
+ }
+ 
+ .default .buttonList .btn{
+    width: 80%;
+     white-space: nowrap;
+     padding: 10px 20px;
+     border: 1px  solid #D62727;
+     color: #D62727;
+     background-color: white;
+     font-size: 14px;
+     font-weight: 700;
+     border-radius: 999px;
+     transition: background-color 0.3s ease, transform 0.2s ease;
+ }
+ .default  .buttonList .btn:hover {
+     background-color: #D62727;
+     transform: scale(1.05);
+     color: white;
+ }
+ .default.cart-icon {
+     position: relative;
+     display: inline-block;
+     color: red;
+     font-size: 20px;
+     transition: transform 0.3s ease;
+ }
+ 
+ .default.plus-icon {
+     position: absolute;
+     background-color: white;
+     width: 10px;
+     height: 10px;
+     color: red;
+     font-size: 12px;
+     font-weight: bold;
+     border-radius: 50%;
+     padding: 2px 4px;
+     border: 1px solid red;
+     transition: transform 0.3s ease;
+ }
+ 
+ .default.cart-icon:hover {
+     transform: scale(1.1);
+ }
+ 
+ .default.cart-icon:hover .plus-icon {
+     transform: rotate(20deg);
+ }
+ 
 
 
 

@@ -2,17 +2,24 @@
 .pagination-gradient {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: var(--pagination-gap);
     margin: 2rem 0;
     font-family: 'Segoe UI', sans-serif;
+
+    --pagination-size: 40px;
+    --pagination-font-size: 1rem;
+    --pagination-gap: 8px;
+    --pagination-prev-next-width: auto;
+    --pagination-prev-next-padding: 0 15px;
 }
 
 .pagination-gradient a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: var(--pagination-size);
+    height: var(--pagination-size);
+    font-size: var(--pagination-font-size);
     text-decoration: none;
     color: #e0e0e0;
     background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
@@ -55,6 +62,7 @@
 }
 
 .pagination-gradient .dots {
+    font-size: var(--pagination-font-size);
     color: #aaa;
     display: flex;
     align-items: flex-end;
@@ -62,6 +70,6 @@
 }
 
 .pagination-gradient .prev-next {
-    width: auto;
-    padding: 0 15px;
+    width: var(--pagination-prev-next-width);
+    padding: var(--pagination-prev-next-padding);
 }

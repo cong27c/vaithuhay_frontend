@@ -19,6 +19,10 @@ import Technology from "~/pages/Blogs/Technology";
 import Blogs from "~/pages/Blogs";
 import SeeMore from "~/pages/SeeMore";
 import Affiliate from "~/pages/SeeMore/Affiliate";
+import Recruitment from "~/pages/SeeMore/Recruitment";
+import Showcase from "~/pages/SeeMore/Showcase";
+import FullscreenLayout from "~/layouts/FullscreenLayout";
+import PartTimeJobs from "~/pages/SeeMore/Recruitment/PartTimeJobs";
 
 const routes = [
   {
@@ -50,6 +54,17 @@ const routes = [
     component: NotFound,
   },
   {
+    path: config.seeMoreRoutes.recruitment,
+    component: Recruitment,
+    layout: FullscreenLayout,
+  },
+  {
+    path: config.seeMoreRoutes.parTimeJobs,
+    component: PartTimeJobs,
+    layout: FullscreenLayout,
+  },
+
+  {
     path: config.routes.account,
     component: Account,
     children: [
@@ -75,6 +90,7 @@ const routes = [
     children: [
       { path: config.seeMoreRoutes.affiliate, component: Affiliate },
       { path: config.seeMoreRoutes.introduce, component: Introduce },
+      { path: config.seeMoreRoutes.Showcase, component: Showcase },
     ],
   },
 ];
