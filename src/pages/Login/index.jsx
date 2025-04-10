@@ -2,17 +2,19 @@ import styles from "./Login.module.scss";
 import config from "~/config";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
-import { postUser } from "~/Services/authServices";
+import { getCurrentUser, postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
 import { useForm } from "react-hook-form";
 import InputText from "~/components/InputText";
 import loginSchema from "~/schema/loginSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
+import { useAuth } from "~/contexts/AuthContext";
 
 function Login() {
   const query = useQuery();
   const [errorMessage, setErrorMessage] = useState("");
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -33,6 +35,8 @@ function Login() {
     try {
       const res = await postUser("/auth/login", data);
       localStorage.setItem("token", res.access_token);
+      const user = await getCurrentUser();
+      setUser(user);
       navigate(query.get("continue") || config.routes.home);
     } catch (error) {
       setErrorMessage(error.message);
