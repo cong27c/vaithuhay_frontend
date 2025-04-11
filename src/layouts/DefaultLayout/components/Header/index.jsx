@@ -13,7 +13,7 @@ function Header() {
         <div className={styles.body}>
           <Link to={config.routes.home}>
             <img
-              src="//theme.hstatic.net/1000069970/1001119059/14/logo_medium.png?v=7149"
+              src="	http://theme.hstatic.net/1000069970/1001119059/14/logo-bct-1_medium.png?v=7149"
               alt="Lesson"
               className={styles.logo}
             />

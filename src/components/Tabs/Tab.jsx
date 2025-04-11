@@ -1,5 +1,5 @@
-function Tab() {
-  return <div></div>;
+function Tab({ children }) {
+  return <div>{children}</div>;
 }
 
 export default Tab;

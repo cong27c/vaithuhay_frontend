@@ -6,7 +6,9 @@ html, body {
 
 
 .header {
-    background-color: rgba(0, 0, 0, 0.01);
+    background-color: rgba(0,0,0,0.1);
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+
     width: 100vw; 
     position: sticky; 
     top: 0; 
@@ -14,10 +16,6 @@ html, body {
     z-index: 100;
 }
 
-// .header.fixed {
-//     position: sticky;
-//     top: -7px;
-// }
 
 .header .body {
     width: 100%;

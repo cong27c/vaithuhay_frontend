@@ -13,6 +13,7 @@ function Button({
   icon,
   to = "",
   href = "",
+  style,
   arrowButton = false,
   SubmitButton = false,
   draculaButton = false,
@@ -55,6 +56,7 @@ function Button({
         [styles.tabButton]: tabButton,
         [styles.disabled]: disabled || loading,
       })}
+      style={style}
       onClick={handleClick}
     >
       {loading ? (
@@ -77,6 +79,7 @@ Button.propTypes = {
   href: PropTypes.string,
   size: PropTypes.oneOf(["small", "medium", "large"]),
   icon: PropTypes.object,
+  style: PropTypes.object,
   arrowButton: PropTypes.bool,
   SubmitButton: PropTypes.bool,
   draculaButton: PropTypes.bool,
