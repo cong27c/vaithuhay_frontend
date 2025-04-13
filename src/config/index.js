@@ -27,6 +27,15 @@ const config = {
     parTimeJobs: "/parTimeJobs",
     Showcase: "/seeMore/Showcase",
   },
+  jobDetailRoutes: {
+    affiliateOperation: "/affiliateOperation",
+    contentCreator: "/contentCreator",
+    graphicDesigner: "/graphicDesigner",
+    marketingExecutive: "/marketingExecutive",
+    partTimeCustomerService: "/partTimeCustomerService",
+    customerService: "/customerService",
+    marketingExecutiveIntern: "/marketingExecutiveIntern",
+  },
 };
 
 export default config;

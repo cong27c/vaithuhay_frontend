@@ -1,0 +1,22 @@
+.wrapper {
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 80px;
+}
+.title {
+    font-family: "Montserrat", sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+    padding: 15px 70px;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+}
+.image img {
+    width: 1202.76px;
+    height: 560.998px;
+}

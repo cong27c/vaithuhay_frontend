@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./Header.module.scss";
+import styles from "./JobIntroSection.module.scss";
 import {
   faAngleDoubleDown,
   faPlayCircle,
@@ -8,9 +8,9 @@ import Button from "~/components/Button";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-function Header({ array }) {
+function JobIntroSection({ array }) {
   const [showVideo, setShowVideo] = useState(false);
-  console.log(array);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.introduce}>
@@ -105,10 +105,8 @@ function Header({ array }) {
                 </div>
                 <div className={styles.underline}></div>
                 <ul className={styles.desc}>
-                  <li>{item.desc1}</li>
-                  <li>{item.desc2}</li>
-                  <li>{item.desc3}</li>
-                  <li>{item.desc4}</li>
+                  {item.listDesc &&
+                    item.listDesc.map((desc, i) => <li key={i}>{desc}</li>)}
                 </ul>
               </div>
             ))}
@@ -123,7 +121,7 @@ function Header({ array }) {
   );
 }
 
-Header.propTypes = {
+JobIntroSection.propTypes = {
   array: PropTypes.array.isRequired,
 };
-export default Header;
+export default JobIntroSection;

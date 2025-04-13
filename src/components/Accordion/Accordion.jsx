@@ -35,6 +35,7 @@ function Accordion({
   const handleKeyDown = (e, index) => {
     const key = e.key;
     const total = accordions.length;
+    e.preventDefault();
 
     let newIndex = index;
 

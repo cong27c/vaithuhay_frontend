@@ -1,0 +1,42 @@
+.wrapper {
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    width: 100vw;
+    min-height: 328px;
+    padding: 20px 0;
+    color: azure;
+    &.haveBackGround {
+        background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+    }
+    &.haveNoBackGround {
+        background-image: none;
+        color: #222;
+    }
+}
+
+.image img{
+    width: 297px;
+    height: auto;
+}
+.content {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    max-width: 518px;
+    .name {
+        font-size: 42px;
+        font-weight: 600;
+    }
+    .career {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .desc {
+        font-size: 12px;
+    }
+}

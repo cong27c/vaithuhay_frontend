@@ -23,7 +23,7 @@ function Tabs({ children, defaultIndex = 0, onChange }) {
               key={index}
               style={{
                 fontSize: active ? "20px" : "12px",
-                color: active ? "red" : "#fff",
+                color: active ? "red" : "#000",
               }}
               onClick={() => setCurrentIndex(index)}
             >

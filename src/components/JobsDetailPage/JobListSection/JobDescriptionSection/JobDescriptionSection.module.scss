@@ -1,0 +1,78 @@
+.wrapper {
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .mainTitle img{
+        width: 500px;
+        height: 75px;
+    }
+    .desc img{
+        width: 755px;
+        height: 53px;
+    }
+}
+.middleList {
+    width: 1080px;
+    gap: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    .boxItem {
+        width: 314px;
+        border-radius: 24px;
+        height: auto;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); 
+          }
+    }
+    .boxItem img{
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+}
+.btn {
+    font-size: 24px;
+    padding: 15px 60px;
+    border-radius: 99px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.require {
+    width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+
+}
+.subTitle {
+    font-family: "Montserrat", sans-serif;
+    color: rgb(0, 0, 0);
+    font-size: 25px;
+    font-weight: bold;
+}
+.desc {
+    font-family: "Montserrat", sans-serif;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 16px;
+    text-align: left;
+    strong {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 18px;
+
+    }
+}

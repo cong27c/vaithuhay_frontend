@@ -1,0 +1,34 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 80px;
+}
+.mainTitle img{
+    width: 315px;
+    height: 81px;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap:  50px 80px;
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    .childTitle img {
+        max-width: 528px;
+        min-height: auto;
+        object-fit: contain;
+    }
+    .desc img {
+        width: 517px;
+        height: 105px;
+    }
+}

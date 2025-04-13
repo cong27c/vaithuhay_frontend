@@ -1,0 +1,120 @@
+
+.wrapper {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 60px;
+}
+.listItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 80px;
+}
+.mainTitle {
+    width: 724px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 45px;
+    line-height: 1.4;
+    font-weight: bold;
+    text-align: center;
+}
+.item {
+    max-width: 870px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    &.reverse {
+        flex-direction: row-reverse;
+        .content {
+            text-align: right;
+        }
+        .subTitle::after {
+            left: auto;
+            right: 0;
+          }
+      }
+}
+
+
+.highlight-title {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+  }
+  
+  .highlight {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .highlight::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 10%;
+    width: 100%;
+    height: 17px;
+    background: linear-gradient(90deg, #ffc107 0%, yellow 100%);
+    z-index: -1;
+    border-radius: 2px;
+  }
+  .image img {
+    width: 154px;
+    height: auto;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .subTitle {
+        position: relative;
+        font-family: "Montserrat", sans-serif;
+        color: rgb(0, 0, 0);
+        font-size: 29px;
+        font-weight: bold;
+    }
+    .subTitle::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 35%;
+        height: 14px;
+        background: linear-gradient(90deg, #ffc107 0%, yellow 100%);
+        z-index: -1;
+        border-radius: 2px;
+    }
+    .desc {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.8);
+    }
+    .skill:not(strong) {
+        padding-top: 30px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.8);
+        font-weight: 600;
+        strong {
+            color: black;
+        }
+    }
+  }
+  .dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    .dot {
+        box-sizing: border-box; 
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #222;
+    }
+  }

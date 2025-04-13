@@ -23,6 +23,14 @@ import Recruitment from "~/pages/SeeMore/Recruitment";
 import Showcase from "~/pages/SeeMore/Showcase";
 import FullscreenLayout from "~/layouts/FullscreenLayout";
 import PartTimeJobs from "~/pages/SeeMore/Recruitment/PartTimeJobs";
+import AffiliateOperation from "~/pages/JobDetailPage/Intern/AffiliateOperation";
+import ContentCreator from "~/pages/JobDetailPage/Intern/ContentCreator";
+import GraphicDesigner from "~/pages/JobDetailPage/Intern/GraphicDesigner";
+import MarketingExecutive from "~/pages/JobDetailPage/FullTime/MarketingExecutive";
+import PartTimeCustomerService from "~/pages/JobDetailPage/PartTimeCustomerService";
+import CustomerService from "~/pages/JobDetailPage/FullTime/CustomerService";
+import MarketingExecutiveIntern from "~/pages/JobDetailPage/Intern/MarketingExecutiveIntern";
+import JobDetailPage from "~/pages/JobDetailPage";
 
 const routes = [
   {
@@ -62,6 +70,41 @@ const routes = [
     path: config.seeMoreRoutes.parTimeJobs,
     component: PartTimeJobs,
     layout: FullscreenLayout,
+  },
+  {
+    path: config.seeMoreRoutes.jobsDetailPage,
+    component: JobDetailPage,
+    layout: FullscreenLayout,
+    children: [
+      {
+        path: config.jobDetailRoutes.affiliateOperation,
+        component: AffiliateOperation,
+      },
+      {
+        path: config.jobDetailRoutes.contentCreator,
+        component: ContentCreator,
+      },
+      {
+        path: config.jobDetailRoutes.graphicDesigner,
+        component: GraphicDesigner,
+      },
+      {
+        path: config.jobDetailRoutes.marketingExecutive,
+        component: MarketingExecutive,
+      },
+      {
+        path: config.jobDetailRoutes.partTimeCustomerService,
+        component: PartTimeCustomerService,
+      },
+      {
+        path: config.jobDetailRoutes.customerService,
+        component: CustomerService,
+      },
+      {
+        path: config.jobDetailRoutes.marketingExecutiveIntern,
+        component: MarketingExecutiveIntern,
+      },
+    ],
   },
 
   {

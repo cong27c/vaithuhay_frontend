@@ -1,0 +1,53 @@
+.wrapper {
+    padding: 40px 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    position: relative;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/footer-bg.png?v=7149");
+    background-size: 100% 410px; 
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
+    color: rgb(255, 255, 255);
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        color: rgb(254, 222, 81);
+    }
+    .companyIn4 {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .image img{
+        width: 200px;
+        height: auto;
+    }
+    .ShowRoomLocation {
+        margin-top: 60px;
+        max-width: 297px;
+    }
+    .button {
+        margin-top: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        .btn {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 15px 40px;
+            border-radius: 99px;
+            margin-top: 10px;
+            color: #222;
+            &:hover {
+                color: white;
+            }
+        }
+
+    }
+}
