@@ -12,11 +12,11 @@ import Logout from "../Logout";
 import { useAuth } from "~/contexts/AuthContext";
 import Button from "~/components/Button";
 import config from "~/config";
+import { useCurrentUser } from "~/Hooks/useCurrentUser";
 
 function CircleUser() {
   const [isOpen, setIsOpen] = useState(false);
-  const userIn4 = useAuth();
-  const userName = userIn4.user?.username;
+  const userName = useCurrentUser();
 
   return (
     <>

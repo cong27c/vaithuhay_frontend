@@ -11,19 +11,46 @@ function Navigation() {
           <AccordionItem header="Khám phá" />
           <AccordionItem header="Tìm hiểu thêm">
             <ul className={styles.dropdown}>
-              <li>Về VaiThuHay</li>
-              <li>Bán hàng liên kết (Affiliate)</li>
-              <li>Tìm đồng đội - Tuyển dụng</li>
-              <li>Showcase</li>
-              <li>Quà tặng hay</li>
-              <li>Cộng đồng Hayer</li>
-              <li>Các chính sách quan trọng</li>
+              <a href="/seeMore/introduce">
+                <li>Về VaiThuHay</li>
+              </a>
+              <a href="/seeMore/affiliate">
+                <li>Bán hàng liên kết (Affiliate)</li>
+              </a>
+              <a href="/recruitment">
+                <li>Tìm đồng đội - Tuyển dụng</li>
+              </a>
+              <a href="/seeMore/Showcase">
+                <li>Showcase</li>
+              </a>
+              <a href="https://quatanghay.com/">
+                <li>Quà tặng hay</li>
+              </a>
+              <a href="https://www.facebook.com/groups/gocvaithuhay">
+                <li>Cộng đồng Hayer</li>
+              </a>
+              <a href="/">
+                <li>Các chính sách quan trọng</li>
+                {/* <Accordion>
+                  <AccordionItem header="Các chính sách quan trọng" />
+                  <ul>
+                    <li>Membership/Loyalty</li>
+                    <li>Chính sách đặt hàng trước</li>
+                    <li>Membership/Loyalty</li>
+                    <li>Chính sách bảo hành/đổi trả</li>
+                  </ul>
+                </Accordion> */}
+              </a>
             </ul>
           </AccordionItem>
           <AccordionItem header="Bài viết">
             <ul className={styles.dropdown}>
-              <li>SetUp Decor</li>
-              <li>Công nghệ</li>
+              <a href="/blogs/setup-decor">
+                <li>SetUp Decor</li>
+              </a>
+              <a href="/blogs/technology">
+                <li>Công nghệ</li>
+              </a>
             </ul>
           </AccordionItem>
         </Accordion>

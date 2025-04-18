@@ -13,6 +13,7 @@ import {
 import { Link, Outlet } from "react-router-dom";
 import config from "~/config/index.js";
 import { useAuth } from "~/contexts/AuthContext";
+import { useCurrentUser } from "~/Hooks/useCurrentUser";
 
 const menuItems = [
   {
@@ -49,8 +50,7 @@ const menuItems = [
 ];
 
 function Account() {
-  const userIn4 = useAuth();
-  const userName = userIn4.user?.username;
+  const userName = useCurrentUser();
 
   return (
     <div className={styles.wrapper}>
@@ -58,7 +58,11 @@ function Account() {
         <aside className={styles.sideBar}>
           <div className="userInfo">
             <p>
-              Xin chào, <strong>{userName}</strong>
+              {userName && (
+                <span>
+                  Xin chào, <strong>{userName}</strong>
+                </span>
+              )}
               <FontAwesomeIcon className={styles.crown} icon={faCrown} />
             </p>
           </div>

@@ -31,6 +31,23 @@ import PartTimeCustomerService from "~/pages/JobDetailPage/PartTimeCustomerServi
 import CustomerService from "~/pages/JobDetailPage/FullTime/CustomerService";
 import MarketingExecutiveIntern from "~/pages/JobDetailPage/Intern/MarketingExecutiveIntern";
 import JobDetailPage from "~/pages/JobDetailPage";
+import PolicySection from "~/components/PolicySection";
+import PolicyPage from "~/pages/PolicyPage";
+import LoyaltyProgram from "~/pages/PolicyPage/LoyaltyProgram";
+import PreOrderPolicy from "~/pages/PolicyPage/PreOrderPolicy";
+import ReturnPolicy from "~/pages/PolicyPage/ReturnPolicy";
+import News from "~/components/News";
+import NewPost from "~/pages/NewPost";
+import EyeProtection from "~/pages/NewPost/EYESmartcase";
+import LeatherShoeCare from "~/pages/NewPost/SmartEInkTablet";
+import KingrowK1 from "~/pages/NewPost/KingrowK1";
+import NarwalRobot from "~/pages/NewPost/NarwalRobot/index.jsx";
+import RainShoeCover from "~/pages/NewPost/RainShoeCover";
+import Smartcase from "~/pages/NewPost/DiceGlowFeature";
+import SmartEInkTablet from "~/pages/NewPost/SmartEInkTablet";
+import EYESmartcase from "~/pages/NewPost/EYESmartcase";
+import DiceGlowFeature from "~/pages/NewPost/DiceGlowFeature";
+import LeatherCareTips from "~/pages/NewPost/LeatherCareTips";
 
 const routes = [
   {
@@ -56,6 +73,10 @@ const routes = [
   {
     path: config.routes.productDetail,
     component: ProductDetail,
+  },
+  {
+    path: config.routes.news,
+    component: News,
   },
   {
     path: config.routes.notfound,
@@ -134,6 +155,32 @@ const routes = [
       { path: config.seeMoreRoutes.affiliate, component: Affiliate },
       { path: config.seeMoreRoutes.introduce, component: Introduce },
       { path: config.seeMoreRoutes.Showcase, component: Showcase },
+    ],
+  },
+  {
+    path: config.routes.policySection,
+    component: PolicySection,
+  },
+  {
+    path: config.routes.policyPage,
+    component: PolicyPage,
+    children: [
+      { path: config.policyRoutes.loyaltyProgram, component: LoyaltyProgram },
+      { path: config.policyRoutes.preOrderPolicy, component: PreOrderPolicy },
+      { path: config.policyRoutes.returnPolicy, component: ReturnPolicy },
+    ],
+  },
+  {
+    path: config.routes.newPost,
+    component: NewPost,
+    children: [
+      { path: config.newPost.EYESmartcase, component: EYESmartcase },
+      { path: config.newPost.kingrowK1, component: KingrowK1 },
+      { path: config.newPost.smartEInkTablet, component: SmartEInkTablet },
+      { path: config.newPost.narwalRobot, component: NarwalRobot },
+      { path: config.newPost.rainShoeCover, component: RainShoeCover },
+      { path: config.newPost.diceGlowFeature, component: DiceGlowFeature },
+      { path: config.newPost.leatherCareTips, component: LeatherCareTips },
     ],
   },
 ];

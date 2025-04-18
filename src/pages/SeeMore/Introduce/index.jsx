@@ -7,7 +7,7 @@ function Introduce() {
       title: "About Vaithuhay.com",
     },
     {
-      ytbLink: "https://www.youtube.com/embed/DEWWVrMiGUc",
+      ytbLink: "https://www.youtube.com/embed/4uvuEGgNg-U",
       title: "Introducing Vaithuhay platform",
     },
     {
@@ -90,7 +90,6 @@ function Introduce() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>Giới thiệu về Vaithuhay</div>
-
       {listImage.map((item, index) =>
         item.image ? (
           <div key={index} className={styles.image}>

@@ -7,6 +7,8 @@ const config = {
     register: "/register",
     login: "/login",
     account: "/account",
+    policySection: "/policySection",
+    news: "/news",
   },
   accountRoutes: {
     loyalty: "/account",
@@ -35,6 +37,20 @@ const config = {
     partTimeCustomerService: "/partTimeCustomerService",
     customerService: "/customerService",
     marketingExecutiveIntern: "/marketingExecutiveIntern",
+  },
+  policyRoutes: {
+    loyaltyProgram: "/loyaltyProgram",
+    preOrderPolicy: "/preOrderPolicy",
+    returnPolicy: "/returnPolicy",
+  },
+  newPost: {
+    EYESmartcase: "news/EYESmartcase",
+    kingrowK1: "news/kingrowK1",
+    smartEInkTablet: "news/smartEInkTablet",
+    narwalRobot: "news/narwalRobot",
+    rainShoeCover: "news/rainShoeCover",
+    diceGlowFeature: "news/diceGlowFeature",
+    leatherCareTips: "news/leatherCareTips",
   },
 };
 

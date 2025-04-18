@@ -1,5 +1,6 @@
 import Button from "~/components/Button";
 import styles from "./Recruitment.module.scss";
+import { Link } from "react-router-dom";
 
 function Recruitment() {
   return (

@@ -204,16 +204,16 @@ function Showcase() {
             </div>
           </div>
           <div className={styles.lisbtn}>
-            {nameButton.map((item) => (
-              <Button key={item.Children} tabButton className={styles.btn}>
+            {nameButton.map((item, index) => (
+              <Button key={index} tabButton className={styles.btn}>
                 {item.Children}
               </Button>
             ))}
           </div>
         </div>
         <div className={styles.promDeal}>
-          {deals.map((item) => (
-            <div key={item.desc} className={styles["deal-container"]}>
+          {deals.map((item, index) => (
+            <div key={index} className={styles["deal-container"]}>
               <div className={styles["deal-title"]}>{item.title}</div>
               <div className={styles["deal-content"]}>{item.desc}</div>
               <button className={styles["save-button"]}>LƯU MÃ</button>
@@ -235,8 +235,8 @@ function Showcase() {
           </div>
           <div className={styles.mid}>
             <div className={styles["product-tags"]}>
-              {tags.map((item) => (
-                <div key={item.title} className={styles["tag-item"]}>
+              {tags.map((item, index) => (
+                <div key={index} className={styles["tag-item"]}>
                   <div className={styles.box}>
                     <div className={styles.image}>
                       <img src={item.image} alt="" />
@@ -250,8 +250,8 @@ function Showcase() {
           <div className={styles.bot}>
             <div className={styles.desc}>Sắp xếp theo:</div>
             <div className={styles.sortList}>
-              {sortList.map((item) => (
-                <div key={item.icon} className={styles.sortItem}>
+              {sortList.map((item, index) => (
+                <div key={index} className={styles.sortItem}>
                   <div className={styles.icon}>
                     <FontAwesomeIcon icon={item.icon} />
                   </div>
