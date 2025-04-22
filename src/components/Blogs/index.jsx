@@ -4,7 +4,6 @@ import styles from "./Blogs.module.scss";
 import PropTypes from "prop-types";
 
 function Blogs({ title = "Setup Decor", type = "setup-decor" }) {
-  console.log(type);
   const technologyIn4 = [
     {
       id: 1,

@@ -45,6 +45,30 @@ function SlideImageDefault() {
       image: images.course5,
       variant: "default",
     },
+    {
+      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
+      status: "Số lượng đã đặt: 23/360",
+      date: "Chiến dịch kết thúc: 12/04/2025",
+      description: "",
+      image: images.course2,
+      variant: "default",
+    },
+    {
+      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
+      status: "Số lượng đã đặt: 23/360",
+      date: "Chiến dịch kết thúc: 12/04/2025",
+      description: "",
+      image: images.course3,
+      variant: "default",
+    },
+    {
+      title: "Blindbox Natra 3 Popmart - Hộp mù Natra 2 Ma động náo hải",
+      status: "Số lượng đã đặt: 23/360",
+      date: "Chiến dịch kết thúc: 12/04/2025",
+      description: "",
+      image: images.course1,
+      variant: "default",
+    },
   ];
   return (
     <>

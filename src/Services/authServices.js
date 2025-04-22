@@ -39,7 +39,6 @@ export const checkEmail = async (email) => {
 export const postUser = async (url, userData) => {
   try {
     const response = await httpRequest.post(url, userData);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error.response?.data;

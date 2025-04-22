@@ -2,20 +2,24 @@ import styles from "./Login.module.scss";
 import config from "~/config";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, postUser } from "~/Services/authServices";
+import { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
 import { useForm } from "react-hook-form";
 import InputText from "~/components/InputText";
 import loginSchema from "~/schema/loginSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
-import { useAuth } from "~/contexts/AuthContext";
+import { use, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser } from "~/features/auth/authAsync";
+import { loginSuccess } from "~/features/auth/authSlice";
+import { useCurrentUser } from "~/Hooks/useCurrentUser";
 
 function Login() {
   const query = useQuery();
   const [errorMessage, setErrorMessage] = useState("");
-  const { setUser } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -35,8 +39,9 @@ function Login() {
     try {
       const res = await postUser("/auth/login", data);
       localStorage.setItem("token", res.access_token);
-      const user = await getCurrentUser();
-      setUser(user);
+      const user = useCurrentUser();
+      console.log(user);
+      dispatch(loginSuccess());
       navigate(query.get("continue") || config.routes.home);
     } catch (error) {
       setErrorMessage(error.message);

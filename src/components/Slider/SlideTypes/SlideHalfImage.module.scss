@@ -3,7 +3,7 @@
 .default  {
     position: relative;
     height: 456px;
-    width: 273px;
+    width: 290px;
     cursor: pointer;
 }
 .default .images {
@@ -195,7 +195,7 @@
 .alternative {
     position: relative;
     height: 456px;
-    width: 270px;
+    width: 290px;
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease-in-out;
@@ -206,7 +206,7 @@
 .alternative img {
     line-height: 0;
     width: 100%;
-    height: 60%;
+    height: 58%;
     border-radius: 20px 20px 0 0;
     vertical-align: bottom;
     object-fit: cover;
@@ -220,10 +220,10 @@
     justify-content: center;
     flex-direction: column;
     gap: 7px;
-    padding: 10px 10px;
+    padding: 15px 10px ;
     bottom: 20px;
     width: 100%;
-    height: 40%;
+    height: 42%;
     background-color: #fff;
     border-radius: 0 0 20px 20px;
     cursor: pointer;

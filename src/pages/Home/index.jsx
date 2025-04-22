@@ -6,7 +6,6 @@ import Contact from "./components/Contact";
 import Hero from "./components/Hero";
 import Service from "./components/Service";
 import SlideImageDefault from "./components/SlideImage/SlideImageDefault";
-import Slider6 from "./components/Youtube";
 import styles from "./Home.module.scss";
 import SlideHalfImageDefault from "./components/SlideHalfImages/SlideHalfImageDefault";
 import SlideHalfImageAlternative from "./components/SlideHalfImages/SlideHalfImageAlternative";

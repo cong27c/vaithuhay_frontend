@@ -4,6 +4,7 @@ import JobDescriptionSection from "~/components/JobsDetailPage/JobListSection/Jo
 import WorkspaceDevelopmentSection from "~/components/JobsDetailPage/JobListSection/WorkspaceDevelopmentSection";
 
 function CustomerService() {
+    
   return (
     <>
       <JobDescriptionSection />

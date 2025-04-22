@@ -8,25 +8,21 @@ import {
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "~/components/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "~/features/auth/authSlice";
 
 function Logout() {
   const navigate = useNavigate();
-  const [hasToken, setHasToken] = useState(!!localStorage.getItem("token"));
-
-  useEffect(() => {
-    const checkToken = () => setHasToken(!!localStorage.getItem("token"));
-    window.addEventListener("storage", checkToken);
-    return () => window.removeEventListener("storage", checkToken);
-  }, []);
+  const user = useSelector((state) => state.auth.currentUser);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
       await logoutUser();
+
       localStorage.removeItem("token");
-      setHasToken(false);
-      if (window.location.pathname !== config.routes.login) {
-        navigate(config.routes.home);
-      }
+      dispatch(logoutSuccess());
+      navigate(config.routes.home);
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +30,7 @@ function Logout() {
 
   return (
     <div className={styles.wrapper}>
-      {hasToken ? (
+      {user ? (
         <Button
           draculaButton
           size="large"

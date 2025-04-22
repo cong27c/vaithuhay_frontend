@@ -41,12 +41,12 @@
     position: absolute;
     top: 75px;
  }
+
 .body-carousel {
     margin-top: 150px;
     display: flex;
     justify-content: space-around;
 }
-
 
 .body-carousel .list-item {
     position: absolute;
@@ -73,6 +73,7 @@
     z-index: 1;
     cursor: pointer;
 }
+
 .body-carousel .list-item .item.active {
     transform: scale(1.1);  
     opacity: 1;  

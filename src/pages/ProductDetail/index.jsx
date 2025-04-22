@@ -10,7 +10,6 @@ function ProductDetail() {
   useEffect(() => {
     (async () => {
       const res = await getOne(params.slug);
-      console.log(res);
       setProduct(res);
     })();
   }, [params.slug]);

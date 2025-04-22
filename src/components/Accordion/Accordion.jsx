@@ -65,17 +65,18 @@ function Accordion({
 
   return (
     <div className={styles["Accordion-container"]}>
-      <div className={styles.AccordionList}>
+      <div className={clsx(styles.AccordionList)}>
         {accordions.map((accordion, index) => {
           const isActive = activeIndex.includes(index);
           const header = accordion.props.header;
-
+          const isMegaMenu = accordion.props.isMegaMenu || false;
           return (
             <div
               key={index}
               className={clsx(
                 styles.accordionItem,
-                isActive ? styles.active : styles.inactive
+                isActive ? styles.active : styles.inactive,
+                isMegaMenu && styles.megaMenuItem
               )}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
@@ -88,7 +89,8 @@ function Accordion({
                 }}
                 className={clsx(
                   styles.btn,
-                  trigger === "hover" && styles.noFocusStyle
+                  trigger === "hover" && styles.noFocusStyle,
+                  isMegaMenu && styles.megaMenuBtn
                 )}
                 onClick={() => {
                   if (trigger === "click") toggleIndex(index);
@@ -104,14 +106,25 @@ function Accordion({
                 ></i>
               </button>
 
-              <div
-                className={clsx(
-                  styles.AccordionContent,
-                  isActive ? styles.active : styles.inactive
-                )}
-              >
-                {accordion.props.children}
-              </div>
+              {isMegaMenu ? (
+                <div
+                  className={clsx(
+                    styles.megaMenuContent,
+                    isActive && styles.active
+                  )}
+                >
+                  {accordion.props.children}
+                </div>
+              ) : (
+                <div
+                  className={clsx(
+                    styles.AccordionContent,
+                    isActive ? styles.active : styles.inactive
+                  )}
+                >
+                  {accordion.props.children}
+                </div>
+              )}
             </div>
           );
         })}
@@ -119,6 +132,7 @@ function Accordion({
     </div>
   );
 }
+
 Accordion.propTypes = {
   defaultIndex: PropTypes.number,
   onChange: PropTypes.func,
