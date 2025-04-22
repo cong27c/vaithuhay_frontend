@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "~/features/auth/authAsync";
 import { loginSuccess } from "~/features/auth/authSlice";
 import { useCurrentUser } from "~/Hooks/useCurrentUser";
+import { setToken } from "~/utils/httpRequest";
 
 function Login() {
   const query = useQuery();
@@ -44,7 +45,8 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await postUser("/auth/login", data);
-      localStorage.setItem("token", res.access_token);
+
+      setToken(res.access_token);
 
       const userResponse = await authServices.getCurrentUser();
 
