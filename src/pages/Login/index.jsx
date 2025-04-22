@@ -2,7 +2,7 @@ import styles from "./Login.module.scss";
 import config from "~/config";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
-import { postUser } from "~/Services/authServices";
+import authServices, { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
 import { useForm } from "react-hook-form";
 import InputText from "~/components/InputText";
@@ -17,9 +17,9 @@ import { useCurrentUser } from "~/Hooks/useCurrentUser";
 function Login() {
   const query = useQuery();
   const [errorMessage, setErrorMessage] = useState("");
-  const { isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const {
     register,
@@ -35,16 +35,22 @@ function Login() {
     resolver: yupResolver(loginSchema),
   });
 
+  useEffect(() => {
+    if (currentUser) {
+      navigate(query.get("continue") || config.routes.home);
+    }
+  }, [currentUser, navigate, query]);
+
   const onSubmit = async (data) => {
     try {
       const res = await postUser("/auth/login", data);
       localStorage.setItem("token", res.access_token);
-      const user = useCurrentUser();
-      console.log(user);
-      dispatch(loginSuccess());
-      navigate(query.get("continue") || config.routes.home);
+
+      const userResponse = await authServices.getCurrentUser();
+
+      dispatch(loginSuccess(userResponse));
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error);
     }
   };
 
