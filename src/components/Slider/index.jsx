@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import SlideContent from "./SlideTypes/SlideContent";
 import SlideHalfImage from "./SlideTypes/SlideHalfImage";
 import SlideImage from "./SlideTypes/SlideImage";
+import Banner from "./SlideTypes/Banner";
 import styles from "./Slider.module.scss";
 import clsx from "clsx";
 import { NextButton, PrevButton } from "../SliderControls";
@@ -60,8 +60,8 @@ function Slider({
     switch (type) {
       case "image":
         return <SlideImage {...slide} variant={slide.variant || "default"} />;
-      case "content":
-        return <SlideContent {...slide} variant={slide.variant || "default"} />;
+      case "banner":
+        return <Banner {...slide} />;
       case "half-image":
         return (
           <SlideHalfImage {...slide} variant={slide.variant || "default"} />
@@ -125,7 +125,7 @@ function Slider({
 Slider.propTypes = {
   slides: PropTypes.array.isRequired,
   wrap: PropTypes.bool,
-  type: PropTypes.oneOf(["image", "content", "half-image"]),
+  type: PropTypes.oneOf(["image", "banner", "half-image"]),
   onIndexChange: PropTypes.func,
   onDotClick: PropTypes.func,
 };

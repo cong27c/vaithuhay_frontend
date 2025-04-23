@@ -20,11 +20,11 @@ export const updateUser = async (data) => {
   return response.data;
 };
 
-// export const updateImage = async (data) => {
-//   const response = await httpRequest.put(`/users/me`, data);
-//   console.log(response);
-//   return response.data;
-// };
+export const updateImage = async (data) => {
+  const response = await httpRequest.put(`/users/me`, data);
+  console.log(response);
+  return response.data;
+};
 
 export const checkEmail = async (email) => {
   const response = await httpRequest.get("/auth/check-email", {

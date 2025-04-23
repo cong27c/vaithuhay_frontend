@@ -13,29 +13,33 @@ import { userInfoSchema } from "~/schema/userInfoSchema ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLoading } from "~/contexts/LoadingContext ";
+import { useCurrentUser } from "~/Hooks/useCurrentUser";
+import { useGetUserQuery } from "~/Services/profile";
 
 function UserInfo() {
   const { username: mainUserName } = useParams();
   const [isEditing, setIsEditing] = useState(false);
-  const userIn4 = useAuth();
-  const userId = userIn4.user?.id;
-  const userImage = userIn4.user?.image;
-  const isCurrentUser = userIn4.user?.username === mainUserName;
+  const userIn4 = useCurrentUser();
+  const userId = userIn4.id;
+
+  const userImage = userIn4.image;
+  const isCurrentUser = userIn4.username === mainUserName;
   const [fileImage, setFileImage] = useState(userImage);
   const { loading, setLoading } = useLoading();
   const [originalData, setOriginalData] = useState({});
   const [preview, setPreview] = useState(userImage || null);
+  const { data } = useGetUserQuery(mainUserName);
 
-  useEffect(() => {
-    if (fileImage) {
-      const objectUrl = URL.createObjectURL(fileImage);
-      setPreview(objectUrl);
+  // useEffect(() => {
+  //   if (fileImage) {
+  //     const objectUrl = URL.createObjectURL(fileImage);
+  //     setPreview(objectUrl);
 
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setPreview(userImage);
-    }
-  }, [fileImage, userImage]);
+  //     return () => URL.revokeObjectURL(objectUrl);
+  //   } else {
+  //     setPreview(userImage);
+  //   }
+  // }, [fileImage, userImage]);
 
   const {
     register,

@@ -50,7 +50,8 @@ const menuItems = [
 ];
 
 function Account() {
-  const userName = useCurrentUser();
+  const userName = useCurrentUser()?.userName;
+  console.log(userName);
 
   return (
     <div className={styles.wrapper}>

@@ -1,10 +1,69 @@
 import Button from "~/components/Button";
-import ButtonsList from "../ButtonsList";
 import styles from "./Banner.module.scss";
 import images from "~/assets/images";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Slider from "~/components/Slider";
 
 function Banner() {
+  const BannerIn4 = [
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course1,
+    },
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course2,
+    },
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course4,
+    },
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course3,
+    },
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course5,
+    },
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course3,
+    },
+    {
+      inventory: "7",
+      title: "Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER",
+      originalPrice: "10,500,000đ",
+      cost: "6,930,000đ",
+      sale: "-34%",
+      image: images.course2,
+    },
+  ];
+
   return (
     <>
       <div className={styles["banner-events"]}>
@@ -50,145 +109,10 @@ function Banner() {
           </div>
           <div className={styles["banner-down"]}>
             <div className={styles["list-card"]}>
-              <div className={styles["card-item"]}>
-                <div className={styles["product-image"]}>
-                  <a href="#!">
-                    <img src={images.course1} alt="Product Image" />
-                  </a>
-                  <div className={styles["stock-info"]}>
-                    <div>🔥Còn 7</div>
-                    <div className={styles["limited-stock"]}>
-                      Giới hạn chỉ 7 sản phẩm
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.content}>
-                  <h4 className={styles.title}>
-                    Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER
-                  </h4>
-                  <p className={styles.cost}>Giá niêm yết: 10,500,000đ</p>
-                  <div className={styles.price}>
-                    <div className={styles.cost}>6,930,000đ</div>
-                    <div className={styles.sale}>-34%</div>
-                  </div>
-                  <div className={styles["list-btn"]}>
-                    <button className={styles.btn}>XEM THÊM</button>
-                    <button className={styles.btn}>MUA NGAY</button>
-                  </div>
-                </div>
-              </div>
-              <div className={styles["card-item"]}>
-                <div className={styles["product-image"]}>
-                  <a href="#!">
-                    <img src={images.course2} alt="Product Image" />
-                  </a>
-                  <div className={styles["stock-info"]}>
-                    <div>🔥Còn 7</div>
-                    <div className={styles["limited-stock"]}>
-                      Giới hạn chỉ 7 sản phẩm
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.content}>
-                  <h4 className={styles.title}>
-                    Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER
-                  </h4>
-                  <p className={styles.cost}>Giá niêm yết: 10,500,000đ</p>
-                  <div className={styles.price}>
-                    <div className={styles.cost}>6,930,000đ</div>
-                    <div className={styles.sale}>-34%</div>
-                  </div>
-                  <div className={styles["list-btn"]}>
-                    <button className={styles.btn}>XEM THÊM</button>
-                    <button className={styles.btn}>MUA NGAY</button>
-                  </div>
-                </div>
-              </div>
-              <div className={styles["card-item"]}>
-                <div className={styles["product-image"]}>
-                  <a href="#!">
-                    <img src={images.course3} alt="Product Image" />
-                  </a>
-                  <div className={styles["stock-info"]}>
-                    <div>🔥Còn 7</div>
-                    <div className={styles["limited-stock"]}>
-                      Giới hạn chỉ 7 sản phẩm
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.content}>
-                  <h4 className={styles.title}>
-                    Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER
-                  </h4>
-                  <p className={styles.cost}>Giá niêm yết: 10,500,000đ</p>
-                  <div className={styles.price}>
-                    <div className={styles.cost}>6,930,000đ</div>
-                    <div className={styles.sale}>-34%</div>
-                  </div>
-                  <div className={styles["list-btn"]}>
-                    <button className={styles.btn}>XEM THÊM</button>
-                    <button className={styles.btn}>MUA NGAY</button>
-                  </div>
-                </div>
-              </div>
-              <div className={styles["card-item"]}>
-                <div className={styles["product-image"]}>
-                  <a href="#!">
-                    <img src={images.course4} alt="Product Image" />
-                  </a>
-                  <div className={styles["stock-info"]}>
-                    <div>🔥Còn 7</div>
-                    <div className={styles["limited-stock"]}>
-                      Giới hạn chỉ 7 sản phẩm
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.content}>
-                  <h4 className={styles.title}>
-                    Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER
-                  </h4>
-                  <p className={styles.cost}>Giá niêm yết: 10,500,000đ</p>
-                  <div className={styles.price}>
-                    <div className={styles.cost}>6,930,000đ</div>
-                    <div className={styles.sale}>-34%</div>
-                  </div>
-                  <div className={styles["list-btn"]}>
-                    <button className={styles.btn}>XEM THÊM</button>
-                    <button className={styles.btn}>MUA NGAY</button>
-                  </div>
-                </div>
-              </div>
-              <div className={styles["card-item"]}>
-                <div className={styles["product-image"]}>
-                  <a href="#!">
-                    <img src={images.course5} alt="Product Image" />
-                  </a>
-                  <div className={styles["stock-info"]}>
-                    <div>🔥Còn 7</div>
-                    <div className={styles["limited-stock"]}>
-                      Giới hạn chỉ 7 sản phẩm
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.content}>
-                  <h4 className={styles.title}>
-                    Bàn nâng hạ tự động Ergonomic Desk 9SPACE GỖ VENEER
-                  </h4>
-                  <p className={styles.cost}>Giá niêm yết: 10,500,000đ</p>
-                  <div className={styles.price}>
-                    <div className={styles.cost}>6,930,000đ</div>
-                    <div className={styles.sale}>-34%</div>
-                  </div>
-                  <div className={styles["list-btn"]}>
-                    <button className={styles.btn}>XEM THÊM</button>
-                    <button className={styles.btn}>MUA NGAY</button>
-                  </div>
-                </div>
-              </div>
+              <Slider slides={BannerIn4} type="banner" />
             </div>
           </div>
         </div>
-        <ButtonsList top="75%" />
       </div>
     </>
   );

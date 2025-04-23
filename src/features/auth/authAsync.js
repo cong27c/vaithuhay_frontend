@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import authServices from "~/Services/authServices";
+import httpRequest from "~/utils/httpRequest";
 
-export const getCurrentUser = createAsyncThunk("auth/get:user", async () => {
-  const res = await authServices.getCurrentUser();
-
-  return res;
-});
+export const getCurrentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async () => {
+    const res = await httpRequest.get("/auth/me");
+    return res.data;
+  }
+);

@@ -2,17 +2,15 @@ import styles from "./Login.module.scss";
 import config from "~/config";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
-import authServices, { postUser } from "~/Services/authServices";
+import { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
 import { useForm } from "react-hook-form";
 import InputText from "~/components/InputText";
 import loginSchema from "~/schema/loginSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "~/features/auth/authAsync";
-import { loginSuccess } from "~/features/auth/authSlice";
-import { useCurrentUser } from "~/Hooks/useCurrentUser";
 import { setToken } from "~/utils/httpRequest";
 
 function Login() {
@@ -47,10 +45,7 @@ function Login() {
       const res = await postUser("/auth/login", data);
 
       setToken(res.access_token);
-
-      const userResponse = await authServices.getCurrentUser();
-
-      dispatch(loginSuccess(userResponse));
+      dispatch(getCurrentUser());
     } catch (error) {
       setErrorMessage(error);
     }

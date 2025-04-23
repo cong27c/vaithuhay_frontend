@@ -20,10 +20,12 @@
 // export default store;
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import logger from "redux-logger";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "~/features/auth/authSlice";
+import { profileApi } from "~/Services/profile";
 
 const authConfig = {
   key: "auth",
@@ -32,6 +34,7 @@ const authConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authConfig, authReducer),
+  [profileApi.reducerPath]: profileApi.reducer,
 });
 
 export const store = configureStore({
@@ -39,7 +42,10 @@ export const store = configureStore({
   middleware: (getDefault) => [
     ...getDefault({ serializableCheck: false }),
     logger,
+    profileApi.middleware,
   ],
 });
+
+setupListeners(store.dispatch);
 
 export const persistor = persistStore(store);
