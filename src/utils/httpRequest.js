@@ -1,23 +1,89 @@
 import axios from "axios";
 
+let isRefreshing = false;
+let tokenListeners = [];
+
 const httpRequest = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
 });
+
+httpRequest.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+httpRequest.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const refreshToken = localStorage.getItem("refresh_token");
+    const shouldRenewToken = error.response?.status === 401 && refreshToken;
+
+    if (shouldRenewToken) {
+      console.log("🛠 Token hết hạn. Đang thử làm mới...");
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const res = await axios.post(
+            `${import.meta.env.VITE_BASE_URL}/auth/refresh-token`,
+            {
+              refresh_token: refreshToken,
+            }
+          );
+          const data = res.data.data;
+          console.log("✅ Refresh thành công:", data);
+
+          localStorage.setItem("token", data.access_token);
+          localStorage.setItem("refresh_token", data.refresh_token);
+
+          tokenListeners.forEach((listener) => listener());
+          tokenListeners = [];
+
+          isRefreshing = false;
+
+          return httpRequest(error.config);
+        } catch (error) {
+          console.log("❌ Refresh thất bại:", error);
+          isRefreshing = false;
+
+          tokenListeners = [];
+
+          localStorage.removeItem("token");
+          localStorage.removeItem("refresh_token");
+        }
+      } else {
+        console.log("⏳ Đang chờ refresh khác hoàn thành...");
+        return new Promise((resolve) => {
+          tokenListeners.push(() => {
+            resolve(httpRequest(error.config));
+          });
+        });
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 const send = async (method, url, data, config) => {
   try {
+    const isPutOrPatch = ["put", "patch"].includes(method.toLowerCase());
+    const effectiveMethod = isPutOrPatch ? "post" : method;
+    const effectivePath = isPutOrPatch
+      ? `${url}${url.includes("?") ? "&" : "?"}_method=${method}`
+      : url;
+
     const res = await httpRequest.request({
-      method,
-      url,
+      method: effectiveMethod,
+      url: effectivePath,
       data,
       ...config,
     });
+
     return res.data;
   } catch (error) {
-    console.log(error);
+    throw error?.response?.data?.message || "An error occurred";
   }
 };
 

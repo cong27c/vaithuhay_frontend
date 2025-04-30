@@ -6,6 +6,7 @@ import Banner from "./SlideTypes/Banner";
 import styles from "./Slider.module.scss";
 import clsx from "clsx";
 import { NextButton, PrevButton } from "../SliderControls";
+import Youtube from "./SlideTypes/Youtube";
 
 function Slider({
   slides,
@@ -62,6 +63,8 @@ function Slider({
         return <SlideImage {...slide} variant={slide.variant || "default"} />;
       case "banner":
         return <Banner {...slide} />;
+      case "youtube":
+        return <Youtube {...slide} />;
       case "half-image":
         return (
           <SlideHalfImage {...slide} variant={slide.variant || "default"} />

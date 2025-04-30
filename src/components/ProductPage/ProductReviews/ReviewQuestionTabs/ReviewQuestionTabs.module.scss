@@ -1,0 +1,117 @@
+.tabsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 100%
+}
+input:focus {
+    outline: none !important;
+    border-color: inherit !important;
+    box-shadow: none !important;
+  }
+
+
+// common
+input {
+    border: 1px solid rgba($color: #000000, $alpha: 0.7);
+    background-color:transparent;
+    border: 1px solid rgba($color: #000000, $alpha: 0.7);
+}
+input::placeholder {
+    color: rgba($color: #000000, $alpha: 0.7);
+}
+.subTitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+
+.headerSection {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    gap: 300px;
+    width: 80%;
+}
+
+.starDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    .listStar {
+        display: flex;
+        gap: 5px;
+        color: rgba($color: #000000, $alpha: 0.2);
+    }
+}
+
+
+.tabsHeader {
+    display: flex;
+    gap: 15px;
+}
+.tabButton {
+    background-color: #FFDE50;
+    span {
+        margin-left: 8px;
+        font-size: 16px;
+    }
+}
+
+.reviewsContent {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .line {
+        width: 100%;
+        height: 1px;
+        background-color: rgba($color: #000000, $alpha: 0.7);
+    }
+    .userIn4 {
+        margin-top: 12px;
+        display: flex;
+        gap: 30px;
+        padding: 0px 40px;
+       
+    }
+}
+
+
+
+
+
+
+.starRating {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    .listStar {
+        display: flex;
+        gap: 4px;
+        font-size: 20px;
+    }
+    .star {
+        color: rgba($color: #000000, $alpha: 0.1);
+    }
+    .starFilled {
+        color: #FFDE50;
+    }
+}
+
+.titleRating {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.contentRating {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}

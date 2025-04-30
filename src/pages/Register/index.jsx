@@ -1,25 +1,22 @@
-// import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.scss";
-// import { useState } from "react";
-// import Loading from "~/layouts/DefaultLayout/components/Loading";
 import config from "~/config";
-// import { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import registerSchema from "~/schema/registerSchema";
-import * as yup from "yup";
 import { useEffect, useState } from "react";
 import InputText from "~/components/InputText";
 import Loading from "~/layouts/DefaultLayout/components/Loading";
 import { useNavigate } from "react-router-dom";
-import authServices from "~/Services/authServices";
 import useDebounce from "~/Hooks/useDebounce";
+import { useDispatch } from "react-redux";
+import { checkEmailExisted, registerUser } from "~/features/auth/authAsync";
 
 function Register() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [registerType, setRegisterType] = useState("email");
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -42,7 +39,6 @@ function Register() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log(data);
     try {
       const payLoad = {
         firstName: data.firstName,
@@ -52,10 +48,12 @@ function Register() {
         [registerType]: registerType === "email" ? data.email : data.phone,
       };
 
-      const res = await authServices.postUser("/auth/register", payLoad);
-      console.log(res);
-      localStorage.setItem("token", res.access_token);
-      navigate(config.routes.home);
+      const res = await dispatch(registerUser(payLoad));
+      if (registerUser.fulfilled.match(res)) {
+        navigate(config.routes.home);
+      } else {
+        console.error("Đăng ký thất bại:", res.payload || res.error.message);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -67,30 +65,23 @@ function Register() {
   const debouncedEmail = useDebounce(emailValue, 800);
 
   useEffect(() => {
-    if (!debouncedEmail || registerType !== "email") return;
-
     const checkEmailExists = async () => {
-      const isValid = await trigger("email");
-      if (isValid) {
-        try {
-          const exists = await authServices.checkEmail(debouncedEmail);
-          console.log(exists);
-          if (exists) {
-            setError("email", {
-              type: "manual",
-              message: "Email này đã tồn tại",
-            });
-          } else {
-            clearErrors("email");
-          }
-        } catch (error) {
-          console.error("Email check error:", error);
+      if (!debouncedEmail || registerType !== "email") return;
+      const action = await dispatch(checkEmailExisted(debouncedEmail));
+      if (checkEmailExisted.fulfilled.match(action)) {
+        const emailExists = action.payload;
+        if (emailExists) {
+          setError("email", {
+            type: "manual",
+            message: "Email này đã tồn tại",
+          });
+        } else {
+          clearErrors("email");
         }
       }
     };
-
     checkEmailExists();
-  }, [debouncedEmail, trigger, setError, registerType, clearErrors]);
+  }, [debouncedEmail, dispatch, registerType, setError, clearErrors]);
 
   if (isLoading) {
     return <Loading />;

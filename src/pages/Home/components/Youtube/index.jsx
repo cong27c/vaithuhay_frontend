@@ -3,58 +3,36 @@ import styles from "./Youtube.module.scss";
 import ButtonsList from "../ButtonsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import Slider from "~/components/Slider";
 
 function Youtube() {
+  const in4 = [
+    {
+      image: images.course4,
+      price: "2,964,000",
+      desc: "  (DUY LUÂN DỄ THƯƠNG) ĐÁNH GIÁ BÀN PHÍM LOFREE FLOW",
+    },
+    {
+      image: images.course4,
+      price: "2,964,000",
+      desc: "  (DUY LUÂN DỄ THƯƠNG) ĐÁNH GIÁ BÀN PHÍM LOFREE FLOW",
+    },
+    {
+      image: images.course4,
+      price: "2,964,000",
+      desc: "  (DUY LUÂN DỄ THƯƠNG) ĐÁNH GIÁ BÀN PHÍM LOFREE FLOW",
+    },
+  ];
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.Slider6}>
-        <ButtonsList />
         <h3 className={styles.title}>
           KÊNH YOUTUBE MÔ TẢ CHI TIẾT THỰC TẾ SẢN PHẨM CỦA
         </h3>
         <div className={styles.source}>VAITHUHAY.COM</div>
         <div className={styles.listCard}>
-          <div className={styles.cardItem}>
-            <div className={styles.images}>
-              <img src={images.course4} alt="" />
-              <div className={styles.price}>2,964,000</div>
-              <FontAwesomeIcon
-                icon={faYoutube}
-                className={styles["youtube-icon"]}
-              />
-            </div>
-            <div className={styles.content}>
-              (DUY LUÂN DỄ THƯƠNG) ĐÁNH GIÁ BÀN PHÍM LOFREE FLOW
-            </div>
-          </div>
-
-          <div className={styles.cardItem}>
-            <div className={styles.images}>
-              <img src={images.course4} alt="" />
-              <div className={styles.price}>2,964,000</div>
-              <FontAwesomeIcon
-                icon={faYoutube}
-                className={styles["youtube-icon"]}
-              />
-            </div>
-            <div className={styles.content}>
-              (DUY LUÂN DỄ THƯƠNG) ĐÁNH GIÁ BÀN PHÍM LOFREE FLOW
-            </div>
-          </div>
-
-          <div className={styles.cardItem}>
-            <div className={styles.images}>
-              <img src={images.course4} alt="" />
-              <div className={styles.price}>2,964,000</div>
-              <FontAwesomeIcon
-                icon={faYoutube}
-                className={styles["youtube-icon"]}
-              />
-            </div>
-            <div className={styles.content}>
-              (DUY LUÂN DỄ THƯƠNG) ĐÁNH GIÁ BÀN PHÍM LOFREE FLOW
-            </div>
-          </div>
+          <Slider type="youtube" slides={in4} />
         </div>
         <button className={styles["subscribe-button"]}>
           <FontAwesomeIcon icon={faYoutube} className={styles.icon} />

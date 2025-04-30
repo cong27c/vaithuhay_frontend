@@ -1,9 +1,9 @@
 import ButtonsList from "../ButtonsList";
 import styles from "./Carousel.module.scss";
-import CountDown from "../CountDown/index.jsx";
 import images from "~/assets/images";
 import Button from "~/components/Button";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import CountDown from "~/components/CountDown";
 
 function Carousel() {
   return (
@@ -35,7 +35,10 @@ function Carousel() {
                 </div>
                 <div className={styles.title}>0 giờ sáng</div>
                 <div className={styles.date}>26/03/2025</div>
-                <CountDown />
+                <CountDown
+                  targetDate={new Date("2025-05-01T23:59:59")}
+                  type="default"
+                />
                 <button className={styles["btn-register"]}>
                   Đăng ký đặt trước
                 </button>
@@ -54,7 +57,10 @@ function Carousel() {
                 </div>
                 <div className={styles.title}>0 giờ sáng</div>
                 <div className={styles.date}>26/03/2025</div>
-                <CountDown />
+                <CountDown
+                  targetDate={new Date("2025-05-01T23:59:59")}
+                  type="default"
+                />
                 <button className={styles["btn-register"]}>
                   Đăng ký đặt trước
                 </button>
@@ -73,7 +79,10 @@ function Carousel() {
                 </div>
                 <div className={styles.title}>0 giờ sáng</div>
                 <div className={styles.date}>26/03/2025</div>
-                <CountDown />
+                <CountDown
+                  targetDate={new Date("2025-05-01T23:59:59")}
+                  type="default"
+                />
                 <button className={styles["btn-register"]}>
                   Đăng ký đặt trước
                 </button>

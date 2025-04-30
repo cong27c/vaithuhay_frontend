@@ -10,6 +10,7 @@ function Accordion({
   collapseOthers = true,
   trigger = "click",
   children,
+  className = "",
 }) {
   const [activeIndex, setActiveIndex] = useState([defaultIndex]);
   const buttonRefs = useRef([]);
@@ -70,11 +71,14 @@ function Accordion({
           const isActive = activeIndex.includes(index);
           const header = accordion.props.header;
           const isMegaMenu = accordion.props.isMegaMenu || false;
+          const accordionClassName = accordion.props.className || "";
+
           return (
             <div
               key={index}
               className={clsx(
                 styles.accordionItem,
+                accordionClassName,
                 isActive ? styles.active : styles.inactive,
                 isMegaMenu && styles.megaMenuItem
               )}
@@ -88,6 +92,7 @@ function Accordion({
                   }
                 }}
                 className={clsx(
+                  className,
                   styles.btn,
                   trigger === "hover" && styles.noFocusStyle,
                   isMegaMenu && styles.megaMenuBtn
@@ -138,5 +143,6 @@ Accordion.propTypes = {
   onChange: PropTypes.func,
   collapseOthers: PropTypes.bool,
   trigger: PropTypes.oneOf(["click", "hover"]),
+  className: PropTypes.string,
 };
 export default Accordion;

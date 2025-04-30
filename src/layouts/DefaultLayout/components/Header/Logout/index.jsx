@@ -1,27 +1,26 @@
 import styles from "./Logout.module.scss";
 import config from "~/config";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { logoutUser } from "~/Services/authServices";
 import {
   faRightToBracket,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "~/components/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutSuccess } from "~/features/auth/authSlice";
+
+import { logoutUser } from "~/features/auth/authAsync";
 
 function Logout() {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const user = currentUser?.data.username;
+
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
-
-      localStorage.removeItem("token");
-      dispatch(logoutSuccess());
+      await dispatch(logoutUser());
       navigate(config.routes.home);
     } catch (error) {
       console.error(error);

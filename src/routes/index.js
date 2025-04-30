@@ -2,7 +2,6 @@ import config from "~/config";
 import Home from "~/pages/Home";
 import NotFound from "~/pages/NotFound";
 import ProductDetail from "~/pages/ProductDetail";
-import Products from "~/pages/Products";
 // import AdminLayout from "~/layouts/AdminLayout";
 import Register from "~/pages/Register";
 import Login from "~/pages/Login";
@@ -38,16 +37,14 @@ import PreOrderPolicy from "~/pages/PolicyPage/PreOrderPolicy";
 import ReturnPolicy from "~/pages/PolicyPage/ReturnPolicy";
 import News from "~/components/News";
 import NewPost from "~/pages/NewPost";
-import EyeProtection from "~/pages/NewPost/EYESmartcase";
-import LeatherShoeCare from "~/pages/NewPost/SmartEInkTablet";
 import KingrowK1 from "~/pages/NewPost/KingrowK1";
 import NarwalRobot from "~/pages/NewPost/NarwalRobot/index.jsx";
 import RainShoeCover from "~/pages/NewPost/RainShoeCover";
-import Smartcase from "~/pages/NewPost/DiceGlowFeature";
 import SmartEInkTablet from "~/pages/NewPost/SmartEInkTablet";
 import EYESmartcase from "~/pages/NewPost/EYESmartcase";
 import DiceGlowFeature from "~/pages/NewPost/DiceGlowFeature";
 import LeatherCareTips from "~/pages/NewPost/LeatherCareTips";
+import ProductPage from "~/components/ProductPage";
 
 const routes = [
   {
@@ -64,7 +61,7 @@ const routes = [
   },
   {
     path: config.routes.products,
-    component: Products,
+    component: ProductPage,
   },
   {
     path: config.routes.introduce,

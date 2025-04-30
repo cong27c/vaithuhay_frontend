@@ -11,12 +11,12 @@ import {
 import Logout from "../Logout";
 import Button from "~/components/Button";
 import config from "~/config";
-import { useCurrentUser } from "~/Hooks/useCurrentUser";
+import { useSelector } from "react-redux";
 
 function CircleUser() {
   const [isOpen, setIsOpen] = useState(false);
-  const name = useCurrentUser()?.username;
-
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const name = currentUser?.data?.username;
   return (
     <>
       <div

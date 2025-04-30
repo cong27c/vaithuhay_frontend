@@ -14,6 +14,7 @@ import { Link, Outlet } from "react-router-dom";
 import config from "~/config/index.js";
 import { useAuth } from "~/contexts/AuthContext";
 import { useCurrentUser } from "~/Hooks/useCurrentUser";
+import { useSelector } from "react-redux";
 
 const menuItems = [
   {
@@ -50,8 +51,8 @@ const menuItems = [
 ];
 
 function Account() {
-  const userName = useCurrentUser()?.userName;
-  console.log(userName);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const userName = currentUser?.data?.username;
 
   return (
     <div className={styles.wrapper}>

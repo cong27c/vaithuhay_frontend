@@ -3,6 +3,7 @@ import styles from "./Banner.module.scss";
 import images from "~/assets/images";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Slider from "~/components/Slider";
+import CountDown from "~/components/CountDown";
 
 function Banner() {
   const BannerIn4 = [
@@ -85,27 +86,10 @@ function Banner() {
           </Button>
           <div className={styles.countdown}>
             <p className={styles.desc}>Deal này sắp hết thời gian</p>
-            <div className={styles["list-item"]}>
-              <div className={styles["countdown-item"]}>
-                <span className={styles.number}>10</span>
-                <span className={styles.label}>ngày</span>
-              </div>
-              <div className={styles.separator}>:</div>
-              <div className={styles["countdown-item"]}>
-                <span className={styles.number}>00</span>
-                <span className={styles.label}>giờ</span>
-              </div>
-              <div className={styles.separator}>:</div>
-              <div className={styles["countdown-item"]}>
-                <span className={styles.number}>27</span>
-                <span className={styles.label}>phút</span>
-              </div>
-              <div className={styles.separator}>:</div>
-              <div className={styles["countdown-item"]}>
-                <span className={styles.number}>05</span>
-                <span className={styles.label}>giây</span>
-              </div>
-            </div>
+            <CountDown
+              targetDate={new Date("2025-05-01T23:59:59")}
+              type="banner"
+            />
           </div>
           <div className={styles["banner-down"]}>
             <div className={styles["list-card"]}>

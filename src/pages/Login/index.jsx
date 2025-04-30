@@ -2,16 +2,15 @@ import styles from "./Login.module.scss";
 import config from "~/config";
 import useQuery from "~/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
-import { postUser } from "~/Services/authServices";
 import Button from "~/components/Button";
 import { useForm } from "react-hook-form";
 import InputText from "~/components/InputText";
 import loginSchema from "~/schema/loginSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser } from "~/features/auth/authAsync";
-import { setToken } from "~/utils/httpRequest";
+import { getCurrentUser, loginUser } from "~/features/auth/authAsync";
 
 function Login() {
   const query = useQuery();
@@ -19,15 +18,12 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.currentUser);
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
     },
@@ -42,10 +38,8 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await postUser("/auth/login", data);
-
-      setToken(res.access_token);
-      dispatch(getCurrentUser());
+      const res = await dispatch(loginUser(data)).unwrap();
+      await dispatch(getCurrentUser()).unwrap();
     } catch (error) {
       setErrorMessage(error);
     }
