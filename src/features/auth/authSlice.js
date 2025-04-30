@@ -5,6 +5,7 @@ import {
   logoutUser,
   registerUser,
 } from "./authAsync";
+import { setToken, clearTokens } from "~/utils/httpRequest";
 
 const authSlice = createSlice({
   name: "auth",
@@ -18,24 +19,27 @@ const authSlice = createSlice({
     logoutSuccess: (state) => {
       state.token = null;
       state.currentUser = null;
-      localStorage.removeItem("token");
+      clearTokens();
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        const token = action.payload.access_token;
-        const user = action.payload.currentUser;
-        console.log(token);
+        const {
+          access_token: token,
+          refresh_token: refreshToken,
+          currentUser,
+        } = action.payload;
+        setToken(token, refreshToken);
         state.token = token;
-        state.currentUser = user;
-        localStorage.setItem("token", token);
+        state.currentUser = currentUser;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        const token = action.payload.access_token;
+        const { access_token: token, refresh_token: refreshToken } =
+          action.payload;
+        setToken(token, refreshToken);
         state.status = "succeeded";
         state.token = token;
-        localStorage.setItem("token", token);
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.currentUser = action.payload;
@@ -43,7 +47,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.token = null;
         state.currentUser = null;
-        localStorage.removeItem("token");
+        clearTokens();
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";

@@ -1,70 +1,23 @@
 import axios from "axios";
 
 let isRefreshing = false;
-let tokenListeners = [];
+let failedQueue = [];
 
 const httpRequest = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
 });
 
-httpRequest.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+export const setToken = (token, refreshToken) => {
+  localStorage.setItem("token", token);
+  localStorage.setItem("refresh_token", refreshToken);
+  httpRequest.defaults.headers.Authorization = `Bearer ${token}`;
+};
 
-httpRequest.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const refreshToken = localStorage.getItem("refresh_token");
-    const shouldRenewToken = error.response?.status === 401 && refreshToken;
-
-    if (shouldRenewToken) {
-      console.log("🛠 Token hết hạn. Đang thử làm mới...");
-      if (!isRefreshing) {
-        isRefreshing = true;
-        try {
-          const res = await axios.post(
-            `${import.meta.env.VITE_BASE_URL}/auth/refresh-token`,
-            {
-              refresh_token: refreshToken,
-            }
-          );
-          const data = res.data.data;
-          console.log("✅ Refresh thành công:", data);
-
-          localStorage.setItem("token", data.access_token);
-          localStorage.setItem("refresh_token", data.refresh_token);
-
-          tokenListeners.forEach((listener) => listener());
-          tokenListeners = [];
-
-          isRefreshing = false;
-
-          return httpRequest(error.config);
-        } catch (error) {
-          console.log("❌ Refresh thất bại:", error);
-          isRefreshing = false;
-
-          tokenListeners = [];
-
-          localStorage.removeItem("token");
-          localStorage.removeItem("refresh_token");
-        }
-      } else {
-        console.log("⏳ Đang chờ refresh khác hoàn thành...");
-        return new Promise((resolve) => {
-          tokenListeners.push(() => {
-            resolve(httpRequest(error.config));
-          });
-        });
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+export const clearTokens = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refresh_token");
+  delete httpRequest.defaults.headers.Authorization;
+};
 
 const send = async (method, url, data, config) => {
   try {
@@ -87,35 +40,62 @@ const send = async (method, url, data, config) => {
   }
 };
 
-export const setToken = (token) => {
-  if (token) {
-    localStorage.setItem("token", token);
-    httpRequest.defaults.headers["Authorization"] = `Bearer ${token}`;
-  } else {
-    localStorage.removeItem("token");
-    delete httpRequest.defaults.headers["Authorization"];
+httpRequest.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+httpRequest.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    const refreshToken = localStorage.getItem("refresh_token");
+    const shouldRenewToken = error.response?.status === 401 && refreshToken;
+
+    if (!shouldRenewToken) {
+      return Promise.reject(error);
+    }
+
+    if (isRefreshing) {
+      return new Promise((resolve) => {
+        failedQueue.push(() => resolve(httpRequest(originalRequest)));
+      });
+    }
+
+    isRefreshing = true;
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/auth/refresh-token`,
+        { refresh_token: refreshToken }
+      );
+
+      const data = res.data.data;
+      setToken(data.access_token, data.refresh_token);
+
+      failedQueue.forEach((callback) => callback());
+      return httpRequest(originalRequest);
+    } catch (err) {
+      clearTokens();
+      return Promise.reject(err);
+    } finally {
+      isRefreshing = false;
+      failedQueue = [];
+    }
   }
-};
+);
 
-export const get = (url, config) => {
-  return send("get", url, null, config);
-};
-
-export const post = (url, data, config) => {
-  return send("post", url, data, config);
-};
-
-export const put = (url, data, config) => {
-  return send("put", url, data, config);
-};
-
-export const patch = (url, data, config) => {
-  return send("patch", url, data, config);
-};
-
-export const del = (url, config) => {
-  return send("delete", url, null, config);
-};
+export const get = (url, config) => send("get", url, null, config);
+export const post = (url, data, config) => send("post", url, data, config);
+export const put = (url, data, config) => send("put", url, data, config);
+export const patch = (url, data, config) => send("patch", url, data, config);
+export const del = (url, config) => send("delete", url, null, config);
 
 export default {
   get,
@@ -124,4 +104,5 @@ export default {
   patch,
   del,
   setToken,
+  clearTokens,
 };
