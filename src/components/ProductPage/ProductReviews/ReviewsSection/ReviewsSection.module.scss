@@ -1,0 +1,71 @@
+.tabsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 100%
+}
+
+
+// common
+
+
+
+
+.headerSection {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 150px;
+    width: 80%;
+}
+
+
+
+
+
+
+
+
+
+
+ 
+    
+.footerSection {
+    width: 100%;
+    .toggleContainer {
+        width: 100%;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    .toggleBtn {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        border-radius: 99px;
+        width: 100%;
+        background-color: #fff;
+        background-color: #ccc;
+        .toggleText {
+            width: 50%;
+            font-size: 18px;
+            font-weight: 600;
+            color: rgba($color: #000000, $alpha: 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ccc;
+            height: 40px;
+            border-radius: 99px;
+        }
+        .toggleText.active {
+
+            color: white;
+            background-color: #f5c518;
+        }
+    }
+    
+}

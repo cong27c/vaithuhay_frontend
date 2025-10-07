@@ -1,4 +1,5 @@
 .sliderContainer {
+  position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,7 +14,7 @@
 
 .slidesContainer {
   display: flex;
-  gap: 30px;
+  gap: 20px;
   width: 100%;
 }
 .slide {

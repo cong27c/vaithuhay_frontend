@@ -1,34 +1,31 @@
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import styles from "./UserInfo.module.scss";
-import authServices from "~/Services/authServices";
 import { useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import InputText from "~/components/InputText";
+import InputText from "@/components/InputText";
 import { yupResolver } from "@hookform/resolvers/yup";
 import DatePicker from "react-datepicker";
-import { useAuth } from "~/contexts/AuthContext";
-import useDebounce from "~/Hooks/useDebounce";
-import { userInfoSchema } from "~/schema/userInfoSchema ";
+import useDebounce from "@/Hooks/useDebounce";
+import { userInfoSchema } from "@/schema/userInfoSchema ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLoading } from "~/contexts/LoadingContext ";
-import { useCurrentUser } from "~/Hooks/useCurrentUser";
-import { useGetUserQuery } from "~/Services/profile";
+import { useLoading } from "@/contexts/LoadingContext ";
+import { checkDuplicate, getUser, updateUser } from "@/Services/authServices";
+import { useSelector } from "react-redux";
 
 function UserInfo() {
   const { username: mainUserName } = useParams();
   const [isEditing, setIsEditing] = useState(false);
-  const userIn4 = useCurrentUser();
-  const userId = userIn4.id;
+  const userIn4 = useSelector((state) => state.auth.currentUser);
 
-  const userImage = userIn4.image;
-  const isCurrentUser = userIn4.username === mainUserName;
+  const userImage = userIn4?.image;
+  const userId = userIn4?.id;
+  const isCurrentUser = userIn4?.username === mainUserName;
   const [fileImage, setFileImage] = useState(userImage);
   const { loading, setLoading } = useLoading();
   const [originalData, setOriginalData] = useState({});
   const [preview, setPreview] = useState(userImage || null);
-  const { data } = useGetUserQuery(mainUserName);
 
   // useEffect(() => {
   //   if (fileImage) {
@@ -60,7 +57,7 @@ function UserInfo() {
     setLoading(true);
     const fetchUserData = async () => {
       try {
-        const userData = await authServices.getUser(mainUserName);
+        const userData = await getUser(mainUserName);
         setOriginalData(userData);
         reset(userData);
         console.log(userData);
@@ -93,7 +90,7 @@ function UserInfo() {
         if (userId) endpoint += `&exclude_id=${userId}`;
 
         try {
-          const exists = await authServices.checkDuplicate(endpoint);
+          const exists = await checkDuplicate(endpoint);
 
           if (exists) {
             setError(field, {
@@ -134,7 +131,7 @@ function UserInfo() {
     }
 
     const filterData = Object.entries(data).filter(
-      ([_, value]) => value !== "" && value !== null
+      ([_, value]) => value !== "" && value !== null,
     );
     for (const [field, value] of filterData) {
       formData.append(field, value);
@@ -142,7 +139,7 @@ function UserInfo() {
     console.log(formData);
 
     try {
-      const updatedUser = await authServices.updateUser(formData);
+      const updatedUser = await updateUser(formData);
       toast.success("Cập nhật thành công!", { autoClose: 3000 });
       reset(updatedUser);
       setIsEditing(false);
@@ -212,8 +209,8 @@ function UserInfo() {
                   {gender === "male"
                     ? "Nam"
                     : gender === "female"
-                    ? "Nữ"
-                    : "Khác"}
+                      ? "Nữ"
+                      : "Khác"}
                 </label>
               </div>
             ))}

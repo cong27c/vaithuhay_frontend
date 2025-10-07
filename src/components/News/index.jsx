@@ -1,4 +1,4 @@
-import images from "~/assets/images";
+import images from "@/assets/images";
 import Slider from "../Slider";
 import styles from "./News.module.scss";
 import PropTypes from "prop-types";

@@ -1,14 +1,18 @@
 const config = {
   routes: {
     home: "/",
-    products: "/products",
-    productDetail: "/products/:slug",
+    products: "/products/:slug",
+    productDetail: "/productDetail",
     notfound: "*",
     register: "/register",
     login: "/login",
     account: "/account",
     policySection: "/policySection",
     news: "/news",
+    verify: "/verify",
+    resetPassword: "reset-password",
+    forgotPassword: "forgot-password",
+    cart: "/cart",
   },
   accountRoutes: {
     loyalty: "/account",
@@ -27,7 +31,7 @@ const config = {
     affiliate: "/seeMore/affiliate",
     recruitment: "/recruitment",
     parTimeJobs: "/parTimeJobs",
-    Showcase: "/seeMore/Showcase",
+    Collections: "/collections/:slug",
   },
   jobDetailRoutes: {
     affiliateOperation: "/affiliateOperation",

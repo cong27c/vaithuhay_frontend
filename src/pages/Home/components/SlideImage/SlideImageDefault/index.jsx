@@ -1,7 +1,7 @@
-import Slider from "~/components/Slider";
+import Slider from "@/components/Slider";
 import styles from "./SlideImageDefault.module.scss";
-import images from "~/assets/images";
-import Button from "~/components/Button";
+import images from "@/assets/images";
+import Button from "@/components/Button";
 
 function SlideImageDefault() {
   const slidesData = [

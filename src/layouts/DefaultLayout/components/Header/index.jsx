@@ -3,7 +3,7 @@ import Navigation from "./Navigation";
 import SearchForm from "./SearchForm";
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
-import config from "~/config";
+import config from "@/config";
 import CircleUser from "./CircleUser";
 
 function Header() {

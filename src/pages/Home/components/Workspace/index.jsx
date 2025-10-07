@@ -1,4 +1,4 @@
-import images from "~/assets/images";
+import images from "@/assets/images";
 import styles from "./Workspace.module.scss";
 import ButtonsList from "../ButtonsList";
 

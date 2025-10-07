@@ -1,4 +1,4 @@
-import CountDown from "~/pages/Home/components/CountDown/index.jsx";
+import CountDown from "@/pages/Home/components/CountDown/index.jsx";
 import styles from "./Banner.module.scss";
 import PropTypes from "prop-types";
 

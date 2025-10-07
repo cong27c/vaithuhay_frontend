@@ -1,0 +1,12 @@
+
+.tabsHeader {
+    display: flex;
+    gap: 15px;
+}
+.tabButton {
+    background-color: #FFDE50;
+    span {
+        margin-left: 8px;
+        font-size: 16px;
+    }
+}

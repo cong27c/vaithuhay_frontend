@@ -1,4 +1,4 @@
-import Button from "~/components/Button";
+import Button from "@/components/Button";
 import styles from "./Contact.module.scss";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 

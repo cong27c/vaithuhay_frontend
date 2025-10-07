@@ -3,8 +3,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
 
-import authReducer from "~/features/auth/authSlice";
-
+import authReducer from "@/features/auth/authSlice";
+import sliderReducer from "@/features/slider/sliderSlice";
 const authConfig = {
   key: "auth",
   storage,
@@ -12,6 +12,7 @@ const authConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authConfig, authReducer),
+  slider: sliderReducer,
 });
 
 export const store = configureStore({

@@ -1,9 +1,9 @@
-import Accordion from "~/components/Accordion/Accordion";
-import AccordionItem from "~/components/Accordion/AccordionItem";
-import Tabs, { Tab } from "~/components/Tabs";
+import Accordion from "@/components/Accordion/Accordion";
+import AccordionItem from "@/components/Accordion/AccordionItem";
+import Tabs, { Tab } from "@/components/Tabs";
 import styles from "./PartTimeJobs.module.scss";
-import Form, { TextInput } from "~/components/Forms";
-import loginSchema from "~/schema/loginSchema ";
+import Form, { TextInput } from "@/components/Forms";
+import loginSchema from "@/schema/loginSchema ";
 
 function PartTimeJobs() {
   return (

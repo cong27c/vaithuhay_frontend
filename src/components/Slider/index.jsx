@@ -5,30 +5,27 @@ import SlideImage from "./SlideTypes/SlideImage";
 import Banner from "./SlideTypes/Banner";
 import styles from "./Slider.module.scss";
 import clsx from "clsx";
-import { NextButton, PrevButton } from "../SliderControls";
 import Youtube from "./SlideTypes/Youtube";
+import { SliderButton } from "../SliderControls";
 
 function Slider({
   slides,
-  onDotClick,
   type = "image",
   wrap = false,
+  externalIndex,
   onIndexChange,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const isControlled = externalIndex !== undefined;
+  const [internalIndex, setInternalIndex] = useState(0);
+  const index = isControlled ? externalIndex : internalIndex;
 
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-    if (onDotClick) {
-      onDotClick(index); // Gọi hàm từ cha
+  const updateIndex = (newIndex) => {
+    if (isControlled) {
+      onIndexChange?.(newIndex);
+    } else {
+      setInternalIndex(newIndex);
     }
   };
-
-  useEffect(() => {
-    if (onIndexChange) {
-      onIndexChange(currentIndex);
-    }
-  }, [currentIndex, onIndexChange]);
 
   const groupSlides = () => {
     const groups = [];
@@ -39,49 +36,60 @@ function Slider({
   };
 
   const slideTwoRow = groupSlides();
-  const totalGroups = slideTwoRow.length;
+
+  const maxIndex = wrap ? slideTwoRow.length : slides.length;
 
   const handlePrev = () => {
-    if (wrap) {
-      setCurrentIndex((prev) => (prev === 0 ? totalGroups - 1 : prev - 1));
-    } else {
-      setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-    }
+    updateIndex((prev) => (prev + (maxIndex - 1)) % maxIndex);
   };
 
   const handleNext = () => {
-    if (wrap) {
-      setCurrentIndex((next) => (next === totalGroups - 1 ? 0 : next + 1));
-    } else {
-      setCurrentIndex((next) => (next === slides.length - 1 ? 0 : next + 1));
-    }
+    updateIndex((next) => (next + 1) % maxIndex);
   };
+  const renderSlideItem = (slide, key) => {
+    let SlideComponent;
 
-  const renderSlideItem = (slide) => {
     switch (type) {
       case "image":
-        return <SlideImage {...slide} variant={slide.variant || "default"} />;
+        SlideComponent = (
+          <SlideImage {...slide} variant={slide.variant || "default"} />
+        );
+        break;
       case "banner":
-        return <Banner {...slide} />;
+        SlideComponent = <Banner {...slide} />;
+        break;
       case "youtube":
-        return <Youtube {...slide} />;
+        SlideComponent = <Youtube {...slide} />;
+        break;
       case "half-image":
-        return (
+        SlideComponent = (
           <SlideHalfImage {...slide} variant={slide.variant || "default"} />
         );
+        break;
       default:
-        return <SlideImage {...slide} variant={slide.variant || "default"} />;
+        SlideComponent = (
+          <SlideImage {...slide} variant={slide.variant || "default"} />
+        );
     }
-  };
-  const slidesPerRow = 4.05;
-  const translateValue = wrap
-    ? Math.floor(-currentIndex * 100)
-    : -currentIndex * (100 / slidesPerRow);
 
+    return <div key={key}>{SlideComponent}</div>;
+  };
+
+  const slidesPerRow = 4;
+  const translateValue = wrap ? -index * 100 : -index * (100 / slidesPerRow);
   return (
     <div className={styles.sliderContainer}>
-      <PrevButton onClick={handlePrev} />
-
+      <SliderButton
+        fontSize="36px"
+        direction="left"
+        width="100px"
+        height="100px"
+        position={{ left: "-9%", top: "50%", transform: "translateY(-50%)" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          handlePrev();
+        }}
+      />
       <div className={styles.sliderWrapper}>
         <div
           className={clsx(styles.slidesContainer, {
@@ -102,7 +110,7 @@ function Slider({
                   >
                     {renderSlideItem(slide)}
                   </div>
-                )
+                ),
               )
             : slideTwoRow.map((slideGroup, groupIndex) => {
                 return (
@@ -121,15 +129,25 @@ function Slider({
               })}
         </div>
       </div>
-      <NextButton onClick={handleNext} />
+      <SliderButton
+        fontSize="36px"
+        direction="right"
+        width="100px"
+        height="100px"
+        position={{ right: "-8%", top: "52%", transform: "translateY(-50%)" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleNext();
+        }}
+      />
     </div>
   );
 }
 Slider.propTypes = {
   slides: PropTypes.array.isRequired,
   wrap: PropTypes.bool,
-  type: PropTypes.oneOf(["image", "banner", "half-image"]),
+  type: PropTypes.oneOf(["image", "banner", "half-image", "youtube"]),
   onIndexChange: PropTypes.func,
-  onDotClick: PropTypes.func,
+  externalIndex: PropTypes.number,
 };
 export default Slider;

@@ -1,16 +1,16 @@
 import styles from "./Login.module.scss";
-import config from "~/config";
-import useQuery from "~/Hooks/useQuery";
+import config from "@/config";
+import useQuery from "@/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
-import Button from "~/components/Button";
+import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
-import InputText from "~/components/InputText";
-import loginSchema from "~/schema/loginSchema ";
+import InputText from "@/components/InputText";
+import loginSchema from "@/schema/loginSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser, loginUser } from "~/features/auth/authAsync";
+import { getCurrentUser, loginUser } from "@/features/auth/authAsync";
 
 function Login() {
   const query = useQuery();
@@ -39,14 +39,24 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await dispatch(loginUser(data)).unwrap();
-      await dispatch(getCurrentUser()).unwrap();
+      if (res?.access_token) {
+        await dispatch(getCurrentUser()).unwrap();
+      }
     } catch (error) {
+      console.log(error);
       setErrorMessage(error);
     }
   };
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.header}>
+        <div className={styles.logo}>Vaithuhay</div>
+        <h1 className={styles.title}>Chào mừng trở lại</h1>
+        <p className={styles.subtitle}>
+          Đăng nhập để tiếp tục sử dụng dịch vụ của chúng tôi
+        </p>
+      </div>
       <div className={styles.container}>
         <h1 className={styles.title}>Đăng nhập</h1>
         <div className={styles.listInput}>

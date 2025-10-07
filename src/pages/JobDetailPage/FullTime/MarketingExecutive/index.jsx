@@ -1,8 +1,8 @@
 import React from "react";
-import CurrentActivitiesSection from "~/components/JobsDetailPage/JobListSection/CurrentActivitiesSection";
-import FounderIn4 from "~/components/JobsDetailPage/JobListSection/FounderIn4";
-import JobDescriptionSection from "~/components/JobsDetailPage/JobListSection/JobDescriptionSection";
-import WorkspaceDevelopmentSection from "~/components/JobsDetailPage/JobListSection/WorkspaceDevelopmentSection";
+import CurrentActivitiesSection from "@/components/JobsDetailPage/JobListSection/CurrentActivitiesSection";
+import FounderIn4 from "@/components/JobsDetailPage/JobListSection/FounderIn4";
+import JobDescriptionSection from "@/components/JobsDetailPage/JobListSection/JobDescriptionSection";
+import WorkspaceDevelopmentSection from "@/components/JobsDetailPage/JobListSection/WorkspaceDevelopmentSection";
 
 function MarketingExecutive() {
   const requireList = [

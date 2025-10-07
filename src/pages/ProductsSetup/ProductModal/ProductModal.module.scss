@@ -1,0 +1,65 @@
+.overlay {
+    position: fixed;
+    top: 10%;
+    left: 0;;
+    right: 1%;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+    color: white;
+  }
+ 
+  
+  .wrapper {
+    background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7218"); // ✅ di chuyển vào đây
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #262626;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    padding: 80px 150px;
+    overflow-y: auto;
+    animation: zoomIn 0.3s ease;
+    box-shadow: none; 
+  }
+  .contentWrapper {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .fadeInContent {
+    animation: fadeInContent 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .fadeOutContent {
+    animation: fadeOutContent 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  .contentWrapper {
+    will-change: opacity, transform;
+  }
+  @keyframes fadeOutContent {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.96); 
+    }
+  }
+  @keyframes fadeInContent {
+    0% {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+

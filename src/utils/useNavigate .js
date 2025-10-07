@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import config from "~/config";
+import config from "@/config";
 
 const useCustomNavigate = () => {
   const navigate = useNavigate();

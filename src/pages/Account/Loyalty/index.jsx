@@ -1,4 +1,4 @@
-import FavoriteIcon from "~/components/icons/FavoriteIcon";
+import FavoriteIcon from "@/components/icons/FavoriteIcon";
 import styles from "./Loyalty.module.scss";
 
 function Loyalty() {

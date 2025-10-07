@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
-import Loading from "~/layouts/DefaultLayout/components/Loading";
+import Loading from "@/layouts/DefaultLayout/components/Loading";
 
 const LoadingContext = createContext();
 

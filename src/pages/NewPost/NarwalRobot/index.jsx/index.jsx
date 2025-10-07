@@ -1,4 +1,4 @@
-import News from "~/components/News";
+import News from "@/components/News";
 
 function NarwalRobot() {
   const articles = [

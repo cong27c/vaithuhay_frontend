@@ -9,14 +9,14 @@ import {
   faGem,
 } from "@fortawesome/free-solid-svg-icons";
 import Logout from "../Logout";
-import Button from "~/components/Button";
-import config from "~/config";
+import Button from "@/components/Button";
+import config from "@/config";
 import { useSelector } from "react-redux";
 
 function CircleUser() {
   const [isOpen, setIsOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
-  const name = currentUser?.data?.username;
+  const name = currentUser?.username;
   return (
     <>
       <div

@@ -1,0 +1,86 @@
+.overlay {
+    position: fixed;
+    top: 16%;
+    align-items: flex-start; 
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+    color: black;
+    font-family: "Montserrat", sans-serif;
+    border-radius: 12px;
+    
+  }
+  
+  .modalContent {
+    position: relative;
+    width: 90vw;
+    max-width: 570px;
+    height: 540px;
+    background-color: white;
+    padding: 24px ;
+    border-radius: 12px;
+    overflow-y: auto;
+    animation: zoomIn 0.3s ease;
+    white-space: normal;       
+    word-wrap: break-word;     
+    overflow-wrap: break-word;
+  }
+  .modalContent::-webkit-scrollbar {
+    width: 15px; /* Chiều rộng của scrollbar */
+  }
+  
+  .modalContent::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Bo góc vùng track (không bắt buộc) */
+  }
+  
+  .modalContent::-webkit-scrollbar-thumb { /* Màu chính của thanh kéo */
+    border-radius: 999px;       /* Làm tròn hoàn toàn */
+    border: 2px solid #ccc;    /* Có viền tạo hiệu ứng nổi */
+  }
+  .closeBtn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    font-size: 18px;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+  
+    &:hover {
+      background-color: #eee;
+      color: #ff3b3b;
+    }
+  }
+  
+
+
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  

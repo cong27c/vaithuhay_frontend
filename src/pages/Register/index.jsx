@@ -1,16 +1,18 @@
 import styles from "./Register.module.scss";
-import config from "~/config";
-import Button from "~/components/Button";
+import config from "@/config";
+import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import registerSchema from "~/schema/registerSchema";
+import registerSchema from "@/schema/registerSchema";
 import { useEffect, useState } from "react";
-import InputText from "~/components/InputText";
-import Loading from "~/layouts/DefaultLayout/components/Loading";
+import InputText from "@/components/InputText";
+import Loading from "@/layouts/DefaultLayout/components/Loading";
 import { useNavigate } from "react-router-dom";
-import useDebounce from "~/Hooks/useDebounce";
+import useDebounce from "@/Hooks/useDebounce";
 import { useDispatch } from "react-redux";
-import { checkEmailExisted, registerUser } from "~/features/auth/authAsync";
+import { checkEmailExisted, registerUser } from "@/features/auth/authAsync";
+import { toast } from "react-toastify";
+import { faTableCellsLarge } from "@fortawesome/free-solid-svg-icons";
 
 function Register() {
   const navigate = useNavigate();
@@ -47,15 +49,16 @@ function Register() {
         password_confirmation: data.password_confirmation,
         [registerType]: registerType === "email" ? data.email : data.phone,
       };
-
       const res = await dispatch(registerUser(payLoad));
-      if (registerUser.fulfilled.match(res)) {
-        navigate(config.routes.home);
-      } else {
-        console.error("Đăng ký thất bại:", res.payload || res.error.message);
+      console.log(res);
+      if (res.payload?.message) {
+        toast.success(res.payload?.message);
       }
+
+      navigate("/login");
     } catch (error) {
       console.log(error);
+      toast.error("Đăng ký thất bại vui lòng thử lại!");
     } finally {
       setIsLoading(false);
     }

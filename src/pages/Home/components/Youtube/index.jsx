@@ -1,9 +1,9 @@
-import images from "~/assets/images";
+import images from "@/assets/images";
 import styles from "./Youtube.module.scss";
 import ButtonsList from "../ButtonsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import Slider from "~/components/Slider";
+import Slider from "@/components/Slider";
 
 function Youtube() {
   const in4 = [

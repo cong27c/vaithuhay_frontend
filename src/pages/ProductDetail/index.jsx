@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOne } from "~/Services/productService";
+import { getOne } from "@/Services/productService";
 
 function ProductDetail() {
   const [product, setProduct] = useState({});

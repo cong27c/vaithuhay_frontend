@@ -1,4 +1,4 @@
-import Button from "~/components/Button";
+import Button from "@/components/Button";
 import styles from "./Recruitment.module.scss";
 import { Link } from "react-router-dom";
 

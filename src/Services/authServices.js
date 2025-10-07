@@ -1,32 +1,32 @@
-import * as httpRequest from "~/utils/httpRequest";
+import * as httpRequest from "@/utils/httpRequest";
 
-export const getCurrentUser = async () => {
+const getCurrentUser = async () => {
   const response = await httpRequest.get("/auth/me");
   return response.data;
 };
 
-export const getUser = async (username) => {
+const getUser = async (username) => {
   const response = await httpRequest.get(`/users/${username}`);
   return response.data;
 };
 
-export const checkDuplicate = async (endpoint) => {
+const checkDuplicate = async (endpoint) => {
   const response = await httpRequest.get(endpoint);
   return response.exists;
 };
 
-export const updateUser = async (data) => {
+const updateUser = async (data) => {
   const response = await httpRequest.put(`/users/me`, data);
   return response.data;
 };
 
-export const updateImage = async (data) => {
+const updateImage = async (data) => {
   const response = await httpRequest.put(`/users/me`, data);
   console.log(response);
   return response.data;
 };
 
-export const checkEmail = async (email) => {
+const checkEmail = async (email) => {
   const response = await httpRequest.get("/auth/check-email", {
     params: {
       email,
@@ -36,7 +36,7 @@ export const checkEmail = async (email) => {
   return response.data?.exists;
 };
 
-export const postUser = async (url, userData) => {
+const postUser = async (url, userData) => {
   try {
     const response = await httpRequest.post(url, userData);
     return response.data;
@@ -45,20 +45,79 @@ export const postUser = async (url, userData) => {
   }
 };
 
-export const logoutUser = async () => {
+const register = async (data) => {
+  const response = await httpRequest.post("/auth/register", data);
+
+  return response;
+};
+
+const login = async (data) => {
+  const response = await httpRequest.post("/auth/login", data, {
+    withCredentials: true,
+  });
+
+  return response;
+};
+
+const logout = async () => {
   try {
     const response = await httpRequest.post("/auth/logout");
-    httpRequest.setToken(null);
+
     return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const resetPassword = async (data) => {
+  try {
+    const response = await httpRequest.post("/auth/reset-password", data);
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const forgotPassword = async (data) => {
+  try {
+    const response = await httpRequest.post("/auth/forgot-password", data);
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const verify = async (token) => {
+  try {
+    const response = await httpRequest.get(`/auth/verify?token=${token}`);
+    return response.data;
   } catch (error) {
     throw error.response?.data;
   }
 };
 
-export default {
+const authMe = async () => {
+  try {
+    const response = await httpRequest.get(`/auth/me`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data;
+  }
+};
+
+export {
+  updateImage,
+  verify,
+  register,
+  forgotPassword,
+  resetPassword,
+  logout,
+  authMe,
+  login,
   getCurrentUser,
   postUser,
-  logoutUser,
   checkEmail,
   getUser,
   updateUser,

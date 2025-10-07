@@ -3,16 +3,33 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import styles from "./SliderControls.module.scss";
+import styles from "./SliderButton.module.scss";
 
-export const PrevButton = ({ onClick }) => (
-  <button className={styles.prevButton} onClick={onClick}>
-    <FontAwesomeIcon icon={faChevronLeft} />
-  </button>
-);
+const icons = {
+  left: faChevronLeft,
+  right: faChevronRight,
+};
 
-export const NextButton = ({ onClick }) => (
-  <button className={styles.nextButton} onClick={onClick}>
-    <FontAwesomeIcon icon={faChevronRight} />
-  </button>
-);
+export const SliderButton = ({
+  direction = "left",
+  onClick,
+  width = "50px",
+  height = "50px",
+  position = {},
+  fontSize = "28px",
+}) => {
+  return (
+    <button
+      className={styles.button}
+      onClick={onClick}
+      style={{
+        fontSize,
+        width,
+        height,
+        ...position,
+      }}
+    >
+      <FontAwesomeIcon icon={icons[direction]} />
+    </button>
+  );
+};

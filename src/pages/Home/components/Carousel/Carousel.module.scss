@@ -43,20 +43,18 @@
  }
 
 .body-carousel {
-    margin-top: 150px;
+    margin-top: 50px;
     display: flex;
+    align-items: center;
     justify-content: space-around;
 }
 
 .body-carousel .list-item {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-40%);
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    gap: 20px;
+    justify-content: center;
+    gap: 40px;
+    transition: transform 0.5s ease-in-out;
 }
 
 .body-carousel .list-item .item {
@@ -80,11 +78,7 @@
     z-index: 10; 
 }
 
-.item.left, .item.right {
-    transform: scale(0.9);  
-    opacity: 0.8;
-    z-index: 5; 
-}
+
 
 .body-carousel .list-item  .item:hover {
     transform: scale(0.9);  
@@ -166,32 +160,4 @@
     padding: 4px 60px;
     border-radius: 20px;
     border: none;
-}
-.countDownCarousel {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .time {
-        text-align: center;
-    }
-    
-    .number {
-        font-size: 16px;
-        font-weight: bold;
-        line-height: 1;
-    }
-    
-    .label {
-        font-size: 14px;
-        color: #666;
-    }
-    
-    .separator {
-        font-size: 16px;
-        line-height: 1;
-        font-weight: bold;
-        margin: 0 4px;
-    }
-
 }

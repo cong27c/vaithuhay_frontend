@@ -1,15 +1,14 @@
-import Accordion from "~/components/Accordion/Accordion";
+import Accordion from "@/components/Accordion/Accordion";
 import styles from "./Navigation.module.scss";
-import AccordionItem from "~/components/Accordion/AccordionItem";
+import AccordionItem from "@/components/Accordion/AccordionItem";
 import MegaMenu from "../MegaMenu";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import ArticleList from "~/components/ArticleList";
 import { Link } from "react-router-dom";
-import config from "~/config";
+import config from "@/config";
 
 function Navigation() {
+  const [showSubmenu, setShowSubmenu] = useState(false);
+
   return (
     <>
       <nav className={styles.wrapper}>
@@ -20,46 +19,60 @@ function Navigation() {
           </AccordionItem>
           <AccordionItem header="Tìm hiểu thêm">
             <ul className={styles.dropdown}>
-              <a href="/seeMore/introduce">
-                <li>Về VaiThuHay</li>
-              </a>
-              <a href="/seeMore/affiliate">
-                <li>Bán hàng liên kết (Affiliate)</li>
-              </a>
-              <a href="/recruitment">
-                <li>Tìm đồng đội - Tuyển dụng</li>
-              </a>
-              <a href="/seeMore/Showcase">
-                <li>Showcase</li>
-              </a>
-              <a href="https://quatanghay.com/">
-                <li>Quà tặng hay</li>
-              </a>
-              <a href="https://www.facebook.com/groups/gocvaithuhay">
-                <li>Cộng đồng Hayer</li>
-              </a>
-              <a href="/">
-                <li>Các chính sách quan trọng</li>
-                {/* <Accordion>
-                  <AccordionItem header="Các chính sách quan trọng" />
-                  <ul>
-                    <li>Membership/Loyalty</li>
-                    <li>Chính sách đặt hàng trước</li>
-                    <li>Membership/Loyalty</li>
-                    <li>Chính sách bảo hành/đổi trả</li>
-                  </ul>
-                </Accordion> */}
-              </a>
+              <li>
+                <a href="/seeMore/introduce">Về VaiThuHay</a>
+              </li>
+              <li>
+                <a href="/seeMore/affiliate">Bán hàng liên kết (Affiliate)</a>
+              </li>
+              <li>
+                <a href="/recruitment">Tìm đồng đội - Tuyển dụng</a>
+              </li>
+              <li>
+                <a href="/seeMore/Showcase">Showcase</a>
+              </li>
+              <li>
+                <a href="https://quatanghay.com/">Quà tặng hay</a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/groups/gocvaithuhay">
+                  Cộng đồng Hayer
+                </a>
+              </li>
+
+              <li className={styles.hasSubmenu}>
+                <span className={styles.toggleTitle}>
+                  Các chính sách quan trọng
+                </span>
+                <ul className={styles.submenu}>
+                  <li>
+                    <Link to={config.policyRoutes.loyaltyProgram}>
+                      Membership/Loyalty
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={config.policyRoutes.preOrderPolicy}>
+                      Chính sách đặt hàng trước
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={config.policyRoutes.returnPolicy}>
+                      Chính sách bảo hành/đổi trả
+                    </Link>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </AccordionItem>
           <AccordionItem header="Bài viết">
             <ul className={styles.dropdown}>
-              <a href="/blogs/setup-decor">
-                <li>SetUp Decor</li>
-              </a>
-              <a href="/blogs/technology">
-                <li>Công nghệ</li>
-              </a>
+              <li>
+                <a href="/blogs/setup-decor">SetUp Decor</a>
+              </li>
+
+              <li>
+                <a href="/blogs/technology">Công nghệ</a>
+              </li>
             </ul>
           </AccordionItem>
         </Accordion>

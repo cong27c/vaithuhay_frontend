@@ -1,11 +1,11 @@
 import {
   Accordion,
   AccordionItem,
-} from "~/components/AccordionPremium/Accordion";
+} from "@/components/AccordionPremium/Accordion";
 import styles from "./ProductInfoLayout.module.scss";
-import BlockRenderer from "~/components/ProductBlocks/BlockRenderer";
-import Button from "~/components/Button";
-import CartIcon from "~/layouts/DefaultLayout/components/Header/CartIcon";
+import BlockRenderer from "@/components/ProductBlocks/BlockRenderer";
+import Button from "@/components/Button";
+import CartIcon from "@/layouts/DefaultLayout/components/Header/CartIcon";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
  * CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH
  * HÌNH ẢNH/VIDEO
  */
-function ProductInfoLayout() {
+function ProductInfoLayout({ blogsProduct, specifications }) {
   const products = [
     {
       id: 1,
@@ -118,32 +118,28 @@ function ProductInfoLayout() {
     <div className={styles.wrapper}>
       <div className={styles.sectionLeft}>
         <Accordion>
-          <AccordionItem title="THÔNG TIN SẢN PHẨM">
-            {products.map((product) => (
-              <div key={product.id} className={styles.productItem}>
-                <h2>{product.name}</h2>
-                <BlockRenderer blocks={product.detailBlocks} />
+          {blogsProduct?.map((blog, index) => (
+            <AccordionItem key={index} title={blog.title}>
+              <div className={styles.productItem}>
+                <BlockRenderer blocks={blog.contentHtml} />
               </div>
-            ))}
-          </AccordionItem>
-          <AccordionItem title="HƯỚNG DẪN SỬ DỤNG">
-            <p>Hướng dẫn sử dụng...</p>
-          </AccordionItem>
-          <AccordionItem title="NHỮNG CÂU HỎI THƯỜNG GẶP">
-            <p>NHỮNG CÂU HỎI THƯỜNG GẶP...</p>
-          </AccordionItem>
+            </AccordionItem>
+          ))}
         </Accordion>
+        <AccordionItem title={"HÌNH ẢNH / VIDEO"}>
+          <div className={styles.productItem}>...images</div>
+        </AccordionItem>
       </div>
       <div className={styles.sectionRight}>
-        <Accordion>
-          <AccordionItem title="HƯỚNG DẪN SỬ DỤNG">
-            {products1.map((product) => (
-              <div key={product.id} className={styles.productItem}>
-                <BlockRenderer blocks={product.detailBlocks} />
+        {specifications && (
+          <Accordion>
+            <AccordionItem title="THÔNG SỐ KỸ THUẬT">
+              <div className={styles.productItem}>
+                <BlockRenderer blocks={specifications} />
               </div>
-            ))}
-          </AccordionItem>
-        </Accordion>
+            </AccordionItem>
+          </Accordion>
+        )}
         <div className={styles.PromoBanner}>
           <div className={styles.title}>
             RỦ THÊM BẠN | <strong>2 SẢN PHẨM</strong>

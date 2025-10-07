@@ -85,23 +85,27 @@
     z-index: 20;
     display: none;
     animation: fadeIn 0.25s ease-in-out;
-  
-    li {
+   
+    li  {
       padding: 15px 20px 15px 12px;
       font-size: 16px;
       font-weight: 700;
-      color: #444;
       cursor: pointer;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       transition: all 0.25s ease;
       border-radius: 22px;
-  
+      a {
+        color: #444;
+      }
       &:hover {
         color: #222;
         font-weight: 800;
         transform: translateX(3px);
         background: linear-gradient(90deg, #ffc107 0%, yellow 100%);
         padding-left: 12px;
+        a {
+          color: #222;
+        }
       }
   
       &:last-child {

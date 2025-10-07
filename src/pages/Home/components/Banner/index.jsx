@@ -1,9 +1,9 @@
-import Button from "~/components/Button";
+import Button from "@/components/Button";
 import styles from "./Banner.module.scss";
-import images from "~/assets/images";
+import images from "@/assets/images";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Slider from "~/components/Slider";
-import CountDown from "~/components/CountDown";
+import Slider from "@/components/Slider";
+import CountDown from "@/components/CountDown";
 
 function Banner() {
   const BannerIn4 = [

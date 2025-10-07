@@ -3,7 +3,7 @@ import styles from "./ProductFeatureBanner.module.scss";
 import { useState } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-function ProductFeatureBanner() {
+function ProductFeatureBanner({ highlights }) {
   const [active, setActive] = useState(false);
 
   return (
@@ -11,57 +11,18 @@ function ProductFeatureBanner() {
       <div className={styles.container}>
         <div className={styles.bodyLeft}>
           <div className={styles.image}>
-            <img
-              src="https://file.hstatic.net/1000069970/file/download__2_.png"
-              alt=""
-            />
+            <img src={highlights?.image} alt="" />
           </div>
         </div>
         <div className={styles.bodyRight}>
-          <div className={styles.title}>
-            NUPHY KICK75 | BÀN PHÍM CƠ ĐẦU TIÊN CÓ HYBRID PROFILE
-          </div>
+          <div className={styles.title}>{highlights?.name}</div>
+
           <ul>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
-            <li>
-              Bảo hành chính hãng 6 Tháng. Nâng tầm trải nghiệm với Bộ phụ kiện
-              đi kèm
-            </li>
+            {highlights?.highlightsHtml.map((item, index) => (
+              <li key={index}>
+                <strong>{item.feature}</strong> {item.description}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

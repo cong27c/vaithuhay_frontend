@@ -1,0 +1,69 @@
+   
+.evaluationTable {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    white-space: nowrap;
+    .ratingContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+         .ratingScore {
+            font-size: 60px;
+            color: #e71010;
+            font-weight: 500;
+         }
+         .stars {
+            margin-top: -20px;
+            font-size: 37px;
+         }
+    }
+
+.statisticsTable {
+    border-left: 1px solid rgba($color: #000000, $alpha: 0.1);
+    border-right: 1px solid rgba($color: #000000, $alpha: 0.1);
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 350px;
+  }
+  
+  .ratingRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .stars {
+    display: flex;
+    font-size: 20px;
+  }
+  
+  .filledStar {
+    color: #f5c518;
+  }
+  
+  .emptyStar {
+    color: #d3d3d3;
+  }
+  
+  .progressBar {
+    flex: 1;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background-color: #f5c518; 
+    transition: width 0.3s ease;
+  }
+  
+  .percentage {
+    font-size: 14px;
+    color: #333;
+  }
+}

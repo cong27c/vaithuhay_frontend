@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import authServices, { getCurrentUser } from "~/Services/authServices";
+import { getCurrentUser } from "@/Services/authServices";
 import { useDispatch } from "react-redux";
 
 const AuthContext = createContext();
@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await authServices.getCurrentUser();
+        const res = await getCurrentUser();
         setUser(res.data);
       } catch (error) {
         console.log(error);

@@ -4,7 +4,7 @@ import {
   faAngleDoubleDown,
   faPlayCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "~/components/Button";
+import Button from "@/components/Button";
 import { useState } from "react";
 import PropTypes from "prop-types";
 

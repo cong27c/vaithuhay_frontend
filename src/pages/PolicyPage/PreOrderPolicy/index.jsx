@@ -1,6 +1,6 @@
 import React from "react";
-import images from "~/assets/images";
-import PolicySection from "~/components/PolicySection";
+import images from "@/assets/images";
+import PolicySection from "@/components/PolicySection";
 
 function PreOrderPolicy() {
   const slideImage = [

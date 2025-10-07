@@ -1,7 +1,7 @@
-import FounderIn4 from "~/components/JobsDetailPage/JobListSection/FounderIn4";
-import JobDescriptionSection from "~/components/JobsDetailPage/JobListSection/JobDescriptionSection";
-import JobProgressionSection from "~/components/JobsDetailPage/JobListSection/JobProgressionSection";
-import WorkspaceDevelopmentSection from "~/components/JobsDetailPage/JobListSection/WorkspaceDevelopmentSection";
+import FounderIn4 from "@/components/JobsDetailPage/JobListSection/FounderIn4";
+import JobDescriptionSection from "@/components/JobsDetailPage/JobListSection/JobDescriptionSection";
+import JobProgressionSection from "@/components/JobsDetailPage/JobListSection/JobProgressionSection";
+import WorkspaceDevelopmentSection from "@/components/JobsDetailPage/JobListSection/WorkspaceDevelopmentSection";
 
 function MarketingExecutiveIntern() {
   const requireList = [

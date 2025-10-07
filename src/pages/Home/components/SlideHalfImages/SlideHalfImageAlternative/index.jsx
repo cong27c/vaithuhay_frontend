@@ -1,8 +1,8 @@
-import images from "~/assets/images";
+import images from "@/assets/images";
 import styles from "./SlideHalfImageAlternative.module.scss";
 
 import PropTypes from "prop-types";
-import Slider from "~/components/Slider";
+import Slider from "@/components/Slider";
 
 function SlideHalfImageAlternative({ title, backGroundImage }) {
   const slidesData = [

@@ -1,0 +1,293 @@
+
+.reviewsContent {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .line {
+        width: 100%;
+        height: 1px;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+    }
+    .userIn4 {
+        margin-top: 12px;
+        display: flex;
+        gap: 30px;
+        padding: 0px 40px;
+       
+    }
+}
+.subTitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+.starRating {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  
+}
+
+.titleRating {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.contentRating {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .contentInput {
+        border-radius: 24px;
+        min-height: 200px;
+    }
+    textarea {
+        width: 100%;
+        min-height: 50px; 
+        max-height: 300px; 
+        resize: both; 
+        padding: 10px; 
+        border: 1px solid rgba($color: #000000, $alpha: 0.7) ;
+        border-radius: 5px; 
+        font-family: Arial, sans-serif;
+        background-color: transparent;
+    }
+    textarea::placeholder {
+        font-size: 18px;
+        font-weight: 600;
+        color: rgba($color: #000000, $alpha: 0.7);
+    
+    }
+    
+}
+
+
+.listBtn {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    .desc {
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .bodyLeft{
+        display: flex;
+        gap: 10px;
+    }
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #189eff;
+    color: #189eff;
+    background-color: transparent;
+    white-space: nowrap;
+}
+
+.fileImageContainer {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+  
+.fileInput {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+  
+.fileLabel {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 1px solid #189eff;
+    color: #189eff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.link {
+    margin-top: 20px;
+}
+.reviewsContent {
+  .form {
+    .previewContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      min-height: 80px;
+      align-items: center;
+
+      .previewItem {
+        position: relative;
+        display: inline-block;
+        
+        img {
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 6px;
+          border: 2px solid #fff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s ease;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+
+        video {
+          width: 80px;
+          height: 60px;
+          border-radius: 6px;
+          border: 2px solid #fff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          background-color: #000;
+        }
+
+        .removeBtn {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          width: 20px;
+          height: 20px;
+          background-color: #ff4757;
+          color: white;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+          
+          &:hover {
+            background-color: #ff3742;
+            transform: scale(1.1);
+          }
+        }
+      }
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    .listBtn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+
+      .bodyLeft {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .fileImageContainer {
+          position: relative;
+          
+          .fileInput {
+            display: none;
+          }
+
+          .fileLabel {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background-color: #e0e0e0;
+            }
+          }
+        }
+
+        .btn {
+          padding: 8px 16px;
+          background-color: #f0f0f0;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: #e0e0e0;
+          }
+        }
+      }
+    }
+
+    .error {
+      color: #d32f2f;
+      font-size: 14px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background-color: #ffebee;
+      border: 1px solid #ffcdd2;
+      border-radius: 4px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .reviewsContent {
+    .form {
+      .listBtn {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+
+        .bodyLeft {
+          justify-content: center;
+        }
+      }
+
+      .previewContainer {
+        .previewItem {
+          img {
+            width: 50px;
+            height: 50px;
+          }
+
+          video {
+            width: 70px;
+            height: 50px;
+          }
+        }
+      }
+    }
+  }
+}

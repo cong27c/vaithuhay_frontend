@@ -1,0 +1,86 @@
+
+  .fixedLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000
+  }
+  .fixedRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: fixed;
+    bottom: 20px;
+    right: 45px;
+    z-index: 1000
+  }
+  
+
+  .buttonHeart {
+    margin-bottom: 40px;
+    margin-left: 10px;
+    width: 45px;
+    height: 45px;
+    outline: 10px solid white;
+    background-color: #ff4d4f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5); 
+ }
+  
+ .buttonHeart:hover {
+   transform: scale(1.05);
+   background-color: #e04344  ;
+ }
+
+ .buttonMessenger {
+    margin-right: 10px;
+    width: 45px;
+    height: 45px;
+    outline: 10px solid white;
+    background-color: #2970ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5); 
+ }
+ .buttonMessenger:hover {
+    transform: scale(1.05);
+    background-color: #0055ff    ;
+ }
+ .buttonComment {
+    margin-right: 10px;
+    width: 65px;
+    height: 65px;
+    background-color: #F7CE46;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px; 
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .buttonComment:hover {
+    transform: scale(1.05);
+    background-color: #ffe066    
+
+ }

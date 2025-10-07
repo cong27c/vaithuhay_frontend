@@ -1,4 +1,4 @@
-import Button from "~/components/Button";
+import Button from "@/components/Button";
 import styles from "./JobDescriptionSection.module.scss";
 import PropTypes from "prop-types";
 

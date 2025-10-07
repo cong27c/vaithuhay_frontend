@@ -1,3 +1,4 @@
+import ProductsSetup from "@/pages/ProductsSetup";
 import styles from "./SlideImage.module.scss";
 import PropTypes from "prop-types";
 
@@ -16,9 +17,7 @@ function SlideImage({
           <div className={styles.ribbon}>
             <span>PRE-ORDER</span>
           </div>
-          <a href="#!">
-            <img src={image} alt="Product Image" />
-          </a>
+          <img src={image} alt="Product Image" />
           <div className={styles.content}>
             <h3>{title}</h3>
             <div className={styles.status}>{status}</div>
@@ -30,13 +29,11 @@ function SlideImage({
         </div>
       ) : (
         <div className={styles["alternative"]}>
-          <a href="">
-            <img
-              src={image}
-              alt="Combo Góc Làm Việc"
-              className={styles["carousel-image"]}
-            />
-          </a>
+          <img
+            src={image}
+            alt="Combo Góc Làm Việc"
+            className={styles["carousel-image"]}
+          />
           <div className={styles["tag-list"]}>
             {nameBtn.map((item, index) => (
               <button key={index} className={styles.tag}>

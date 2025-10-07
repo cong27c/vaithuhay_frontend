@@ -1,6 +1,6 @@
-import { JobFooterSection, JobIntroSection } from "~/components/JobsDetailPage";
+import { JobFooterSection, JobIntroSection } from "@/components/JobsDetailPage";
 import { Outlet } from "react-router-dom";
-import SvgIcon from "~/components/icons/SvgIcon";
+import SvgIcon from "@/components/icons/SvgIcon";
 
 function JobDetailPage() {
   const interest = [

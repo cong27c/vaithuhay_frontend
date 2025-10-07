@@ -1,7 +1,7 @@
-import images from "~/assets/images";
+import images from "@/assets/images";
 import styles from "./SlideHalfImageDefault.module.scss";
-import Button from "~/components/Button";
-import Slider from "~/components/Slider";
+import Button from "@/components/Button";
+import Slider from "@/components/Slider";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function SlideHalfImageDefault() {

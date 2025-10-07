@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import config from "~/config";
-import { getAll } from "~/Services/productService";
+import config from "@/config";
+import { getAll } from "@/Services/productService";
 
 function Products() {
   const [products, setProducts] = useState([]);
