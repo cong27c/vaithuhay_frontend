@@ -50,6 +50,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import ResetPassword from "@/components/ResetPassword";
 import ForgotPassword from "@/components/ForgotPassword";
 import Cart from "@/pages/Cart";
+import Checkout from "@/pages/Checkout";
 
 const routes = [
   {
@@ -59,6 +60,10 @@ const routes = [
   {
     path: config.routes.cart,
     component: Cart,
+  },
+  {
+    path: config.routes.checkout,
+    component: Checkout,
   },
   {
     path: config.routes.register,

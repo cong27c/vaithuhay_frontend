@@ -64,7 +64,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
-        localStorage.clear();
+        localStorage.removeItem("access_token");
         return Promise.reject(err);
       } finally {
         isRefreshing = false;

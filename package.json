@@ -38,6 +38,7 @@
     "redux-thunk": "^3.1.0",
     "swiper": "^11.2.6",
     "thunk": "^0.0.1",
+    "vietnam-provinces": "^0.0.4",
     "yup": "^1.6.1"
   },
   "devDependencies": {

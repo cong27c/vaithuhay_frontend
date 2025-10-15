@@ -5,69 +5,103 @@ import styles from "./Cart.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import {
-  getCart,
   removeCartItem,
   updateQuantity,
+  updateCartItemVariant,
+  getCart,
 } from "@/Services/cartService";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import ConfirmModal from "@/components/ConfirmModal";
+import VariantModel from "@/components/VariantModel";
+import { getProductVariantsBySlug } from "@/Services/productService";
+import CouponModal from "@/components/CouponModel";
+import { getVouchers } from "@/Services/voucherService";
+import { useCurrentUser } from "@/Hooks/useCurrentUser";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updatingItems, setUpdatingItems] = useState(new Set());
+  console.log(cartItems);
 
   // Modal states
-  const [showVoucherModal, setShowVoucherModal] = useState(false);
+  const [showCouponModal, setShowCouponModal] = useState(false);
   const [showGiftModal, setShowGiftModal] = useState(false);
   const [showVariantModal, setShowVariantModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Variant data states
+  const [variants, setVariants] = useState([]);
+  const [attributes, setAttributes] = useState({});
 
   // Confirm modal state
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
     itemToRemove: null,
   });
+  const [vouchers, setVouchers] = useState([]);
 
-  const vouchers = [
-    {
-      id: 1,
-      title: "Giảm 200K kèm Freeship cho đơn hàng từ 4tr trở lên",
-      status: "copied",
-    },
-    {
-      id: 2,
-      title: "Giảm chồng 5% khi mua 2 ổ cắm điện tại Vaithuhay",
-      status: "expired",
-    },
-    {
-      id: 3,
-      title: "Giảm 400.000đ cho đơn hàng từ 6.5tr trở lên",
-      status: "expired",
-    },
-    { id: 4, title: "Giảm 6% tối đa 50K cho đơn hàng 400K", status: "expired" },
-    {
-      id: 5,
-      title: "Giảm 1.000.000đ cho đơn hàng từ 10tr trở lên",
-      status: "expired",
-    },
-  ];
+  const currentUser = useCurrentUser();
+  const isLoggedIn = !!currentUser;
 
+  const handleCopyCoupon = (coupon) => {
+    console.log("Copying coupon:", coupon);
+    navigator.clipboard.writeText(coupon.code);
+    toast.success("Đã sao chép mã giảm giá");
+  };
+
+  const handleGetCoupon = (coupon) => {
+    toast.success("Đã nhận mã giảm giá thành công");
+    setShowCouponModal(false);
+  };
+
+  const handleCloseCouponModal = () => {
+    setShowCouponModal(false);
+  };
+
+  // Fetch cart data
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await getCart();
-        setCartItems(res?.data || []);
+        const [cartRes, voucherRes] = await Promise.all([
+          getCart(isLoggedIn),
+          getVouchers(),
+        ]);
+        setCartItems(cartRes?.data || []);
+        setVouchers(voucherRes);
       } catch (error) {
-        console.error("Error fetching cart:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, []);
+  }, [isLoggedIn]);
+
+  // Fetch variant data when a product is selected for variant change
+  useEffect(() => {
+    const fetchVariantData = async () => {
+      if (!selectedProduct) return;
+
+      try {
+        const productVariants = await getProductVariantsBySlug(
+          selectedProduct.slug,
+        );
+        setVariants(productVariants?.variants || []);
+        setAttributes(productVariants?.attributes || {});
+      } catch (error) {
+        console.error("Error fetching variant data:", error);
+        toast.error("Không thể tải thông tin biến thể sản phẩm");
+      }
+    };
+
+    if (selectedProduct) {
+      fetchVariantData();
+    }
+  }, [selectedProduct]);
 
   // Hàm mở confirm modal
   const handleRemoveClick = (id) => {
@@ -90,13 +124,13 @@ const Cart = () => {
     setConfirmModal({ isOpen: false, itemToRemove: null });
 
     try {
-      await removeCartItem(id);
-      console.log("Item removed successfully");
+      await removeCartItem(id, isLoggedIn);
+      toast.success("Đã xóa sản phẩm khỏi giỏ hàng");
     } catch (error) {
       console.error("Error removing item:", error);
       // Revert optimistic update on error
       setCartItems((prevItems) => [...prevItems, removedItem]);
-      alert("Có lỗi xảy ra khi xóa sản phẩm");
+      toast.error("Có lỗi xảy ra khi xóa sản phẩm");
     }
   };
 
@@ -126,17 +160,20 @@ const Cart = () => {
     setUpdatingItems((prev) => new Set(prev).add(id));
 
     try {
-      await updateQuantity(id, newQuantity);
-      const res = await getCart();
+      await updateQuantity(id, newQuantity, isLoggedIn);
+      // Refresh cart to get updated data
+      const res = await getCart(isLoggedIn);
       setCartItems(res?.data || []);
+      toast.success("Đã cập nhật số lượng");
     } catch (error) {
       console.error("Error updating quantity:", error);
+      // Revert on error
       setCartItems((prevItems) =>
         prevItems.map((item) =>
           item.id === id ? { ...item, quantity: item.quantity } : item,
         ),
       );
-      alert("Có lỗi xảy ra khi cập nhật số lượng");
+      toast.error("Có lỗi xảy ra khi cập nhật số lượng");
     } finally {
       setUpdatingItems((prev) => {
         const newSet = new Set(prev);
@@ -157,6 +194,86 @@ const Cart = () => {
   const handleChangeVariant = (product) => {
     setSelectedProduct(product);
     setShowVariantModal(true);
+  };
+
+  const handleVariantUpdate = async (variantData) => {
+    if (!selectedProduct) return;
+
+    const { matchedVariant } = variantData;
+
+    try {
+      // Kiểm tra nếu có matchedVariant
+      if (!matchedVariant?.id) {
+        toast.error("Không tìm thấy biến thể phù hợp");
+        return;
+      }
+
+      // Hiển thị loading
+      setUpdatingItems((prev) => new Set(prev).add(selectedProduct.id));
+
+      // Gọi API update cart item variant
+      const result = await updateCartItemVariant(
+        selectedProduct.id,
+        matchedVariant.id,
+        isLoggedIn,
+      );
+      if (result?.success) {
+        // Cập nhật UI với data từ server
+        const updatedCartItems = cartItems.map((item) =>
+          item.id === selectedProduct.id
+            ? {
+                ...item,
+                variant: result.data.variant,
+                price: result.data.price,
+                image: result.data.image,
+                variantId: result.data.variantId,
+              }
+            : item,
+        );
+        console.log("updatedCartItems", updatedCartItems);
+
+        setCartItems(updatedCartItems);
+        toast.success("Đã cập nhật thuộc tính sản phẩm");
+      } else {
+        throw new Error(result?.message || "Update failed");
+      }
+    } catch (error) {
+      console.error("Error updating variant:", error);
+
+      // Hiển thị thông báo lỗi cụ thể
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Có lỗi khi cập nhật thuộc tính");
+      }
+
+      // Refresh cart để đồng bộ lại data
+      try {
+        const res = await getCart(isLoggedIn);
+        setCartItems(res?.data || []);
+      } catch (refreshError) {
+        console.error("Error refreshing cart:", refreshError);
+      }
+    } finally {
+      // Tắt loading và đóng modal
+      setUpdatingItems((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(selectedProduct.id);
+        return newSet;
+      });
+
+      setShowVariantModal(false);
+      setSelectedProduct(null);
+    }
+  };
+
+  // Helper function to parse price string to number
+  const parsePrice = (priceString) => {
+    if (typeof priceString === "number") return priceString;
+    if (typeof priceString === "string") {
+      return parseInt(priceString.replace(/[^\d]/g, ""), 10) || 0;
+    }
+    return 0;
   };
 
   const calculateTotal = () => {
@@ -217,8 +334,11 @@ const Cart = () => {
                     <button
                       className={styles.attributesChange}
                       onClick={() => handleChangeVariant(item)}
+                      disabled={isUpdating(item.id)}
                     >
-                      Thay đổi thuộc tính
+                      {isUpdating(item.id)
+                        ? "Đang cập nhật..."
+                        : "Thay đổi thuộc tính"}
                       <span>
                         <FontAwesomeIcon icon={faPen} />
                       </span>
@@ -254,13 +374,29 @@ const Cart = () => {
           )}
         </div>
 
+        {/* Variant Modal */}
+        {selectedProduct && (
+          <VariantModel
+            isOpen={showVariantModal}
+            onClose={() => {
+              setShowVariantModal(false);
+              setSelectedProduct(null);
+            }}
+            product={selectedProduct}
+            variants={variants}
+            attributes={attributes}
+            onUpdate={handleVariantUpdate}
+            isLoading={isUpdating(selectedProduct.id)}
+          />
+        )}
+
         {/* Bottom Checkout Bar - Only show if cart has items */}
         {cartItems.length > 0 && (
           <div className={styles.checkoutBar}>
             <div className={styles.checkoutActions}>
               <button
                 className={styles.couponBtn}
-                onClick={() => setShowVoucherModal(true)}
+                onClick={() => setShowCouponModal(true)}
               >
                 <span className={styles.ticketIcon}>
                   <img
@@ -290,10 +426,23 @@ const Cart = () => {
                   {calculateTotal().toLocaleString("vi-VN")}đ
                 </span>
               </div>
-              <button className={styles.checkoutBtn}>THANH TOÁN</button>
+              <Link to={"/checkouts"}>
+                <button className={styles.checkoutBtn}>THANH TOÁN</button>
+              </Link>
             </div>
           </div>
         )}
+
+        {showCouponModal && (
+          <CouponModal
+            coupons={vouchers}
+            onClose={handleCloseCouponModal}
+            onCopyCoupon={handleCopyCoupon}
+            onGetCoupon={handleGetCoupon}
+          />
+        )}
+
+        {/* Confirm Modal */}
         <ConfirmModal
           isOpen={confirmModal.isOpen}
           onClose={cancelRemove}

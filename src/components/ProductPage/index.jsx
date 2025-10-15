@@ -43,16 +43,6 @@ function ProductPage() {
       setProduct(productData);
       setVariants(productVariants?.variants);
       setAttributes(productVariants?.attributes);
-
-      // 2. Nếu có id thì gọi song song highlights + blogs
-      if (productData?.id) {
-        const [hl, bl] = await Promise.all([
-          getHighlightsProduct(productData.id),
-          getBlogsProduct(productData.id),
-        ]);
-        setHighlights(hl);
-        setBlogs(bl);
-      }
     } catch (err) {
       console.error("Fetch product error:", err);
     } finally {
@@ -63,6 +53,35 @@ function ProductPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    if (!product?.id) return;
+
+    let cancelled = false;
+
+    const loadExtraData = async () => {
+      try {
+        const [hl, bl] = await Promise.all([
+          getHighlightsProduct(product.id),
+          getBlogsProduct(product.id),
+        ]);
+        if (!cancelled) {
+          setHighlights(hl);
+          setBlogs(bl);
+        }
+      } catch (err) {
+        console.error("Lazy load highlights/blogs error:", err);
+      }
+    };
+
+    // Delay 500ms sau khi product render để tránh nghẽn
+    const timer = setTimeout(loadExtraData, 500);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [product?.id]);
 
   // Hiển thị loading state
   if (loading) {
@@ -87,9 +106,6 @@ function ProductPage() {
       </div>
     );
   }
-
-  console.log("attributes", attributes);
-  console.log("variants", variants);
 
   return (
     <div className={styles.wrapper}>

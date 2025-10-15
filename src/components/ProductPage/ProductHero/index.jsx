@@ -22,6 +22,7 @@ function ProductHero({
     attributes || {},
   );
   const currentUser = useCurrentUser();
+  const isLoggedIn = !!currentUser;
   const customerId = currentUser?.customerId;
 
   // --- Init: set filteredAttributes = attributes and auto-select first value of each attribute
@@ -185,7 +186,10 @@ function ProductHero({
         return;
       }
 
-      const res = await addToCart({ productId, variantId, quantity });
+      const res = await addToCart(
+        { productId, variantId, quantity },
+        isLoggedIn,
+      );
       console.log(res);
       // const result = await addToCart(productId, variantIdToAdd, quantity);
       toast.success("Đã thêm vào giỏ hàng!");

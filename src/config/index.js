@@ -13,6 +13,7 @@ const config = {
     resetPassword: "reset-password",
     forgotPassword: "forgot-password",
     cart: "/cart",
+    checkout: "/checkouts",
   },
   accountRoutes: {
     loyalty: "/account",

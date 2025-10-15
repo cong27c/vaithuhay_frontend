@@ -1,0 +1,33 @@
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.leftColumn {
+  flex: 1;
+  min-width: 0;
+}
+
+.rightColumn {
+  width: 420px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 968px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .rightColumn {
+    width: 100%;
+  }
+}
