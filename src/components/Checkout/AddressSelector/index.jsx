@@ -4,7 +4,11 @@ import { useState, useEffect } from "react";
 import { getProvinces, getDistricts, getWards } from "vietnam-provinces";
 import styles from "./AddressSelector.module.scss";
 
-export default function AddressSelector({ onAddressSelect, errors }) {
+export default function AddressSelector({
+  onAddressSelect,
+  errors,
+  initialValues,
+}) {
   const [province, setProvince] = useState("");
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState("");
@@ -12,6 +16,36 @@ export default function AddressSelector({ onAddressSelect, errors }) {
   const [provinceList, setProvinceList] = useState([]);
   const [districtList, setDistrictList] = useState([]);
   const [wardList, setWardList] = useState([]);
+
+  // Khởi tạo giá trị từ initialValues
+  useEffect(() => {
+    if (initialValues) {
+      console.log("Initial values in AddressSelector:", initialValues);
+
+      // Set giá trị tỉnh/thành
+      if (initialValues.province) {
+        setProvince(initialValues.province);
+
+        // Load districts cho tỉnh đã chọn
+        const districts = getDistricts(initialValues.province);
+        setDistrictList(districts);
+
+        // Set giá trị quận/huyện
+        if (initialValues.district) {
+          setDistrict(initialValues.district);
+
+          // Load wards cho quận/huyện đã chọn
+          const wards = getWards(initialValues.district);
+          setWardList(wards);
+
+          // Set giá trị phường/xã
+          if (initialValues.ward) {
+            setWard(initialValues.ward);
+          }
+        }
+      }
+    }
+  }, [initialValues?.province, initialValues?.district, initialValues?.ward]);
 
   // Lấy danh sách tỉnh/thành
   useEffect(() => {
@@ -59,15 +93,7 @@ export default function AddressSelector({ onAddressSelect, errors }) {
         wardName: selectedWard ? selectedWard.name : "",
       });
     }
-  }, [
-    province,
-    district,
-    ward,
-    provinceList,
-    districtList,
-    wardList,
-    onAddressSelect,
-  ]);
+  }, [province, district, ward, provinceList, districtList, wardList]);
 
   return (
     <div className={styles.container}>

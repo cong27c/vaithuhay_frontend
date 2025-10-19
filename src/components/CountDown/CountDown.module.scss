@@ -76,3 +76,86 @@
     margin: 0 4px;
 }
 }
+
+// CountDown.module.scss
+.defaultCountDown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.bannerCountDown {
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.time, .countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 30px;
+}
+
+.number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  background: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 4px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 4px;
+  text-transform: lowercase;
+}
+
+.separator {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 4px;
+}
+
+.ended {
+  font-size: 1rem;
+  color: #ff4444;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.waiting {
+  text-align: center;
+  
+  .waitingText {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .number {
+    font-size: 1.2rem;
+    min-width: 35px;
+  }
+  
+  .label {
+    font-size: 0.7rem;
+  }
+  
+  .separator {
+    font-size: 1rem;
+  }
+}

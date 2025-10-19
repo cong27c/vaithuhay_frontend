@@ -1,0 +1,82 @@
+@import '@/styles/variables.scss';
+
+.btn {
+  font-family: $font-family;
+  font-size: $font-size-md;
+  font-weight: 600;
+  border: none;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Variants
+  &.primary {
+    background-color: $primary-yellow;
+    color: $primary-black;
+
+    &:hover:not(:disabled) {
+      background-color: #FFC700;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &.secondary {
+    background-color: $secondary-gray;
+    color: $text-light;
+    border: 1px solid $border-gray;
+
+    &:hover:not(:disabled) {
+      background-color: $light-gray;
+      border-color: $primary-yellow;
+      color: $primary-yellow;
+    }
+  }
+
+  &.danger {
+    background-color: $danger;
+    color: $text-white;
+
+    &:hover:not(:disabled) {
+      background-color: #E53935;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &.success {
+    background-color: $success;
+    color: $text-white;
+
+    &:hover:not(:disabled) {
+      background-color: #45A049;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  // Sizes
+  &.sm {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+  }
+
+  &.md {
+    padding: $spacing-md $spacing-lg;
+  }
+
+  &.lg {
+    padding: $spacing-lg $spacing-xl;
+    font-size: $font-size-lg;
+  }
+}

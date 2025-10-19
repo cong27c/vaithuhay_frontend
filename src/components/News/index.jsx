@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function News({
   title = "Ốp lưng điện thoại EYE Smartcase - Biến iPhone thành Android",
-  articles = [],
+  articles = "",
 }) {
   const listItem = [
     {
@@ -116,7 +116,7 @@ function News({
         <div className={styles.bodyLeft}>
           <div
             className={styles.blog}
-            dangerouslySetInnerHTML={{ __html: articles[0].desc }}
+            dangerouslySetInnerHTML={{ __html: articles }}
           />
         </div>
         <div className={styles.bodyRight}>
@@ -146,7 +146,7 @@ function News({
 }
 News.propTypes = {
   title: PropTypes.string,
-  articles: PropTypes.array,
+  articles: PropTypes.string,
 };
 
 export default News;

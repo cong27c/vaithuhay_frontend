@@ -5,14 +5,20 @@ import ProductProgress from "../ProductProgress";
 import { toast } from "react-toastify";
 import { addToCart } from "@/Services/cartService";
 import { useCurrentUser } from "@/Hooks/useCurrentUser";
+import QuantityBar from "../QuantityBar";
+import PreOrderModal from "../PreOrderModal/index";
+import RegisterFormModal from "../RegisterFormModal";
 
 function ProductHero({
   productId = null,
   subImgs = [],
   mainImg,
+  preOrder = {},
+  isPreOrder = false,
   detail = [],
-  attributes = {}, // expecting object: { "Kiểu dáng/Phụ kiện": [...], "Màu sắc": [...], "Kích thước": [...] }
-  variants = [], // expecting array of variants; each variant.attributes is array of variantValue strings
+  attributes = {},
+  variants = [],
+  isRegistered = false,
 }) {
   const allImages = [mainImg, ...subImgs];
   const [mainImage, setMainImage] = useState(mainImg);
@@ -21,9 +27,59 @@ function ProductHero({
   const [filteredAttributes, setFilteredAttributes] = useState(
     attributes || {},
   );
+  const [quantity, setQuantity] = useState(1); // Thêm state quantity bị thiếu
   const currentUser = useCurrentUser();
   const isLoggedIn = !!currentUser;
   const customerId = currentUser?.customerId;
+
+  const [isPreOrderModalOpen, setIsPreOrderModalOpen] = useState(false);
+  const [isRegisterFormModalOpen, setIsRegisterFormModalOpen] = useState(false);
+
+  const [selectedVariantForModal, setSelectedVariantForModal] = useState(null);
+  const [selectedTierData, setSelectedTierData] = useState({
+    tierId: null,
+    originalPrice: "",
+    discountedPrice: "",
+    tierName: "",
+    discountPercent: "",
+  });
+  // Pre-order function - Mở modal
+  console.log("isRegistered", isRegistered);
+
+  const handleOpenRegisterForm = (tierData) => {
+    setSelectedTierData(tierData);
+
+    setIsRegisterFormModalOpen(true);
+  };
+
+  const handlePreOrder = async () => {
+    try {
+      const keys = Object.keys(attributes || {});
+      if (keys.some((k) => !selectedVariants[k])) {
+        toast.warn("Vui lòng chọn đầy đủ thuộc tính!");
+        return;
+      }
+
+      const matched = findMatchedVariantBySelected();
+      const variantId = matched?.id || null;
+
+      if (!variantId) {
+        toast.warn("Không tìm được biến thể phù hợp để đặt trước.");
+        return;
+      }
+
+      setSelectedVariantForModal({
+        variantId,
+        selectedVariants: { ...selectedVariants },
+        matchedVariant: matched,
+        filteredAttributes: { ...filteredAttributes },
+      });
+      setIsPreOrderModalOpen(true);
+    } catch (err) {
+      console.error("Pre-order error:", err);
+      toast.error("Đặt trước thất bại!");
+    }
+  };
 
   // --- Init: set filteredAttributes = attributes and auto-select first value of each attribute
   useEffect(() => {
@@ -42,7 +98,6 @@ function ProductHero({
     if (!attributes || !variants || Object.keys(attributes).length === 0)
       return null;
     const keys = Object.keys(attributes);
-    // require selected for all keys
     if (keys.some((k) => !selVariants[k])) return null;
     const selectedValues = keys.map(
       (k) =>
@@ -61,7 +116,6 @@ function ProductHero({
       if (matched.image) setMainImage(matched.image);
       if (matched.price) setPriceProduct(matched.price);
     } else {
-      // fallback to detail price if available
       if (detail?.price) setPriceProduct(detail.price);
     }
   }, [selectedVariants, variants, attributes, detail]);
@@ -72,19 +126,15 @@ function ProductHero({
     if (attrKeys.length === 0) return;
     const mainAttrKey = attrKeys[0];
 
-    // If user clicks the main attribute -> we must rebuild filteredAttributes for dependent attributes
     if (variantType === mainAttrKey) {
-      // 1) determine selected main value (string)
       const selectedMainValue = attributes[mainAttrKey].find(
         (i) => i.variantId === item.variantId,
       )?.variantValue;
 
-      // 2) filter variants that contain this main value
       const validVariants = variants.filter((v) =>
         v.attributes.includes(selectedMainValue),
       );
 
-      // 3) build new filtered attributes: main keeps all values, others are those that appear in validVariants
       const newFiltered = { [mainAttrKey]: attributes[mainAttrKey] };
       for (const v of validVariants) {
         for (const val of v.attributes) {
@@ -104,7 +154,6 @@ function ProductHero({
         }
       }
 
-      // 4) set new selected: main = clicked, dependent = first available in newFiltered (reset)
       const newSelected = { [mainAttrKey]: item.variantId };
       for (const key of attrKeys.slice(1)) {
         newSelected[key] = newFiltered[key]?.[0]?.variantId || undefined;
@@ -113,7 +162,6 @@ function ProductHero({
       setFilteredAttributes(newFiltered);
       setSelectedVariants(newSelected);
 
-      // 5) try to find matched variant among validVariants with newSelected values
       const selectedValues = attrKeys.map(
         (k) =>
           attributes[k].find((i) => i.variantId === newSelected[k])
@@ -127,7 +175,6 @@ function ProductHero({
         if (matchedVariant.image) setMainImage(matchedVariant.image);
         if (matchedVariant.price) setPriceProduct(matchedVariant.price);
       } else {
-        // fallback to clicked item's image/price if provided
         if (item.imageVariant) setMainImage(item.imageVariant);
         if (item.priceVariant) setPriceProduct(item.priceVariant);
       }
@@ -135,21 +182,18 @@ function ProductHero({
       return;
     }
 
-    // If user selects a dependent attribute: just update that selection (if that value exists in current filteredAttributes)
     if (
       !filteredAttributes[variantType] ||
       !filteredAttributes[variantType].some(
         (i) => i.variantId === item.variantId,
       )
     ) {
-      // clicked value not in filtered list (ignore)
       return;
     }
 
     setSelectedVariants((prev) => {
       const next = { ...prev, [variantType]: item.variantId };
 
-      // optionally update image/price if this yields a complete matched variant
       const keys = Object.keys(attributes || {});
       if (!keys.some((k) => !next[k])) {
         const selVals = keys.map(
@@ -191,7 +235,6 @@ function ProductHero({
         isLoggedIn,
       );
       console.log(res);
-      // const result = await addToCart(productId, variantIdToAdd, quantity);
       toast.success("Đã thêm vào giỏ hàng!");
     } catch (err) {
       console.error("Add to cart error:", err);
@@ -240,7 +283,8 @@ function ProductHero({
       setHeight(isExpanded ? `${descRef.current.scrollHeight}px` : "60px");
   }, [isExpanded]);
 
-  const [quantity, setQuantity] = useState(1);
+  // THAY THẾ ĐIỀU KIỆN isOpen bằng kiểm tra dữ liệu sản phẩm
+  if (!productId || !detail) return null;
 
   return (
     <div className={styles.wrapper}>
@@ -292,6 +336,9 @@ function ProductHero({
             )}
           </div>
 
+          {/* PRE-ORDER INFO SECTION */}
+          {isPreOrder && preOrder && <QuantityBar />}
+
           <div className={styles.brandIn4}>
             <div className={styles.line}></div>
             <div
@@ -339,46 +386,95 @@ function ProductHero({
           </div>
 
           <div className={styles.productActions}>
-            <div className={styles.quantityControl}>
-              <button
-                className={styles["quantity-btn"]}
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                disabled={quantity <= 0}
-              >
-                -
-              </button>
-              <input
-                type="number"
-                className={styles.quantityInput}
-                value={quantity}
-                min="1"
-                onChange={(e) =>
-                  setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-                }
-              />
-              <button
-                className={styles["quantity-btn"]}
-                onClick={() => setQuantity(quantity + 1)}
-              >
-                +
-              </button>
-            </div>
-
-            <div className={styles.cartIcon} onClick={handleAddToCart}>
-              <img
-                src="https://theme.hstatic.net/1000069970/1001119059/14/cro_addcart_img.png?v=7221"
-                alt=""
-              />
-            </div>
-
-            <div className={styles.button}>
-              <Button tabButton>Mua ngay</Button>
-            </div>
+            {isPreOrder ? (
+              // PRE-ORDER BUTTON - KHI BẤM SẼ MỞ MODAL
+              <div>
+                {isRegistered ? (
+                  <button className={styles.preOrderBtnSuccess}>
+                    ĐĂNG KÝ ĐẶT TRƯỚC THÀNH CÔNG
+                  </button>
+                ) : (
+                  <button
+                    className={styles.preOrderBtn}
+                    onClick={handlePreOrder}
+                  >
+                    Đặt trước | PRE-ORDER
+                  </button>
+                )}
+              </div>
+            ) : (
+              // NORMAL PRODUCT BUTTONS
+              <>
+                <div className={styles.quantityControl}>
+                  <button
+                    className={styles["quantity-btn"]}
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    disabled={quantity <= 0}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    className={styles.quantityInput}
+                    value={quantity}
+                    min="1"
+                    onChange={(e) =>
+                      setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                    }
+                  />
+                  <button
+                    className={styles["quantity-btn"]}
+                    onClick={() => setQuantity(quantity + 1)}
+                  >
+                    +
+                  </button>
+                </div>
+                <div className={styles.cartIcon} onClick={handleAddToCart}>
+                  <img
+                    src="https://theme.hstatic.net/1000069970/1001119059/14/cro_addcart_img.png?v=7221"
+                    alt=""
+                  />
+                </div>
+                <div className={styles.button}>
+                  <Button tabButton onClick={handleAddToCart}>
+                    Mua ngay
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
 
       <ProductProgress />
+
+      {/* PRE-ORDER MODAL */}
+      <PreOrderModal
+        isOpen={isPreOrderModalOpen}
+        onClose={() => setIsPreOrderModalOpen(false)}
+        onOrderButtonClick={handleOpenRegisterForm}
+        productId={productId}
+        productName={detail?.name}
+        mainImage={mainImage}
+        attributes={attributes}
+        filteredAttributes={filteredAttributes}
+        selectedVariants={selectedVariants}
+        onVariantSelect={handleVariantSelect}
+        variantData={selectedVariantForModal}
+        preOrderInfo={preOrder}
+        variants={variants}
+      />
+
+      <RegisterFormModal
+        isOpen={isRegisterFormModalOpen}
+        onClose={() => setIsRegisterFormModalOpen(false)}
+        productId={productId}
+        tierId={selectedTierData.tierId}
+        originalPrice={selectedTierData.originalPrice}
+        discountedPrice={selectedTierData.discountedPrice}
+        tierName={selectedTierData.tierName}
+        discountPercent={selectedTierData.discountPercent}
+      />
     </div>
   );
 }

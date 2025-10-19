@@ -20,5 +20,4 @@ const checkout = async (formData, isLoggedIn = false) => {
     throw error;
   }
 };
-
 export { checkout };

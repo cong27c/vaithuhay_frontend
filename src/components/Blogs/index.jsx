@@ -1,240 +1,165 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ArticleList from "../ArticleList";
 import Pagination from "../Pagination";
 import styles from "./Blogs.module.scss";
 import PropTypes from "prop-types";
+import { getBlogsByType } from "@/Services/blogService";
 
 function Blogs({ title = "Setup Decor", type = "setup-decor" }) {
-  const technologyIn4 = [
-    {
-      id: 1,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/284dc4b89c4a6c8117095cf7b593906_4432509d98724fac88ed3e1b0f924df8_large.jpg",
-      classParticular: styles.bigLeft,
-    },
-    {
-      id: 2,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/tai_xuong_f0c47f8b309149bda56d20c4a48ae558_grande.jpg",
-      classParticular: styles.bigRightUp,
-    },
-    {
-      id: 3,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__6__affe512a817b41cbb6e3f3f69d54f7e2_grande.png",
-      classParticular: styles.smallLeftDown,
-    },
-    {
-      id: 4,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__4__99851aea567e4f269b18ebfa0bf7960e_grande.png",
-      classParticular: styles.smallRightDown,
-    },
-    {
-      id: 5,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__5__d6f8ffe9a5f046698c56d48204fde3db_grande.png",
-    },
-    {
-      id: 6,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__3__844914c7fc034dbaa6229a13c251e380_grande.png",
-    },
-    {
-      id: 7,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__2__ffa0602917e945ec8c3eadaad4dcc077_grande.png",
-    },
-    {
-      id: 8,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__1__b420568dac6a49b6aa374d59b1ef62d8_grande.png",
-    },
-    {
-      id: 9,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024_a07336d9697e45efaa4e2114d7e54830_grande.png",
-    },
-    {
-      id: 10,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__4__662cf76dc75c478c8851ca52d364751b_grande.png",
-    },
-    {
-      id: 11,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__3__67b18a902a2d4c7993915bf271839a15_grande.png",
-    },
-    {
-      id: 12,
-      title: "Cảm hứng đằng sau thiết kế của Nuphy Kick75: Từ Air Force 1",
-      author: "Xuân Trang",
-      date: "21.03.2005",
-      image:
-        "https://file.hstatic.net/1000069970/article/top_cac_dong_san_pham_cong_nghe_duoc_yeu_thich_nhat_nam_2024__2__2a9576e644e3411abfbf69df70aab859_grande.png",
-    },
-  ];
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState({
+    totalItems: 0,
+    totalPages: 1,
+    itemsPerPage: 9,
+    hasNext: false,
+    hasPrev: false,
+  });
+  const [featuredBlogs, setFeaturedBlogs] = useState([]);
+  // Fetch blogs khi type hoặc currentPage thay đổi
 
-  const setupDecorIn4 = [
-    {
-      id: 1,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/pre-order-la-gi-moi-dieu-can-biet-ve-pre-order_b22ae22812ed4333bb07146c5f156217_grande.jpg",
-      classParticular: styles.bigLeft,
-    },
-    {
-      id: 2,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/bi-kip-live-stream-ban-hang_4fa4513f3d96436f859a495e2bc312cb_grande.png",
-      classParticular: styles.bigRightUp,
-    },
-    {
-      id: 3,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/5-mau-dong-ho-de-ban-giup-tang-cam-hung-sang-tao_f0c31564117b4b86832a68ec65f31a09_grande.jpg",
-      classParticular: styles.smallLeftDown,
-    },
-    {
-      id: 4,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/tong-hop-nhung-bo-ban-phim-chuot-phai-chang-danh-cho-design_69d2459670874f238d1c555f8310024f_grande.jpg",
-      classParticular: styles.smallRightDown,
-    },
-    {
-      id: 5,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/cach-setup-phong-livestream-de-ban-hang-livestream-game_76062ecd6bab486c90d8b12d684be96d_grande.jpg",
-    },
-    {
-      id: 6,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/top-10-mon-do-cong-nghe-thong-minh-tao-cam-hug-lam-viec-cho-designer_f4cd3ca816b545bb81e49ae26f030f0c_grande.jpg",
-    },
-    {
-      id: 7,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/15-y-tuong-trang-tri-goc-hoc-tap-dep-don-gian_fa01c78c96e04a4c9b33c710b3165d7e_grande.jpg",
-    },
-    {
-      id: 8,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/dau-co-tay-nhung-khong-sung-la-bi-gi-nguyen-nhan-cach-khac-phuc_5e4d1eec513b4b778b4d3112c7f98b40_grande.jpg",
-    },
-    {
-      id: 9,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/15-y-tuong-trang-tri-goc-hoc-tap-dep-don-gian_fa01c78c96e04a4c9b33c710b3165d7e_grande.jpg",
-    },
-    {
-      id: 10,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/10-do-trang-tri-ban-lam-viec-dep-doc-dao_1d34a2b2d6344164ab295eeba022967e_grande.jpg",
-    },
-    {
-      id: 11,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/decor-la-gi-nhung-nguyen-tac-co-ban-trong-decor_83993cc441444c6b866f4d3b018b29ed_grande.jpg",
-    },
-    {
-      id: 12,
-      title: "5 mẫu đồng hồ để bàn sáng tạo giúp tăng cảm hứng làm việc",
-      author: "Đặng Nguyễn Hiệp",
-      date: "27.05.2024",
-      image:
-        "https://file.hstatic.net/1000069970/article/trang-tri-ban-hoc_708f15bd2fa540eea5df284dd1de7dad_grande.png",
-    },
-  ];
+  useEffect(() => {
+    const fetchFeaturedBlogs = async () => {
+      try {
+        const result = await getBlogsByType(type, 1, 4); // Luôn lấy 4 bài đầu tiên từ trang 1
+        const blogsData = result.blogs || result.data || [];
+
+        const processedFeaturedBlogs = blogsData.map((blog, index) => ({
+          id: blog.id || `featured-${index}`,
+          title: blog.title || "Không có tiêu đề",
+          author: blog.author || "Jaithubay.com",
+          date: blog.created_at || "01.01.2024",
+          image: blog.thumbnail || "",
+          slug: blog.slug || blog.id,
+          type: blog.type || type,
+          ...blog,
+        }));
+
+        setFeaturedBlogs(processedFeaturedBlogs);
+      } catch (error) {
+        console.error("Error fetching featured blogs:", error);
+      }
+    };
+
+    fetchFeaturedBlogs();
+  }, [type]); // Chỉ phụ thuộc vào type
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        const result = await getBlogsByType(type, currentPage, 9);
+        console.log("API Response:", result);
+
+        // Sửa: Truy xuất đúng cấu trúc response
+        const blogsData = result.blogs || result.data || [];
+        const paginationData = result.pagination || {};
+        // Xử lý tất cả blogs từ API
+        const processedBlogs = blogsData.map((blog, index) => ({
+          id: blog.id || `blog-${currentPage}-${index}`,
+          title: blog.title || "Không có tiêu đề",
+          author: blog.author || "Jaithubay.com",
+          date: blog.created_at || "01.01.2024",
+          image: blog.thumbnail || "",
+          slug: blog.slug || blog.id,
+          type: blog.type || type,
+          ...blog,
+        }));
+
+        setBlogs(processedBlogs);
+        // Cập nhật thông tin phân trang
+        setPagination({
+          totalItems: paginationData.totalItems || 0,
+          totalPages: paginationData.totalPages || 1,
+          itemsPerPage: paginationData.itemsPerPage || 9,
+          hasNext: paginationData.hasNext || false,
+          hasPrev: paginationData.hasPrev || false,
+        });
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [type, currentPage]);
+
+  // Xử lý khi chuyển trang
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // SỬA: Ở trang 1, ArticleList hiển thị TẤT CẢ blogs (9 blog)
+  // Ở các trang khác cũng hiển thị tất cả blogs (9 blog)
+  const articleListBlogs = blogs;
+
+  if (loading) {
+    return <div className={styles.loading}>Đang tải...</div>;
+  }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles["header-section"]}>
         <div className={styles.title}>{title}</div>
-        <div className={styles.banner}>
-          {(type === "technology" ? technologyIn4 : setupDecorIn4)
-            .filter((card) => card.classParticular)
-            .map((card) => (
-              <div
-                key={card.id}
-                className={`${styles.item} ${card.classParticular}`}
-              >
-                <img src={card.image} alt="" />
-                <div className={styles.overlay}>
-                  <p>{card.title}</p>
-                </div>
-              </div>
-            ))}
-        </div>
+
+        {/* Chỉ hiển thị banner ở trang 1 */}
+        {
+          <div className={styles.banner}>
+            {featuredBlogs.length > 0
+              ? featuredBlogs.map((blog, index) => {
+                  const classParticular =
+                    index === 0
+                      ? styles.first
+                      : index === 1
+                        ? styles.second
+                        : index === 2
+                          ? styles.third
+                          : styles.fourth;
+
+                  return (
+                    <Link
+                      key={blog.id}
+                      to={`/blogs/${blog.type}/${blog.slug}`}
+                      className={styles.blogLink}
+                    >
+                      <div className={`${styles.item} ${classParticular}`}>
+                        <img src={blog.image} alt={blog.title} />
+                        <div className={styles.overlay}>
+                          <p>{blog.title}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })
+              : blogs.length === 0 && (
+                  <div className={styles.noBlogs}>Không có bài viết nào</div>
+                )}
+          </div>
+        }
       </div>
+
       <div className={styles["footer-section"]}>
-        <ArticleList
-          articles={type === "technology" ? technologyIn4 : setupDecorIn4}
-        />
-        <Pagination />
+        {/* SỬA: Hiển thị tất cả 9 blog trong ArticleList */}
+        <ArticleList articles={articleListBlogs} />
+
+        {/* Hiển thị Pagination nếu có nhiều hơn 1 trang */}
+        {pagination.totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalItems={pagination.totalItems}
+            itemsPerPage={pagination.itemsPerPage}
+            onPageChange={handlePageChange}
+            size={40}
+            fontSize={14}
+            gap={8}
+            prevNextWidth="auto"
+            prevNextPadding="0 15px"
+          />
+        )}
       </div>
     </div>
   );
@@ -242,7 +167,7 @@ function Blogs({ title = "Setup Decor", type = "setup-decor" }) {
 
 Blogs.propTypes = {
   title: PropTypes.string,
-  type: PropTypes.oneOf(["setup-decor", "technology"]),
+  type: PropTypes.oneOf(["setup-decor", "technology", "product", "cong-nghe"]),
 };
 
 export default Blogs;

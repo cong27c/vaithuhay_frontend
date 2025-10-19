@@ -1,0 +1,120 @@
+@import '@/styles/variables.scss';
+
+.vouchersPage {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    color: $text-white;
+    margin: 0;
+  }
+}
+
+.toolbar {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  align-items: center;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background-color: $secondary-gray;
+  border: 1px solid $border-gray;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  flex: 1;
+  max-width: 400px;
+
+  input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: $text-light;
+    outline: none;
+    font-size: $font-size-md;
+
+    &::placeholder {
+      color: $light-gray;
+    }
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: $secondary-gray;
+  }
+
+  th {
+    padding: $spacing-md;
+    text-align: left;
+    font-weight: 600;
+    color: $text-white;
+    border-bottom: 2px solid $border-gray;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: $spacing-md;
+    border-bottom: 1px solid $border-gray;
+    color: $text-light;
+
+    &:hover {
+      background-color: $secondary-gray;
+    }
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: 600;
+
+  &.active {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: $success;
+  }
+
+  &.expired {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: $danger;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  color: $text-light;
+  cursor: pointer;
+  padding: $spacing-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary-yellow;
+  }
+}

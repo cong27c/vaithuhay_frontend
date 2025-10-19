@@ -52,7 +52,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 20px;
 }
@@ -60,6 +60,7 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
+  margin-bottom: 16px;
 }
 
 .input {
@@ -77,12 +78,12 @@
 }
 
 .input:hover {
-  border-color: #4096ff;
+  border-color: #ffb800;
 }
 
 .input:focus {
-  border-color: #4096ff;
-  box-shadow: 0 0 0 3px rgba(64, 150, 255, 0.1);
+  border-color: #ffb800;
+  box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.1);
 }
 
 .addressSelector {
@@ -106,12 +107,12 @@
 }
 
 .textarea:hover {
-  border-color: #4096ff;
+  border-color: #ffb800;
 }
 
 .textarea:focus {
-  border-color: #4096ff;
-  box-shadow: 0 0 0 3px rgba(64, 150, 255, 0.1);
+  border-color: #ffb800;
+  box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.1);
 }
 
 .addLocationBtn {
@@ -130,8 +131,8 @@
 }
 
 .addLocationBtn:hover {
-  border-color: #4096ff;
-  color: #4096ff;
+  border-color: #ffb800;
+  color: #ffb800;
 }
 
 .plusIcon {
@@ -168,14 +169,14 @@
 }
 
 .typeButton:hover {
-  border-color: #4096ff;
-  color: #4096ff;
+  border-color: #ffb800;
+  color: #ffb800;
 }
 
 .typeButton.active {
-  border-color: #ff5722;
-  background: #fff5f3;
-  color: #ff5722;
+  border-color: #ffb800;
+  background: #fff9e6;
+  color: #e6a700;
 }
 
 .checkboxGroup {
@@ -190,7 +191,7 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #ff5722;
+  accent-color: #ffb800;
 }
 
 .checkboxLabel {
@@ -220,15 +221,15 @@
 }
 
 .backButton:hover {
-  border-color: #4096ff;
-  color: #4096ff;
+  border-color: #ffb800;
+  color: #ffb800;
 }
 
 .submitButton {
   padding: 10px 32px;
   border: none;
   border-radius: 8px;
-  background: #ff5722;
+  background: #ffb800;
   color: white;
   font-size: 14px;
   font-weight: 500;
@@ -237,7 +238,7 @@
 }
 
 .submitButton:hover {
-  background: #f4511e;
+  background: #e6a700;
 }
 
 .submitButton:active {

@@ -106,6 +106,7 @@ function ProductPage() {
       </div>
     );
   }
+  console.log(product);
 
   return (
     <div className={styles.wrapper}>
@@ -113,6 +114,9 @@ function ProductPage() {
         productId={product.id}
         subImgs={product.images?.subImages}
         mainImg={product.images?.mainImage}
+        preOrder={product?.preorder}
+        isPreOrder={product?.isPreOrder}
+        isRegistered={product?.preorder?.isRegistered || false}
         detail={product?.detail}
         attributes={attributes}
         variants={variants}

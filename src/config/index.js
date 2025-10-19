@@ -14,6 +14,7 @@ const config = {
     forgotPassword: "forgot-password",
     cart: "/cart",
     checkout: "/checkouts",
+    admin: "/admin",
   },
   accountRoutes: {
     loyalty: "/account",
@@ -24,8 +25,10 @@ const config = {
     coupons: "/account/coupons",
   },
   blogsRoutes: {
-    setupDecor: "/blogs/setup-decor",
-    technology: "/blogs/technology",
+    setupDecor: "/blogs/setup-decor/",
+    technology: "/blogs/technology/",
+    setupDecorBlogDetail: "/blogs/setup-decor/:slug",
+    technologyBlogDetail: "/blogs/technology/:slug",
   },
   seeMoreRoutes: {
     introduce: "/seeMore/introduce",
@@ -56,6 +59,16 @@ const config = {
     rainShoeCover: "news/rainShoeCover",
     diceGlowFeature: "news/diceGlowFeature",
     leatherCareTips: "news/leatherCareTips",
+  },
+  adminRoutes: {
+    dashboard: "/admin",
+    users: "/admin/users",
+    products: "/admin/products",
+    orders: "/admin/orders",
+    vouchers: "/admin/vouchers",
+    payments: "/admin/payments",
+    reviews: "/admin/reviews",
+    analytics: "/admin/analytics",
   },
 };
 

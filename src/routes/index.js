@@ -51,6 +51,16 @@ import ResetPassword from "@/components/ResetPassword";
 import ForgotPassword from "@/components/ForgotPassword";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
+import Dashboard from "@/pages/Admin/Dashboard";
+import Users from "@/pages/Admin/Users";
+import Products from "@/pages/Admin/Products";
+import Orders from "@/pages/Admin/Orders";
+import Vouchers from "@/pages/Admin/Vouchers";
+import Payments from "@/pages/Admin/Payments";
+import Reviews from "@/pages/Admin/Reviews";
+import Analytics from "@/pages/Admin/Analytics";
+import AdminLayout from "@/layouts/AdminLayout";
+import BlogDetail from "@/pages/BlogDetail";
 
 const routes = [
   {
@@ -64,6 +74,42 @@ const routes = [
   {
     path: config.routes.checkout,
     component: Checkout,
+  },
+  { path: config.adminRoutes.users, component: Users, layout: AdminLayout },
+  {
+    path: config.adminRoutes.products,
+    component: Products,
+    layout: AdminLayout,
+  },
+  {
+    path: config.adminRoutes.orders,
+    component: Orders,
+    layout: AdminLayout,
+  },
+  {
+    path: config.adminRoutes.vouchers,
+    component: Vouchers,
+    layout: AdminLayout,
+  },
+  {
+    path: config.adminRoutes.payments,
+    component: Payments,
+    layout: AdminLayout,
+  },
+  {
+    path: config.adminRoutes.reviews,
+    component: Reviews,
+    layout: AdminLayout,
+  },
+  {
+    path: config.adminRoutes.analytics,
+    component: Analytics,
+    layout: AdminLayout,
+  },
+  {
+    path: config.adminRoutes.dashboard,
+    component: Dashboard,
+    layout: AdminLayout,
   },
   {
     path: config.routes.register,
@@ -81,6 +127,7 @@ const routes = [
     component: ResetPassword,
     layout: AuthLayout,
   },
+
   {
     path: config.routes.forgotPassword,
     component: ForgotPassword,
@@ -120,6 +167,7 @@ const routes = [
     component: PartTimeJobs,
     layout: FullscreenLayout,
   },
+
   {
     path: config.seeMoreRoutes.jobsDetailPage,
     component: JobDetailPage,
@@ -184,6 +232,14 @@ const routes = [
       { path: config.seeMoreRoutes.introduce, component: Introduce },
       { path: config.seeMoreRoutes.Collections, component: Collections },
     ],
+  },
+  {
+    path: config.blogsRoutes.setupDecorBlogDetail,
+    component: BlogDetail,
+  },
+  {
+    path: config.blogsRoutes.technologyBlogDetail,
+    component: BlogDetail,
   },
   {
     path: config.routes.policySection,

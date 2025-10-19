@@ -1,0 +1,36 @@
+@import '@/styles/variables.scss';
+
+.analyticsPage {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.header {
+  h1 {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    color: $text-white;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    font-size: $font-size-md;
+    color: $light-gray;
+    margin: 0;
+  }
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: $spacing-lg;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chartCard {
+  min-height: 400px;
+}

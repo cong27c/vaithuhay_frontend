@@ -7,6 +7,7 @@ import { getCart } from "@/Services/cartService";
 import { applyVoucher } from "@/Services/voucherService";
 import { toast } from "react-toastify";
 import { useCurrentUser } from "@/Hooks/useCurrentUser";
+import { useSelector } from "react-redux";
 
 export default function OrderSummary({
   onShowDiscounts,
@@ -36,14 +37,13 @@ export default function OrderSummary({
   // Sử dụng discount từ API nếu có, nếu không thì tính bình thường
   const discountAmount = discountInfo?.discount || 0;
   const finalTotal = discountInfo?.finalTotal || subtotal + 0; // shipping = 0
+  const { selectedProducts } = useSelector((state) => state.cart);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await getCart(isLoggedIn);
-        setCartItems(res?.data || []);
-        console.log(res);
+        setCartItems(selectedProducts || []);
       } catch (error) {
         console.error("Error fetching cart:", error);
       } finally {
@@ -51,7 +51,7 @@ export default function OrderSummary({
       }
     };
     fetchData();
-  }, [isLoggedIn]);
+  }, [selectedProducts]);
 
   const handleApplyDiscount = async () => {
     if (!discountInput.trim()) {

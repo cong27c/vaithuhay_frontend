@@ -18,7 +18,12 @@ function Pagination({
 
   const handleClick = (page) => {
     if (page < 1 || page > totalPages || page === currentPage) return;
+
+    // Gọi callback để thay đổi trang
     onPageChange(page);
+
+    // Scroll lên đầu trang sau khi chuyển trang
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const renderPageNumbers = () => {
