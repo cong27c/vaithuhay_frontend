@@ -1,0 +1,368 @@
+// Colors
+$color-success: #28a745;
+$color-error: #dc3545;
+$color-pending: #ffc107;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-border: #e9ecef;
+$color-background: #f8f9fa;
+$color-white: #ffffff;
+
+// Spacing
+$spacing-xs: 8px;
+$spacing-sm: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Border radius
+$border-radius: 16px;
+$border-radius-sm: 8px;
+
+// Shadows
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+
+// Container
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacing-md;
+  background-color: $color-background;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-sm;
+  }
+}
+
+// Card
+.card {
+  width: 100%;
+  max-width: 600px;
+  background-color: $color-white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-md;
+  padding: $spacing-xl;
+  text-align: center;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-lg;
+    border-radius: 12px;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+    border-radius: 12px;
+  }
+}
+
+// Icon Wrapper
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto $spacing-lg;
+  border-radius: 50%;
+  background-color: $color-background;
+  transition: all 0.3s ease;
+
+  @media (max-width: $tablet) {
+    width: 64px;
+    height: 64px;
+    margin-bottom: $spacing-md;
+  }
+
+  &.statusSuccess {
+    background-color: rgba($color-success, 0.1);
+  }
+
+  &.statusError {
+    background-color: rgba($color-error, 0.1);
+  }
+
+  &.statusPending {
+    background-color: rgba($color-pending, 0.1);
+  }
+}
+
+// Icon
+.icon {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1;
+
+  .statusSuccess & {
+    color: $color-success;
+  }
+
+  .statusError & {
+    color: $color-error;
+  }
+
+  .statusPending & {
+    color: $color-pending;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 32px;
+  }
+}
+
+// Header
+.header {
+  font-size: 28px;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-md 0;
+  line-height: 1.3;
+
+  @media (max-width: $tablet) {
+    font-size: 24px;
+    margin-bottom: $spacing-sm;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: 20px;
+  }
+}
+
+// Message
+.message {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 $spacing-lg 0;
+  padding: $spacing-md;
+  border-radius: $border-radius-sm;
+  font-weight: 500;
+
+  &.statusSuccess {
+    color: $color-success;
+    background-color: rgba($color-success, 0.05);
+    border-left: 4px solid $color-success;
+  }
+
+  &.statusError {
+    color: $color-error;
+    background-color: rgba($color-error, 0.05);
+    border-left: 4px solid $color-error;
+  }
+
+  &.statusPending {
+    color: $color-pending;
+    background-color: rgba($color-pending, 0.05);
+    border-left: 4px solid $color-pending;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 14px;
+    padding: $spacing-sm;
+    margin-bottom: $spacing-md;
+  }
+}
+
+// Info Section
+.infoSection {
+  margin-bottom: $spacing-lg;
+  text-align: left;
+
+  @media (max-width: $tablet) {
+    margin-bottom: $spacing-md;
+  }
+}
+
+// Section Title
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-md 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  @media (max-width: $tablet) {
+    font-size: 14px;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+// Info Grid
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: $color-background;
+  border-radius: $border-radius-sm;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+  }
+}
+
+// Info Item
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  @media (max-width: $mobile) {
+    gap: 4px;
+  }
+}
+
+// Label
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: $color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+// Value
+.value {
+  font-size: 15px;
+  font-weight: 500;
+  color: $color-text-primary;
+  word-break: break-word;
+
+  @media (max-width: $tablet) {
+    font-size: 14px;
+  }
+}
+
+// Amount
+.amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: $color-success;
+
+  @media (max-width: $tablet) {
+    font-size: 16px;
+  }
+}
+
+// Address Section
+.addressSection {
+  margin-bottom: $spacing-lg;
+  text-align: left;
+  padding: $spacing-md;
+  background-color: $color-background;
+  border-radius: $border-radius-sm;
+
+  @media (max-width: $tablet) {
+    margin-bottom: $spacing-md;
+    padding: $spacing-sm;
+  }
+}
+
+// Address Content
+.addressContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+// Address Line
+.addressLine {
+  font-size: 14px;
+  line-height: 1.6;
+  color: $color-text-primary;
+  margin: 0;
+
+  @media (max-width: $tablet) {
+    font-size: 13px;
+  }
+
+  strong {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+}
+
+// Button Group
+.buttonGroup {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
+  }
+}
+
+// Button
+.button {
+  flex: 1;
+  padding: $spacing-md $spacing-lg;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-sm $spacing-md;
+    font-size: 14px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Button Primary
+.buttonPrimary {
+  background-color: $color-success;
+  color: $color-white;
+  border: 2px solid $color-success;
+
+  &:hover {
+    background-color: darken($color-success, 8%);
+    border-color: darken($color-success, 8%);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-success, 0.2);
+  }
+}
+
+// Button Secondary
+.buttonSecondary {
+  background-color: transparent;
+  color: $color-text-primary;
+  border: 2px solid $color-border;
+
+  &:hover {
+    background-color: $color-background;
+    border-color: $color-text-primary;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-text-primary, 0.1);
+  }
+}

@@ -80,15 +80,6 @@ function CountDown({ startDate, endDate, type = "default" }) {
     return <div className={styles.ended}>Đã kết thúc</div>;
   }
 
-  if (timeLeft.status === "waiting") {
-    return (
-      <div className={styles.waiting}>
-        <div className={styles.waitingText}>Sự kiện sẽ bắt đầu sau:</div>
-        {renderCountdown()}
-      </div>
-    );
-  }
-
   function renderCountdown() {
     const countdownContent = (
       <>

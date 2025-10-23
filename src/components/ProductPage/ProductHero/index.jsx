@@ -19,6 +19,7 @@ function ProductHero({
   attributes = {},
   variants = [],
   isRegistered = false,
+  typePreOrder,
 }) {
   const allImages = [mainImg, ...subImgs];
   const [mainImage, setMainImage] = useState(mainImg);
@@ -34,7 +35,6 @@ function ProductHero({
 
   const [isPreOrderModalOpen, setIsPreOrderModalOpen] = useState(false);
   const [isRegisterFormModalOpen, setIsRegisterFormModalOpen] = useState(false);
-
   const [selectedVariantForModal, setSelectedVariantForModal] = useState(null);
   const [selectedTierData, setSelectedTierData] = useState({
     tierId: null,
@@ -44,7 +44,17 @@ function ProductHero({
     discountPercent: "",
   });
   // Pre-order function - Mở modal
-  console.log("isRegistered", isRegistered);
+  const [variantId, setVariantId] = useState(null);
+  const soldQuantity = preOrder?.tiers
+    ? preOrder?.tiers.reduce((total, item) => {
+        return (total += item.soldQuantity);
+      }, 0)
+    : null;
+  const totalQuantity = preOrder?.tiers
+    ? preOrder?.tiers.reduce((total, item) => {
+        return (total += Number(item.limitQuantity));
+      }, 0)
+    : null;
 
   const handleOpenRegisterForm = (tierData) => {
     setSelectedTierData(tierData);
@@ -62,7 +72,7 @@ function ProductHero({
 
       const matched = findMatchedVariantBySelected();
       const variantId = matched?.id || null;
-
+      setVariantId(variantId);
       if (!variantId) {
         toast.warn("Không tìm được biến thể phù hợp để đặt trước.");
         return;
@@ -337,7 +347,12 @@ function ProductHero({
           </div>
 
           {/* PRE-ORDER INFO SECTION */}
-          {isPreOrder && preOrder && <QuantityBar />}
+          {isPreOrder && preOrder && (
+            <QuantityBar
+              totalSoldQuantity={soldQuantity}
+              totalLimitQuantity={totalQuantity}
+            />
+          )}
 
           <div className={styles.brandIn4}>
             <div className={styles.line}></div>
@@ -386,8 +401,8 @@ function ProductHero({
           </div>
 
           <div className={styles.productActions}>
-            {isPreOrder ? (
-              // PRE-ORDER BUTTON - KHI BẤM SẼ MỞ MODAL
+            {typePreOrder === "upcoming" ? (
+              // TRƯỜNG HỢP UPCOMING
               <div>
                 {isRegistered ? (
                   <button className={styles.preOrderBtnSuccess}>
@@ -398,12 +413,17 @@ function ProductHero({
                     className={styles.preOrderBtn}
                     onClick={handlePreOrder}
                   >
-                    Đặt trước | PRE-ORDER
+                    Đăng ký Đặt trước | PRE-ORDER
                   </button>
                 )}
               </div>
+            ) : typePreOrder === "open" ? (
+              // TRƯỜNG HỢP OPEN - HIỆN NÚT PRE-ORDER
+              <button className={styles.preOrderBtn} onClick={handlePreOrder}>
+                Đặt trước | PRE-ORDER
+              </button>
             ) : (
-              // NORMAL PRODUCT BUTTONS
+              // TRƯỜNG HỢP UNDEFINED/FALSY - HIỆN BỘ ĐIỀU KHIỂN SỐ LƯỢNG
               <>
                 <div className={styles.quantityControl}>
                   <button
@@ -437,7 +457,7 @@ function ProductHero({
                 </div>
                 <div className={styles.button}>
                   <Button tabButton onClick={handleAddToCart}>
-                    Mua ngay
+                    Đặt hàng ngay
                   </Button>
                 </div>
               </>
@@ -463,6 +483,7 @@ function ProductHero({
         variantData={selectedVariantForModal}
         preOrderInfo={preOrder}
         variants={variants}
+        typePreOrder={typePreOrder}
       />
 
       <RegisterFormModal
@@ -474,6 +495,7 @@ function ProductHero({
         discountedPrice={selectedTierData.discountedPrice}
         tierName={selectedTierData.tierName}
         discountPercent={selectedTierData.discountPercent}
+        variantId={variantId}
       />
     </div>
   );

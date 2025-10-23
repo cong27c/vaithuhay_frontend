@@ -39,6 +39,7 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await dispatch(loginUser(data)).unwrap();
+
       if (res?.access_token) {
         await dispatch(getCurrentUser()).unwrap();
       }

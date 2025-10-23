@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logoutUser } from "@/features/auth/authAsync";
+import { clearCart } from "@/features/cart/cartSlice";
 
 function Logout() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function Logout() {
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser());
+      dispatch(clearCart());
       navigate(config.routes.home);
     } catch (error) {
       console.error(error);

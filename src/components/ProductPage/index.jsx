@@ -106,7 +106,7 @@ function ProductPage() {
       </div>
     );
   }
-  console.log(product);
+  console.log("product?.preorder", product?.preorder);
 
   return (
     <div className={styles.wrapper}>
@@ -120,6 +120,7 @@ function ProductPage() {
         detail={product?.detail}
         attributes={attributes}
         variants={variants}
+        typePreOrder={product?.preorder?.type}
       />
       <MemoizedProductFeatureBanner highlights={highlights} />
       <MemoizedProductInfoLayout

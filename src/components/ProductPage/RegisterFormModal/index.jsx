@@ -16,6 +16,7 @@ const RegisterFormModal = ({
   discountedPrice,
   tierName,
   discountPercent,
+  variantId,
 }) => {
   const [formData, setFormData] = useState({
     username: "",
@@ -78,6 +79,7 @@ const RegisterFormModal = ({
         product_id: productId,
         tier_id: tierId,
         timestamp: new Date().toISOString(),
+        variant_id: variantId,
       };
 
       console.log("Form submitted:", submissionData);
@@ -86,11 +88,9 @@ const RegisterFormModal = ({
       const result = await preOderRegister(submissionData);
       if (result.success) {
         toast.success(result.message || "Đăng ký đặt trước thành công!");
+      } else {
+        toast.error(result.message || "Đăng ký đặt trước thất bại.");
       }
-
-      toast.error(
-        result.message || "Đăng ký đặt trước thất bại. Vui lòng thử lại sau.",
-      );
 
       // Reset form và đóng modal
       setFormData({ username: "", email: "", phone: "" });

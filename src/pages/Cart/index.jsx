@@ -23,16 +23,17 @@ import {
   setCartItems,
   setSelectedProducts,
   toggleSelectProduct,
+  removeCartItem as removeCartItemAction,
+  updateCartItemQuantity,
 } from "@/features/cart/cartSlice";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updatingItems, setUpdatingItems] = useState(new Set());
 
-  // Redux
+  // Redux - sử dụng đúng tên state từ cartSlice
   const dispatch = useDispatch();
-  const { selectedProducts } = useSelector((state) => state.cart);
+  const { cartItems, selectedProducts } = useSelector((state) => state.cart);
 
   // Modal states
   const [showCouponModal, setShowCouponModal] = useState(false);
@@ -79,9 +80,8 @@ const Cart = () => {
           getVouchers(),
         ]);
         const cartData = cartRes?.data || [];
-        setCartItems(cartData);
 
-        // Cập nhật cart items vào Redux store
+        // Cập nhật cart items vào Redux store - cartData đã có checked property
         dispatch(setCartItems(cartData));
 
         setVouchers(voucherRes);
@@ -126,35 +126,44 @@ const Cart = () => {
     });
   };
 
-  // Hàm xác nhận xóa
+  // Hàm xác nhận xóa - ĐÃ SỬA
   const confirmRemove = async () => {
     const { id } = confirmModal.itemToRemove;
 
-    // Optimistic update
-    const removedItem = cartItems.find((item) => item.id === id);
-    const updatedCartItems = cartItems.filter((item) => item.id !== id);
-    setCartItems(updatedCartItems);
-
-    // Cập nhật Redux store
-    dispatch(setCartItems(updatedCartItems));
-
-    // Xóa khỏi selected products nếu có
-    const updatedSelectedProducts = selectedProducts.filter(
-      (item) => item.id !== id,
-    );
-    dispatch(setSelectedProducts(updatedSelectedProducts));
-
-    // Đóng modal
-    setConfirmModal({ isOpen: false, itemToRemove: null });
+    if (!id) {
+      console.error("Invalid item ID");
+      return;
+    }
 
     try {
+      // Tìm item trước khi xóa
+      const removedItem = cartItems.find((item) => item.id === id);
+      if (!removedItem) {
+        console.error("Item not found");
+        return;
+      }
+
+      // Optimistic update - sử dụng action removeCartItem từ slice
+      dispatch(removeCartItemAction(id));
+
+      // Đóng modal
+      setConfirmModal({ isOpen: false, itemToRemove: null });
+
+      // Gọi API xóa
       await removeCartItem(id, isLoggedIn);
       toast.success("Đã xóa sản phẩm khỏi giỏ hàng");
     } catch (error) {
       console.error("Error removing item:", error);
+
       // Revert optimistic update on error
-      setCartItems((prevItems) => [...prevItems, removedItem]);
-      dispatch(setCartItems([...updatedCartItems, removedItem]));
+      try {
+        const res = await getCart(isLoggedIn);
+        const freshCartData = res?.data || [];
+        dispatch(setCartItems(freshCartData));
+      } catch (refreshError) {
+        console.error("Error refreshing cart:", refreshError);
+      }
+
       toast.error("Có lỗi xảy ra khi xóa sản phẩm");
     }
   };
@@ -164,6 +173,7 @@ const Cart = () => {
     setConfirmModal({ isOpen: false, itemToRemove: null });
   };
 
+  // Hàm thay đổi số lượng - ĐÃ SỬA
   const handleQuantityChange = async (id, delta) => {
     const item = cartItems.find((item) => item.id === id);
     if (!item) return;
@@ -175,18 +185,8 @@ const Cart = () => {
       return;
     }
 
-    // Optimistic update
-    const updatedCartItems = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: newQuantity } : item,
-    );
-    setCartItems(updatedCartItems);
-    dispatch(setCartItems(updatedCartItems));
-
-    // Cập nhật selected products nếu có
-    const updatedSelectedProducts = selectedProducts.map((item) =>
-      item.id === id ? { ...item, quantity: newQuantity } : item,
-    );
-    dispatch(setSelectedProducts(updatedSelectedProducts));
+    // Optimistic update - sử dụng action từ slice
+    dispatch(updateCartItemQuantity({ id, quantity: newQuantity }));
 
     setUpdatingItems((prev) => new Set(prev).add(id));
 
@@ -195,17 +195,14 @@ const Cart = () => {
       // Refresh cart to get updated data
       const res = await getCart(isLoggedIn);
       const freshCartData = res?.data || [];
-      setCartItems(freshCartData);
       dispatch(setCartItems(freshCartData));
       toast.success("Đã cập nhật số lượng");
     } catch (error) {
       console.error("Error updating quantity:", error);
       // Revert on error
-      const revertedCartItems = cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity } : item,
-      );
-      setCartItems(revertedCartItems);
-      dispatch(setCartItems(revertedCartItems));
+      const res = await getCart(isLoggedIn);
+      const freshCartData = res?.data || [];
+      dispatch(setCartItems(freshCartData));
       toast.error("Có lỗi xảy ra khi cập nhật số lượng");
     } finally {
       setUpdatingItems((prev) => {
@@ -216,16 +213,11 @@ const Cart = () => {
     }
   };
 
+  // Hàm toggle select - ĐÃ SỬA
   const handleCheckboxChange = (id) => {
     const product = cartItems.find((item) => item.id === id);
     if (product) {
-      // Cập nhật local state
-      const updatedCartItems = cartItems.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item,
-      );
-      setCartItems(updatedCartItems);
-
-      // Cập nhật Redux store
+      // Cập nhật Redux store - slice đã tự động cập nhật checked status
       dispatch(toggleSelectProduct(product));
     }
   };
@@ -257,35 +249,10 @@ const Cart = () => {
         isLoggedIn,
       );
       if (result?.success) {
-        // Cập nhật UI với data từ server
-        const updatedCartItems = cartItems.map((item) =>
-          item.id === selectedProduct.id
-            ? {
-                ...item,
-                variant: result.data.variant,
-                price: result.data.price,
-                image: result.data.image,
-                variantId: result.data.variantId,
-              }
-            : item,
-        );
-
-        setCartItems(updatedCartItems);
-        dispatch(setCartItems(updatedCartItems));
-
-        // Cập nhật selected products nếu có
-        const updatedSelectedProducts = selectedProducts.map((item) =>
-          item.id === selectedProduct.id
-            ? {
-                ...item,
-                variant: result.data.variant,
-                price: result.data.price,
-                image: result.data.image,
-                variantId: result.data.variantId,
-              }
-            : item,
-        );
-        dispatch(setSelectedProducts(updatedSelectedProducts));
+        // Refresh cart để cập nhật toàn bộ data từ server
+        const res = await getCart(isLoggedIn);
+        const freshCartData = res?.data || [];
+        dispatch(setCartItems(freshCartData));
 
         toast.success("Đã cập nhật thuộc tính sản phẩm");
       } else {
@@ -305,7 +272,6 @@ const Cart = () => {
       try {
         const res = await getCart(isLoggedIn);
         const freshCartData = res?.data || [];
-        setCartItems(freshCartData);
         dispatch(setCartItems(freshCartData));
       } catch (refreshError) {
         console.error("Error refreshing cart:", refreshError);
@@ -321,15 +287,6 @@ const Cart = () => {
       setShowVariantModal(false);
       setSelectedProduct(null);
     }
-  };
-
-  // Helper function to parse price string to number
-  const parsePrice = (priceString) => {
-    if (typeof priceString === "number") return priceString;
-    if (typeof priceString === "string") {
-      return parseInt(priceString.replace(/[^\d]/g, ""), 10) || 0;
-    }
-    return 0;
   };
 
   const calculateTotal = () => {

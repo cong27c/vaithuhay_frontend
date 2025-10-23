@@ -61,6 +61,9 @@ import Reviews from "@/pages/Admin/Reviews";
 import Analytics from "@/pages/Admin/Analytics";
 import AdminLayout from "@/layouts/AdminLayout";
 import BlogDetail from "@/pages/BlogDetail";
+import PreOrderVerify from "@/components/PreOrderVerify";
+import OrderSuccessPage from "@/components/OrderSuccessPage";
+import PaymentQRCodePage from "@/components/PaymentQRCodePage";
 
 const routes = [
   {
@@ -68,8 +71,20 @@ const routes = [
     component: Home,
   },
   {
+    path: config.routes.orderSuccess,
+    component: OrderSuccessPage,
+  },
+  {
+    path: config.routes.orderPayment,
+    component: PaymentQRCodePage,
+  },
+  {
     path: config.routes.cart,
     component: Cart,
+  },
+  {
+    path: config.routes.preOrderVerify,
+    component: PreOrderVerify,
   },
   {
     path: config.routes.checkout,
@@ -91,6 +106,7 @@ const routes = [
     component: Vouchers,
     layout: AdminLayout,
   },
+
   {
     path: config.adminRoutes.payments,
     component: Payments,

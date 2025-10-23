@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { X, Clock, Zap } from "lucide-react";
 import styles from "./PreOrderModal.module.scss";
 import { toast } from "react-toastify";
+import { addPreorderOpenItem } from "@/Services/preOrderService";
 
 const PreOrderModal = ({
   isOpen,
@@ -19,13 +20,14 @@ const PreOrderModal = ({
   preOrderInfo,
   variants,
   onOrderButtonClick,
+  typePreOrder, // "upcoming" hoặc "open"
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [currentTierIndex, setCurrentTierIndex] = useState(0);
 
+  // Hàm xử lý cho typePreOrder = "upcoming" (giữ nguyên logic cũ)
   const handleOrderButtonClick = () => {
-    // Đóng modal PreOrderModal
     const currentTierInfo = getCurrentTier();
     const currentTier = currentTierInfo?.tier || null;
     const variantPrice = getCurrentVariantPrice();
@@ -36,51 +38,105 @@ const PreOrderModal = ({
       return;
     }
 
-    // Tính toán giá
     const originalPrice = formatPrice(variantPrice);
     const discountedPrice = calculatePreorderPrice(
       variantPrice,
       currentTier.discountPercent,
     );
 
-    // Tạo object chứa tất cả thông tin cần truyền
     const tierData = {
       tierId: currentTier.id,
       originalPrice: originalPrice,
       discountedPrice: discountedPrice,
       discountPercent: currentTier.discountPercent,
       tierName: currentTier.name,
-      variantInfo: getCurrentVariantInfo(), // Thông tin variant đã chọn
+      variantInfo: getCurrentVariantInfo(),
     };
 
     onClose();
 
-    // Gọi callback để mở modal RegisterFormModal
     if (onOrderButtonClick) {
       onOrderButtonClick(tierData);
     }
   };
 
-  // Hàm tính giá pre-order dựa trên giá gốc và discountPercent
+  // Hàm xử lý cho typePreOrder = "open" - thêm vào cart
+  const handleAddPreorderOpenItem = async () => {
+    try {
+      const currentTierInfo = getCurrentTier();
+      const currentTier = currentTierInfo?.tier || null;
+
+      if (!currentTier) {
+        toast.error("Không tìm thấy thông tin gói đặt trước!");
+        return;
+      }
+
+      // Lấy variantId từ selectedVariants
+      const variantId = getCurrentVariantId();
+
+      // Chuẩn bị data để gọi API
+      const requestData = {
+        productId: productId,
+        tierId: currentTier.id,
+        variantId: variantId,
+        quantity: quantity,
+      };
+
+      console.log("Calling API with data:", requestData);
+
+      // Gọi API service
+      const response = await addPreorderOpenItem(requestData);
+      console.log("response", response);
+
+      if (response.success) {
+        toast.success("Đã thêm sản phẩm pre-order vào giỏ hàng!");
+        onClose(); // Đóng modal sau khi thành công
+      } else {
+        toast.error(response.message || "Có lỗi xảy ra khi thêm vào giỏ hàng");
+      }
+    } catch (error) {
+      console.error("Error adding preorder item:", error);
+      toast.error(
+        error.response?.data?.message || "Có lỗi xảy ra khi thêm vào giỏ hàng",
+      );
+    }
+  };
+
+  // Service function để gọi API (bạn cần import hoặc định nghĩa)
+  const preOderRegister = async (data) => {
+    try {
+      const response = await httpRequest.post("/preorder/add-to-cart", data); // Đổi endpoint cho phù hợp
+      return response.data;
+    } catch (error) {
+      console.error("Error adding preorder to cart:", error);
+      throw error;
+    }
+  };
+
+  // Hàm lấy variantId từ selectedVariants
+  const getCurrentVariantId = () => {
+    if (!selectedVariants || Object.keys(selectedVariants).length === 0)
+      return null;
+
+    // Tìm variant khớp với selectedVariants
+    const matchedVariant = findMatchedVariantBySelected();
+    return matchedVariant?.id || null;
+  };
+
+  // Các hàm hỗ trợ giữ nguyên
   const calculatePreorderPrice = (originalPrice, discountPercent) => {
     if (!originalPrice || !discountPercent) return originalPrice;
-
-    // Chuyển đổi giá từ string "1.000.000 d" sang number
     const priceNumber = parseInt(originalPrice.replace(/[^\d]/g, ""), 10);
     const discountAmount = (priceNumber * discountPercent) / 100;
     const finalPrice = priceNumber - discountAmount;
-
-    // Format lại thành string tiền tệ
     return `${finalPrice.toLocaleString("vi-VN")} đ`;
   };
 
-  // Hàm format giá
   const formatPrice = (priceString) => {
     if (!priceString) return "";
     return priceString.replace(" d", " đ");
   };
 
-  // Hàm tìm variant khớp với selectedVariants
   const findMatchedVariantBySelected = () => {
     if (!attributes || !variants || Object.keys(attributes).length === 0)
       return null;
@@ -102,7 +158,6 @@ const PreOrderModal = ({
     );
   };
 
-  // Lấy giá của variant đang selected
   const getCurrentVariantPrice = () => {
     const matchedVariant = findMatchedVariantBySelected();
 
@@ -110,7 +165,6 @@ const PreOrderModal = ({
       return matchedVariant.price;
     }
 
-    // Fallback: lấy giá từ preOrderInfo tiers nếu có
     if (preOrderInfo?.tiers && preOrderInfo.tiers.length > 0) {
       const retailTier =
         preOrderInfo.tiers.find((tier) => tier.type === "retail") ||
@@ -121,7 +175,6 @@ const PreOrderModal = ({
     return "1.600.000 d";
   };
 
-  // Hàm xác định tier hiện tại dựa trên soldQuantity - KHÔNG CẬP NHẬT STATE
   const getCurrentTier = () => {
     if (!preOrderInfo?.tiers || preOrderInfo.tiers.length === 0) return null;
 
@@ -130,18 +183,15 @@ const PreOrderModal = ({
       const tier = preOrderInfo.tiers[i];
       cumulativeSold += tier.soldQuantity || 0;
 
-      // Nếu soldQuantity vượt quá limit của tier này, chuyển sang tier tiếp theo
       if (cumulativeSold < (tier.limitQuantity || 0)) {
         return { tier, index: i };
       }
     }
 
-    // Nếu vượt quá tất cả tiers, trả về tier cuối cùng
     const lastTier = preOrderInfo.tiers[preOrderInfo.tiers.length - 1];
     return { tier: lastTier, index: preOrderInfo.tiers.length - 1 };
   };
 
-  // useEffect để cập nhật currentTierIndex khi preOrderInfo thay đổi
   useEffect(() => {
     if (preOrderInfo?.tiers) {
       const currentTierInfo = getCurrentTier();
@@ -151,7 +201,6 @@ const PreOrderModal = ({
     }
   }, [preOrderInfo, currentTierIndex]);
 
-  // Xử lý chọn variant trong modal
   const handleVariantSelectInModal = (variantType, item) => {
     console.log("Selected variant in modal:", variantType, item);
     if (onVariantSelect) {
@@ -159,7 +208,6 @@ const PreOrderModal = ({
     }
   };
 
-  // Lấy tên variant đã chọn để hiển thị
   const getSelectedVariantName = (variantType) => {
     const selectedId = selectedVariants[variantType];
     if (!selectedId || !filteredAttributes || !filteredAttributes[variantType])
@@ -171,7 +219,6 @@ const PreOrderModal = ({
     return selectedItem ? selectedItem.variantValue : "Chưa chọn";
   };
 
-  // Lấy thông tin variant hiện tại dựa trên selection
   const getCurrentVariantInfo = () => {
     if (!filteredAttributes || Object.keys(selectedVariants).length === 0)
       return null;
@@ -191,7 +238,6 @@ const PreOrderModal = ({
     setQuantity(newQuantity);
   };
 
-  // Lấy current tier - KHÔNG CẬP NHẬT STATE TRONG RENDER
   const currentTierInfo = getCurrentTier();
   const currentTier = currentTierInfo?.tier || null;
   const variantPrice = getCurrentVariantPrice();
@@ -374,7 +420,7 @@ const PreOrderModal = ({
                   ),
                 )}
 
-              {/* Tier Info Display - Hiển thị thông tin tier hiện tại */}
+              {/* Tier Info Display */}
               {currentTier && (
                 <div className={styles.tierInfo}>
                   <h4 className={styles.tierTitle}>
@@ -407,7 +453,7 @@ const PreOrderModal = ({
               </div>
             )}
 
-            {/* Action Section */}
+            {/* Action Section - PHÂN NHÁNH THEO typePreOrder */}
             <div className={styles.actionSection}>
               <div className={styles.quantitySection}>
                 <label htmlFor="quantity" className={styles.quantityLabel}>
@@ -438,12 +484,31 @@ const PreOrderModal = ({
                 </div>
               </div>
 
-              <button
-                className={styles.orderButton}
-                onClick={handleOrderButtonClick}
-              >
-                Đặt trước ngay - {currentTier?.discountPercent || 10}%
-              </button>
+              {/* Luồng 1: typePreOrder = "upcoming" */}
+              {typePreOrder === "upcoming" && (
+                <button
+                  className={styles.orderButton}
+                  onClick={handleOrderButtonClick}
+                >
+                  Đăng ký đặt trước ngay{" "}
+                  {currentTier?.discountPercent
+                    ? `- ${currentTier?.discountPercent}%`
+                    : ""}
+                </button>
+              )}
+
+              {/* Luồng 2: typePreOrder = "open" */}
+              {typePreOrder === "open" && (
+                <button
+                  className={styles.orderButton}
+                  onClick={handleAddPreorderOpenItem}
+                >
+                  Đặt trước ngay{" "}
+                  {currentTier?.discountPercent
+                    ? `- ${currentTier?.discountPercent}%`
+                    : ""}
+                </button>
+              )}
             </div>
 
             {/* Info Box */}

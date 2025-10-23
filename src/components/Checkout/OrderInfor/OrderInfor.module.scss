@@ -293,7 +293,7 @@
 }
 
 .changeAddressButton {
-  background: #007bff;
+  background: #ffd700;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -692,5 +692,276 @@
   .addressModal {
     width: 95%;
     margin: 20px;
+  }
+}
+
+
+// Thêm vào file OrderInfor.module.scss
+
+.optionActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+.updateButton {
+  padding: 8px ;
+  border: 1px solid #ffd700;
+  background: white;
+  color: #ffd700;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  
+  &:hover {
+    background: #ffd700;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 480px) {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-width: auto;
+  }
+}
+
+.deleteButton {
+  padding: 8px 16px;
+  border: 1px solid #dc3545;
+  background: white;
+  color: #dc3545;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  
+  &:hover:not(:disabled) {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: #6c757d;
+    color: #6c757d;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-width: auto;
+  }
+}
+
+// Cập nhật lại style cho addressOption để có không gian cho các nút
+.addressOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  
+  &:hover {
+    border-color: #ffd700;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+  }
+  
+  &.selected {
+    border-color: #ffd700;
+    background: #f8f9ff;
+  }
+}
+
+.optionMain {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.optionRadio {
+  margin-top: 2px;
+  
+  input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ffd700;
+  }
+}
+
+.optionContent {
+  flex: 1;
+}
+
+.optionTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.optionName {
+  font-weight: 600;
+  color: #333;
+}
+
+.optionPhone {
+  color: #666;
+  font-size: 14px;
+}
+
+.optionDefault {
+  background: #ffd700;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.optionAddress {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.optionType {
+  color: #888;
+  font-size: 13px;
+}
+
+.addressSection {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 123, 255, 0.08);
+  padding: 24px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 123, 255, 0.15);
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba(0, 123, 255, 0.12);
+  }
+}
+
+.addressTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+
+.inputGroup {
+  margin-bottom: 18px;
+  width: 100%;
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1.2rem;
+    border: 1px solid #d6e4f0;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: #f9fbfd;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+      background-color: #fff;
+    }
+
+    &::placeholder {
+      color: #a0b4cc;
+    }
+  }
+
+  textarea {
+    resize: none;
+    min-height: 80px;
+  }
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+
+  .inputGroup {
+    flex: 1;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.addressSelector {
+  margin-bottom: 18px;
+}
+
+.input {
+  font-family: inherit;
+  color: #333;
+}
+
+.textarea {
+  font-family: inherit;
+  color: #333;
+}
+
+/* Thêm hiệu ứng nhẹ khi hover input */
+.input:hover,
+.textarea:hover {
+  border-color: rgba(0, 123, 255, 0.4);
+}
+
+/* Nút xác nhận hoặc tiếp tục (nếu có trong tương lai) */
+.submitButton {
+  background: #007bff;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #006ae6;
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 }

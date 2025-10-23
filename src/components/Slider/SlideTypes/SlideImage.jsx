@@ -1,6 +1,7 @@
 import ProductsSetup from "@/pages/ProductsSetup";
 import styles from "./SlideImage.module.scss";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 function SlideImage({
   image = "",
@@ -9,7 +10,13 @@ function SlideImage({
   date = "",
   variant = "default",
   nameBtn = [],
+  totalSold = 0,
+  totalLimit = 0,
+  slug = "",
 }) {
+  const progressPercentage =
+    totalLimit > 0 ? (totalSold / totalLimit) * 100 : 0;
+
   return (
     <>
       {variant === "default" ? (
@@ -17,11 +24,16 @@ function SlideImage({
           <div className={styles.ribbon}>
             <span>PRE-ORDER</span>
           </div>
-          <img src={image} alt="Product Image" />
+          <Link to={`/products/${slug}`}>
+            <img src={image} alt="Product Image" />
+          </Link>
           <div className={styles.content}>
             <h3>{title}</h3>
             <div className={styles.status}>{status}</div>
-            <div className={styles.progress}>
+            <div
+              className={styles.progress}
+              style={{ "--progress-percentage": `${progressPercentage}%` }}
+            >
               <div className={styles["progress-bar"]}></div>
             </div>
             <div className={styles.date}>{date}</div>

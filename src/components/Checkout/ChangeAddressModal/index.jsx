@@ -98,7 +98,6 @@ export default function ChangeAddressModal({
   }, [isOpen, editingAddress?.id]);
 
   const handleAddressSelect = (addressData) => {
-    console.log("Address selected:", addressData);
     // Chỉ cập nhật các field địa chỉ, không cập nhật toàn bộ formData
     setFormData((prev) => ({
       ...prev,
@@ -146,7 +145,7 @@ export default function ChangeAddressModal({
         fullName: formData.fullName.trim(),
         phone: formData.phoneNumber.trim(),
         email: formData.email.trim(),
-        address: `${formData.specificAddress.trim()}, ${formData.wardName}, ${formData.districtName}, ${formData.provinceName}`,
+        address: formData.specificAddress.trim(),
         province: formData.province,
         district: formData.district,
         ward: formData.ward,
@@ -165,6 +164,7 @@ export default function ChangeAddressModal({
           addressData,
         );
       } else {
+        console.log("addressData create", addressData);
         response = await addressService.createAddress(addressData);
       }
 
@@ -266,30 +266,6 @@ export default function ChangeAddressModal({
               rows={3}
               required
             />
-          </div>
-
-          <div className={styles.addressTypeSection}>
-            <label className={styles.sectionLabel}>Loại địa chỉ:</label>
-            <div className={styles.addressTypeButtons}>
-              <button
-                type="button"
-                className={`${styles.typeButton} ${formData.addressType === "home" ? styles.active : ""}`}
-                onClick={() =>
-                  setFormData((prev) => ({ ...prev, addressType: "home" }))
-                }
-              >
-                Nhà Riêng
-              </button>
-              <button
-                type="button"
-                className={`${styles.typeButton} ${formData.addressType === "office" ? styles.active : ""}`}
-                onClick={() =>
-                  setFormData((prev) => ({ ...prev, addressType: "office" }))
-                }
-              >
-                Văn Phòng
-              </button>
-            </div>
           </div>
 
           <div className={styles.checkboxGroup}>
