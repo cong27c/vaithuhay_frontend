@@ -20,13 +20,15 @@ export default function Checkout() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const navigate = useNavigate();
 
+  // 🟢 CHỈ CẦN: State để lưu shippingFee
+  const [shippingFee, setShippingFee] = useState(0);
+
   // Get user's addresses
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
         const response = await getAddressesByCustomer();
         if (response.success && response.data.length > 0) {
-          // Set default address as selected
           const defaultAddress =
             response.data.find((addr) => addr.is_default) || response.data[0];
           setSelectedAddress(defaultAddress);
@@ -47,11 +49,19 @@ export default function Checkout() {
     }
   }, [selectedProducts, navigate]);
 
+  // 🟢 CHỈ CẦN: Hàm nhận shippingFee từ OrderInfor
+  const handleShippingFeeUpdate = (fee) => {
+    setShippingFee(fee || 0);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.leftColumn}>
-          <OrderInfor selectedProducts={selectedProducts} />
+          <OrderInfor
+            selectedProducts={selectedProducts}
+            onShippingFeeUpdate={handleShippingFeeUpdate}
+          />
         </div>
         <div className={styles.rightColumn}>
           <OrderSummary
@@ -62,6 +72,7 @@ export default function Checkout() {
             showDiscountModal={showDiscountModal}
             onCloseDiscountModal={() => setShowDiscountModal(false)}
             cartId={cartId}
+            shippingFee={shippingFee} // 🟢 CHỈ truyền shippingFee
           />
         </div>
       </div>

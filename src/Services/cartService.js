@@ -24,18 +24,9 @@ const ensureGuestSession = async () => {
 /**
  * Lấy giỏ hàng
  */
-const getCart = async (isLoggedIn = false) => {
+const getCart = async () => {
   try {
-    let config = {};
-    console.log("isLoggedIn", isLoggedIn);
-    if (!isLoggedIn) {
-      const sessionId = await ensureGuestSession();
-      console.log(sessionId);
-
-      config.params = { session_id: sessionId };
-    }
-
-    const response = await httpRequest.get("/carts/my-cart", config);
+    const response = await httpRequest.get("/carts/my-cart");
     return response.data;
   } catch (error) {
     console.error("Error getting cart:", error);
@@ -46,15 +37,8 @@ const getCart = async (isLoggedIn = false) => {
 /**
  * Thêm sản phẩm vào giỏ hàng
  */
-const addToCart = async (data, isLoggedIn = false) => {
+const addToCart = async (payload) => {
   try {
-    const sessionId = await ensureGuestSession();
-
-    const payload = {
-      ...data,
-      ...(!isLoggedIn && { session_id: sessionId }),
-    };
-
     const response = await httpRequest.post("/carts/add", payload);
     return response.data;
   } catch (error) {
@@ -132,6 +116,53 @@ const updateCartItemVariant = async (itemId, variantId, isLoggedIn = false) => {
   }
 };
 
+const addComboToCart = async (payload) => {
+  try {
+    const response = await httpRequest.post("/carts/combos/add", payload);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding combo to cart:", error);
+    throw error;
+  }
+};
+
+/**
+ * Lấy danh sách combo trong giỏ hàng
+ */
+const getCartCombos = async () => {
+  try {
+    const response = await httpRequest.get("/carts/combos");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cart combos:", error);
+    throw error;
+  }
+};
+
+const updateCartComboQuantity = async (payload) => {
+  try {
+    const response = await httpRequest.put("/carts/combos/update", payload);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating cart combo quantity:", error);
+    throw error;
+  }
+};
+
+/**
+ * Xóa combo khỏi giỏ hàng
+ * cartItemId: ID của cart item
+ */
+const removeCartCombo = async (cartItemId) => {
+  try {
+    const response = await httpRequest.del(`/carts/combos/${cartItemId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error removing combo from cart:", error);
+    throw error;
+  }
+};
+
 export {
   ensureGuestSession,
   getCart,
@@ -139,4 +170,8 @@ export {
   updateQuantity,
   removeCartItem,
   updateCartItemVariant,
+  addComboToCart,
+  getCartCombos,
+  updateCartComboQuantity,
+  removeCartCombo,
 };

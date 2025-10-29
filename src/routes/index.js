@@ -64,6 +64,7 @@ import BlogDetail from "@/pages/BlogDetail";
 import PreOrderVerify from "@/components/PreOrderVerify";
 import OrderSuccessPage from "@/components/OrderSuccessPage";
 import PaymentQRCodePage from "@/components/PaymentQRCodePage";
+import ProductsSetup from "@/pages/ProductsSetup";
 
 const routes = [
   {
@@ -74,10 +75,12 @@ const routes = [
     path: config.routes.orderSuccess,
     component: OrderSuccessPage,
   },
+
   {
     path: config.routes.orderPayment,
     component: PaymentQRCodePage,
   },
+
   {
     path: config.routes.cart,
     component: Cart,
@@ -246,7 +249,8 @@ const routes = [
     children: [
       { path: config.seeMoreRoutes.affiliate, component: Affiliate },
       { path: config.seeMoreRoutes.introduce, component: Introduce },
-      { path: config.seeMoreRoutes.Collections, component: Collections },
+      { path: config.seeMoreRoutes.collections, component: Collections },
+      { path: config.seeMoreRoutes.collectionsPage, component: Collections },
     ],
   },
   {

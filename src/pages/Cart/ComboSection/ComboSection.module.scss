@@ -1,0 +1,368 @@
+.comboSection {
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.comboHeader {
+  background: linear-gradient(135deg, #ffd60a 0%, #ffc700 100%);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 2px solid #e63946;
+}
+
+.comboCheckbox {
+  width: 24px;
+  height: 24px;
+  accent-color: #ffd60a;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.comboInfo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.comboTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+}
+
+.comboDiscount {
+  background: #e63946;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.comboPrice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.comboPriceLabel {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+.comboPriceValue {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e63946;
+}
+
+.comboItems {
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comboItem {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #fff;
+    border-color: #ffd60a;
+  }
+}
+
+.itemCheckbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #ffd60a;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.itemImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemName {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #111;
+}
+
+.itemVariant {
+  font-size: 12px;
+  color: #999;
+  margin: 0 0 6px 0;
+}
+
+.itemFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.itemPrice {
+  font-size: 14px;
+  font-weight: bold;
+  color: #e63946;
+  margin: 0;
+}
+
+.attributesChange {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
+  background-color: transparent;
+  border: 1px solid #000;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+
+  span {
+    padding: 4px;
+    background-color: #000;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    transition: all 0.3s ease;
+  }
+
+  &:hover:not(:disabled) {
+    color: white;
+    background-color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+    span {
+      background-color: #fff;
+      color: black;
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.itemActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+
+  &:hover:not(:disabled) {
+    color: #e63946;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 4px 8px;
+
+  button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #333;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+
+    &:hover:not(:disabled) {
+      color: #e63946;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    min-width: 24px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .comboHeader {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .comboInfo {
+    width: 100%;
+    order: 2;
+  }
+
+  .comboPrice {
+    width: 100%;
+    order: 3;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .comboItem {
+    flex-wrap: wrap;
+  }
+
+  .itemFlex {
+    width: 100%;
+    order: 2;
+  }
+
+  .itemActions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    order: 3;
+  }
+}
+
+// Thêm vào ComboSection.module.scss
+
+.comboControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+  margin-top: 1rem;
+}
+
+.removeComboBtn {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #ff3742;
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.comboQuantityControl {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: #f0f0f0;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+// .quantityInfo {
+//   font-size: 0.9rem;
+//   color: #666;
+// }
+
+// .comboQuantity {
+//   font-size: 0.9rem;
+//   color: #666;
+//   margin-top: 0.25rem;
+// }
+
+// .comboOriginalPrice {
+//   text-decoration: line-through;
+//   color: #999;
+//   font-size: 0.9rem;
+//   margin-left: 0.5rem;
+// }

@@ -33,7 +33,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"], // Bỏ qua cảnh báo serializable cho persist
       },
-    }).concat(logger),
+    }),
 });
 
 export const persistor = persistStore(store);

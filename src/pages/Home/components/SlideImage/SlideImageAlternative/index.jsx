@@ -1,233 +1,89 @@
-import images from "@/assets/images";
 import styles from "./SlideImageAlternative.module.scss";
 import Slider from "@/components/Slider";
 import Button from "@/components/Button";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import ProductsSetup from "@/pages/ProductsSetup";
 import DotList from "@/components/DotList/inddex";
-import { useDispatch, useSelector } from "react-redux";
-import { goToSlide } from "@/features/slider/sliderSlice";
-import { useState } from "react";
-const slidesData = [
-  {
-    image: images.course4,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course5,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course4,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course5,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course4,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course5,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course4,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course5,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course4,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course5,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course1,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course2,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-  {
-    image: images.course3,
-    variant: "alternative",
-    nameBtn: ["Đèn thanh", "Kệ màn hình", "Đồng hồ", "đồ ngủ", "..."],
-  },
-];
+import { useEffect, useState } from "react";
+import { getAllComboDetail, getAllCombos } from "@/Services/stuffService";
+import ProductModal from "@/pages/ProductsSetup/ProductModal";
+
 function SlideImageAlternative() {
-  // const dispatch = useDispatch();
-  // const nameSlider = "SlideImageAlternative";
-  // const currentIndex = useSelector(
-  //   (state) => state.slider.sliders[nameSlider].currentIndex
-  // );
-
-  // const handleGoToSlide = (index) => {
-  //   dispatch(goToSlide({ sliderId: nameSlider, index }));
-  // };
-
-  const totalGroups = Math.ceil(slidesData.length / 8);
-
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [productsSlice, setProductsSlice] = useState([]);
+  const [productsDetail, setProductsDetail] = useState([]);
+  const [selectedProductIndex, setSelectedProductIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchCombos();
+  }, []);
+
+  const fetchCombos = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Gọi từng API riêng lẻ thay vì Promise.all
+      const result1 = await getAllCombos();
+      setProductsSlice(result1.combos || []);
+
+      const result2 = await getAllComboDetail();
+      setProductsDetail(result2 || []);
+    } catch (err) {
+      console.error("Failed to fetch combos:", err);
+      setError("Không thể tải dữ liệu combo. Vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Hàm retry khi có lỗi
+  const handleRetry = () => {
+    fetchCombos();
+  };
+
+  const totalGroups = Math.ceil(productsSlice.length / 8);
 
   const handleGoToSlide = (index) => {
     setCurrentIndex(index);
   };
+
+  const handleProductClick = (productIndex) => {
+    setSelectedProductIndex(productIndex);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProductIndex(null);
+  };
+
+  // Hiển thị loading
+  if (loading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Đang tải dữ liệu...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Hiển thị lỗi
+  if (error) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.error}>
+          <p>{error}</p>
+          <Button onClick={handleRetry}>Thử lại</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -241,12 +97,13 @@ function SlideImageAlternative() {
         <div className={styles["list-card"]}>
           <ProductsSetup>
             <Slider
-              slides={slidesData}
+              slides={productsSlice}
               type="image"
               wrap={true}
               name="SlideImageAlternative"
               externalIndex={currentIndex}
               onIndexChange={setCurrentIndex}
+              onProductClick={handleProductClick}
             />
           </ProductsSetup>
         </div>
@@ -257,6 +114,15 @@ function SlideImageAlternative() {
           onDotClick={handleGoToSlide}
         />
       </div>
+
+      {isModalOpen && selectedProductIndex !== null && (
+        <ProductModal
+          currentIndex={selectedProductIndex}
+          setCurrentIndex={setSelectedProductIndex}
+          onClose={handleCloseModal}
+          products={productsDetail}
+        />
+      )}
     </div>
   );
 }

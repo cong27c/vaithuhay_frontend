@@ -1,73 +1,75 @@
-
-
-.default  {
-    position: relative;
-    height: 419px;
-    width: 300px;
-    cursor: pointer;
+.default {
+  position: relative;
+  height: 419px;
+  width: 300px;
+  cursor: pointer;
 }
 .default .images {
-    width: 95%;
-    height: 65%;
-    overflow: hidden;
-    border-radius: 20px 20px 0 0;
+  width: 95%;
+  height: 65%;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
 }
 .default .images img {
-    border-radius: 20px 20px 0 0;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.3s ease;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
 }
 .default img:hover {
-    transform: scale(1.1) translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2)
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .default .price {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 1;
-    position: absolute;
-    right: 5%;
-    bottom: 35%;
-    padding: 10px 10px;
-    border-radius: 12px 0 0 0;
-    font-weight: 600;
-    background-color: #000000A6;
-    color: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+  position: absolute;
+  right: 5%;
+  bottom: 35%;
+  padding: 10px 10px;
+  border-radius: 12px 0 0 0;
+  font-weight: 600;
+  background-color: #000000a6;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .default .price .originalPrice {
-    margin-bottom: 5px;
-    font-size: 21px;
+  margin-bottom: 5px;
+  font-size: 21px;
 }
 .default.price .discountedPrice {
-    
-    font-size: 16px;
-    position: relative;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(255,255,255,0.6);
-    margin-left: 30px;
-
+  font-size: 16px;
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 30px;
 }
 .default .price .originalPrice:before {
-    
-    content: "";
-    position: absolute;
-    top: 72%; 
-    left: 15%;
-    width: 70%;
-    height: 3px; 
-    border-radius: 12px;
-    background-color: rgba(0, 0, 0, 0.5); 
-    transform: translateY(-50%); 
+  content: "";
+  position: absolute;
+  top: 72%;
+  left: 15%;
+  width: 70%;
+  height: 3px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translateY(-50%);
 }
+.default {
+  position: relative;
 
-.default:before {
-    z-index: 10;
+  &::before {
+    content: attr(data-discount);
+    display: none; // 🔹 ẩn mặc định
+  }
+
+  // 🔹 chỉ hiện khi có data-discount khác rỗng
+  &[data-discount]:not([data-discount=""])::before {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,314 +77,336 @@
     background-color: #e02417;
     position: absolute;
     top: -25px;
-    right: -00px;
-    content: "50%";
+    right: 0;
     width: 60px;
     height: 60px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     border-radius: 50%;
     color: white;
     border: 1px dashed white;
     outline: 3px solid #e02417;
     cursor: pointer;
+    z-index: 10;
+  }
 }
 
 .default .content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 5px;
-    width: 95%;
-    height: 35%;
-    padding: 10px 10px;
-    background-color: white;
-    border-radius: 0 0 20px 20px;
-    white-space: normal; 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  width: 95%;
+  height: 35%;
+  padding: 10px 10px;
+  background-color: white;
+  border-radius: 0 0 20px 20px;
+  white-space: normal;
 }
 .default .content .name {
-    height: 25px;
-    margin-top: 0px;
-    line-height: 20px;    
-    overflow: hidden;         
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    display: -webkit-box; 
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    color: #222 ;
-    transition: all 0.3s ease;
+  height: 25px;
+  margin-top: 0px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  color: #222;
+  transition: all 0.3s ease;
 }
 .default .name:hover {
-    color:#FFC107 ;
-
+  color: #ffc107;
 }
 
 .default .content .desc {
-    color: #333333;
-    font-size: 13px;
-    overflow: hidden;         
-    text-overflow: ellipsis;
-    display: -webkit-box; 
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    line-height: 18px;
-
+  color: #333333;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 18px;
 }
 
+.default .buttonList {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: #d62727;
+  width: 100%;
+  gap: 20px;
+  cursor: pointer;
+}
+.default .buttonList .btn {
+  display: flex; /* ✅ cho text và icon nằm ngang */
+  align-items: center; /* căn giữa theo trục dọc */
+  justify-content: center; /* căn giữa toàn bộ nội dung trong nút */
+  gap: 8px; /* khoảng cách giữa text và icon */
+  padding: 5px;
+  width: 100%;
+  white-space: nowrap;
+  border: 1px solid #d62727;
+  color: #d62727;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 999px;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  cursor: pointer;
+}
 
-.default  .buttonList {
-    display: flex;
-    align-items: center;
-    text-align: center;
-     justify-content: center;
-     color: #D62727;
-     gap: 20px;
-     cursor: pointer;
- }
- 
- .default .buttonList .btn{
-    width: 80%;
-     white-space: nowrap;
-     padding: 10px 20px;
-     border: 1px  solid #D62727;
-     color: #D62727;
-     background-color: white;
-     font-size: 14px;
-     font-weight: 700;
-     border-radius: 999px;
-     transition: background-color 0.3s ease, transform 0.2s ease;
- }
- .default  .buttonList .btn:hover {
-     background-color: #D62727;
-     transform: scale(1.05);
-     color: white;
- }
- .default.cart-icon {
-     position: relative;
-     display: inline-block;
-     color: red;
-     font-size: 20px;
-     transition: transform 0.3s ease;
- }
- 
- .default.plus-icon {
-     position: absolute;
-     background-color: white;
-     width: 10px;
-     height: 10px;
-     color: red;
-     font-size: 12px;
-     font-weight: bold;
-     border-radius: 50%;
-     padding: 2px 4px;
-     border: 1px solid red;
-     transition: transform 0.3s ease;
- }
- 
- .default.cart-icon:hover {
-     transform: scale(1.1);
- }
- 
- .default.cart-icon:hover .plus-icon {
-     transform: rotate(20deg);
- }
- 
+.default .buttonList .btn:hover {
+  background-color: #d62727;
+  transform: scale(1.05);
+  color: white;
+}
 
+.default .buttonList .cart-icon {
+  font-size: 18px;
+  color: inherit; /* dùng chung màu với text */
+  transition: transform 0.3s ease;
+}
 
+.default.plus-icon {
+  position: absolute;
+  background-color: white;
+  width: 10px;
+  height: 10px;
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 4px;
+  border: 1px solid red;
+  transition: transform 0.3s ease;
+}
+
+.default.cart-icon:hover {
+  transform: scale(1.1);
+}
+
+.default.cart-icon:hover .plus-icon {
+  transform: rotate(20deg);
+}
 
 // alternative //////////////////////////////
 
 .alternative {
-    position: relative;
-    height: 456px;
-    width: 290px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+  position: relative;
+  height: 456px;
+  width: 290px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 .alternative:hover {
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
 }
 .alternative img {
-    line-height: 0;
-    width: 100%;
-    height: 58%;
-    border-radius: 20px 20px 0 0;
-    vertical-align: bottom;
-    object-fit: cover;
+  line-height: 0;
+  width: 100%;
+  height: 58%;
+  border-radius: 20px 20px 0 0;
+  vertical-align: bottom;
+  object-fit: cover;
 }
-.alternative:hover  {
-   transform: scale(1.05);
+.alternative:hover {
+  transform: scale(1.05);
 }
 .alternative .content {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 7px;
-    padding: 15px 10px;
-    bottom: 20px;
-    width: 100%;
-    height: 42%;
-    background-color: #fff;
-    border-radius: 0 0 20px 20px;
-    cursor: pointer;
-    white-space: normal; 
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  padding: 15px 10px;
+  bottom: 20px;
+  width: 100%;
+  height: 42%;
+  background-color: #fff;
+  border-radius: 0 0 20px 20px;
+  cursor: pointer;
+  white-space: normal;
 }
 
 .alternative .content .name {
-    min-height: 50px;
-    line-height: 25px;    
-    overflow: hidden;         
-    text-overflow: ellipsis;
-    display: -webkit-box; 
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word; 
-    color: #222 ;
+  min-height: 50px;
+  line-height: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  color: #222;
 }
 .alternative .content .desc {
-    font-size: 11px;
-    color: #222222;
+  font-size: 11px;
+  color: #222222;
 }
-.alternative   .price {
-    font-size: 20px;
-    color: #222222;
-    font-weight: bold;
-
+.alternative .price {
+  font-size: 20px;
+  color: #222222;
+  font-weight: bold;
 }
 .alternative .content .notification {
-    color: #0FD07F;
-    font-size: 11px;
-    font-weight: 700;
+  color: #0fd07f;
+  font-size: 11px;
+  font-weight: 700;
 }
 .alternative .content .buttonList {
-   display: flex;
-   align-items: center;
-   text-align: center;
-    justify-content: center;
-    color: #D62727;
-    gap: 30px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: #d62727;
+  gap: 30px;
+  cursor: pointer;
 }
 
-.alternative .content .buttonList .btn{
-    white-space: nowrap;
-    padding: 10px 20px;
-    border: 1px  solid #D62727;
-    color: #D62727;
-    background-color: white;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 999px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+.alternative .content .buttonList .btn {
+  white-space: nowrap;
+  padding: 10px 20px;
+  border: 1px solid #d62727;
+  color: #d62727;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 999px;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 .alternative .content .buttonList .btn:hover {
-    background-color: #D62727;
-    transform: scale(1.05);
-    color: white;
+  background-color: #d62727;
+  transform: scale(1.05);
+  color: white;
 }
 .alternative.cart-icon {
-    position: relative;
-    display: inline-block;
-    color: red;
-    font-size: 20px;
-    transition: transform 0.3s ease;
+  position: relative;
+  display: inline-block;
+  color: red;
+  font-size: 20px;
+  transition: transform 0.3s ease;
 }
 
 .alternative.plus-icon {
-    position: absolute;
-    background-color: white;
-    width: 10px;
-    height: 10px;
-    color: red;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%;
-    padding: 2px 4px;
-    border: 1px solid red;
-    transition: transform 0.3s ease;
+  position: absolute;
+  background-color: white;
+  width: 10px;
+  height: 10px;
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 4px;
+  border: 1px solid red;
+  transition: transform 0.3s ease;
 }
 
 .alternative.cart-icon:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .alternative.cart-icon:hover .plus-icon {
-    transform: rotate(20deg);
+  transform: rotate(20deg);
 }
-
 
 .dotList {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 .dot {
-    width: 5px;
-    height: 5px;
-    padding: 5px;
-    border: 1px solid black;
-    border-radius: 50%;
-    background-color: transparent;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 50%;
+  background-color: transparent;
 }
 .dot.active {
-    background-color: black;
+  background-color: black;
 }
 
-
 .customButton {
-    margin-top: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff3333;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  gap: 10px;
+
+  span {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .bellIcon {
+    background-color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ff3333;
-    border: none;
-    border-radius: 25px;
-    padding: 8px 10px;
-    cursor: pointer;
-    transition: all 0.3s ease; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    width: 100%; 
-    gap: 10px;
-  
-    span {
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-  
-    .bellIcon {
-      background-color: white;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
+    font-size: 14px;
+    color: #ff3333;
+
+    i {
       color: #ff3333;
-  
-      i {
-        color: #ff3333; 
-      }
-    }
-  
-    &:hover {
-      background-color: #e62e2e;
-      transform: scale(1.02); 
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-  
-    &:active {
-      transform: scale(0.98);  
     }
   }
 
-  
+  &:hover {
+    background-color: #e62e2e;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.alternative .saleBadge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  width: 60px;
+  height: 60px;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 50%;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+
+  /* Viền dash */
+  border: 2px dashed white;
+
+  /* Outline ngoài */
+  outline: 2px solid red; /* bạn có thể đổi màu */
+}

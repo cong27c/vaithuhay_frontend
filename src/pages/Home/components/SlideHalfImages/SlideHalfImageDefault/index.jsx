@@ -3,256 +3,34 @@ import styles from "./SlideHalfImageDefault.module.scss";
 import Button from "@/components/Button";
 import Slider from "@/components/Slider";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { getByProductsSlug } from "@/Services/collectionService";
 
 function SlideHalfImageDefault() {
-  const slidesData = [
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course4,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course1,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course2,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course3,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course5,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course1,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course2,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course3,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course4,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course1,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course2,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course3,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course5,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course1,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course2,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course3,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course4,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course1,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course2,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course3,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course5,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course1,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND COLLECTION - Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course2,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-    {
-      title: `JSAUX STAND Bộ phụ kiện từ tính hỗ trợ nâng đỡ,
-                  bảo vệ màn hình, Ipad, tablet`,
-      image: images.course3,
-      variant: "alternative",
-      desc: `Có giá bán lẻ khi hàng có sẵn`,
-      price: `850,000₫`,
-      notification: "Số lượng cực ít",
-      sale: "15%",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const slug = "cong-nghe-tien-ich-co-san";
+      const data = await getByProductsSlug(slug);
+
+      // Thêm field variant cho mỗi sản phẩm
+      const updatedProducts = data.map((product) => ({
+        ...product,
+        variant: "alternative",
+      }));
+
+      console.log(updatedProducts);
+      setProducts(updatedProducts);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.Slider3}>
-        <h2 className={styles.Maintitle}>
-          SẢN PHẨM CHƯA TỪNG XUẤT HIỆN TẠI VIỆT NAM
-        </h2>
+        <h2 className={styles.Maintitle}>SẢN PHẨM HOT</h2>
         <div className={styles.top}>
           <div className={styles.btnList}>
             <Button tabButton>Sản phẩm mới nhất</Button>
@@ -265,7 +43,7 @@ function SlideHalfImageDefault() {
         </div>
         <div className={styles.middle}>
           <div className={styles.ListCard}>
-            <Slider slides={slidesData} type="half-image" wrap={true} />
+            <Slider slides={products} type="half-image" wrap={true} />
           </div>
         </div>
         <div className={styles.dotList}>

@@ -30,6 +30,7 @@ const ProductModal = ({ currentIndex, setCurrentIndex, onClose, products }) => {
   };
 
   const currentProduct = products[currentIndex];
+  console.log("currentProduct", currentProduct);
 
   return (
     <div className={styles.overlay} onClick={onClose}>

@@ -13,9 +13,17 @@ function SlideImage({
   totalSold = 0,
   totalLimit = 0,
   slug = "",
+  comboId,
+  onClick,
 }) {
   const progressPercentage =
     totalLimit > 0 ? (totalSold / totalLimit) * 100 : 0;
+  const handleClick = (e) => {
+    e.preventDefault(); // Ngăn chặn navigation của Link nếu có
+    if (onClick) {
+      onClick();
+    }
+  };
 
   return (
     <>
@@ -40,19 +48,12 @@ function SlideImage({
           </div>
         </div>
       ) : (
-        <div className={styles["alternative"]}>
+        <div className={styles["alternative"]} onClick={handleClick}>
           <img
             src={image}
             alt="Combo Góc Làm Việc"
             className={styles["carousel-image"]}
           />
-          <div className={styles["tag-list"]}>
-            {nameBtn.map((item, index) => (
-              <button key={index} className={styles.tag}>
-                {item}
-              </button>
-            ))}
-          </div>
         </div>
       )}
     </>

@@ -29,7 +29,7 @@ function Navigation() {
                 <a href="/recruitment">Tìm đồng đội - Tuyển dụng</a>
               </li>
               <li>
-                <a href="/seeMore/Showcase">Showcase</a>
+                <a href="/collections">Showcase</a>
               </li>
               <li>
                 <a href="https://quatanghay.com/">Quà tặng hay</a>

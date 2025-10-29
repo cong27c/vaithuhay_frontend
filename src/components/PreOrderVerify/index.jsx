@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 // 🔹 import Redux
 import { useDispatch } from "react-redux";
 import { setCartItems } from "@/features/cart/cartSlice";
+import { refreshCart } from "@/features/cart/cartThunks";
 
 export default function PreOrderVerify() {
   const [searchParams] = useSearchParams();
@@ -21,7 +22,6 @@ export default function PreOrderVerify() {
 
       try {
         const result = await preOrderVerify(token);
-        console.log(result);
 
         if (result.success) {
           toast.success(
@@ -29,7 +29,14 @@ export default function PreOrderVerify() {
           );
 
           // 🔹 set cartItems vào Redux store
-          dispatch(setCartItems([result.data]));
+          const resultAction = dispatch(setCartItems([result.data]));
+
+          if (setCartItems.fulfilled.match(resultAction)) {
+            toast.success("Thêm combo vào giỏ hàng thành công!");
+            dispatch(refreshCart());
+          } else {
+            throw new Error(resultAction.payload || "Thêm combo thất bại");
+          }
         }
       } catch (error) {
         toast.error(

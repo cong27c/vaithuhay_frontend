@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import styles from "./Showcase.module.scss";
-import { Children, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   faArrowDown,
   faArrowRight,
@@ -12,19 +12,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Slider from "@/components/Slider";
-import images from "@/assets/images";
 import Pagination from "@/components/Pagination";
 import SlideImageAlternative from "@/pages/Home/components/SlideImage/SlideImageAlternative";
 import Youtube from "@/pages/Home/components/Youtube";
 import CollectionTab from "./CollectionTab";
 import { getProductsByCollectionSlug } from "@/Services/collectionService";
 import { useParams, useSearchParams } from "react-router-dom";
+import { getVouchers } from "@/Services/voucherService";
 
 function Collections() {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [products, setProducts] = useState([]);
+  const [vouchers, setVouchers] = useState([]);
   const currentPage = parseInt(searchParams.get("page")) || 1;
   const sort = searchParams.get("sort") || null;
 
@@ -47,20 +48,14 @@ function Collections() {
     { Children: "#ĐènRGB" },
     { Children: "#LoaLạLạ" },
   ];
-  const deals = [
-    {
-      title: "DELA KHAI VÍ",
-      desc: "Giảm chồng 100K cho đơn có 1 sản phẩm Pre-order",
-    },
-    {
-      title: "DELA ĐẬM ĐÀ",
-      desc: "Giảm 200K cho đơn 2 sản phẩm Pre-order",
-    },
-    {
-      title: "DELA TẤT TỊ GOM TẤT THẨY",
-      desc: "Giảm 350K cho đơn 3 sản phẩm Pre-order",
-    },
+
+  // Danh sách tiêu đề cho 3 voucher đầu tiên
+  const dealTitles = [
+    "DELA KHAI VÍ",
+    "DELA ĐẬM ĐÀ",
+    "DELA TẤT TỊ GOM TẤT THẨY",
   ];
+
   const tags = [
     {
       image:
@@ -111,6 +106,7 @@ function Collections() {
       link: "/collections/nid-light",
     },
   ];
+
   const sortList = [
     { icon: faSortAlphaDown, desc: "Từ A-Z", key: "az" },
     { icon: faSortAlphaUp, desc: "Từ Z-A", key: "za" },
@@ -128,18 +124,26 @@ function Collections() {
         postsPerPage,
         sort,
       );
+      const voucherData = await getVouchers();
+
+      // Lấy 3 voucher đầu tiên, thêm title tương ứng
+      const featureVoucher = voucherData.slice(0, 3).map((item, index) => ({
+        ...item,
+        title: dealTitles[index] || `Voucher #${index + 1}`,
+      }));
+
+      console.log("voucherData", featureVoucher);
+      setVouchers(featureVoucher);
       setProducts(data.products);
       setTotalPages(data.totalCount);
     };
     fetchData();
   }, [currentPage, slug, sort]);
-  console.log(products);
 
   const handleSortClick = (key) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
 
-    // toggle: nếu đang cùng key thì remove sort
     if (params.get("sort") === key) {
       params.delete("sort");
     } else {
@@ -149,7 +153,6 @@ function Collections() {
     setSearchParams(params);
   };
 
-  // render sort buttons
   const renderSortItems = () =>
     sortList.map((item) => {
       const active = sort === item.key;
@@ -171,6 +174,7 @@ function Collections() {
         </div>
       );
     });
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerBanner}></div>
@@ -182,6 +186,7 @@ function Collections() {
           <span>/</span>
           <span className={styles.current}>HÀNG CLEARANCE | NO RESTOCK</span>
         </nav>
+
         <div className={styles.promIn4}>
           <div className={styles.sectionIntro}>
             <div className={styles.title}>
@@ -195,15 +200,27 @@ function Collections() {
           </div>
           <CollectionTab collectionTab={collectionTab} />
         </div>
+
+        {/* --- Phần voucher thay cho deals --- */}
         <div className={styles.promDeal}>
-          {deals.map((item, index) => (
-            <div key={index} className={styles["deal-container"]}>
+          {vouchers.map((item, index) => (
+            <div key={item.id || index} className={styles["deal-container"]}>
               <div className={styles["deal-title"]}>{item.title}</div>
-              <div className={styles["deal-content"]}>{item.desc}</div>
-              <button className={styles["save-button"]}>LƯU MÃ</button>
+              <div className={styles["deal-content"]}>{item.description}</div>
+              <button
+                className={styles["save-button"]}
+                onClick={() => {
+                  navigator.clipboard.writeText(item.code);
+                  alert(`Đã sao chép mã: ${item.code}`);
+                }}
+              >
+                LƯU MÃ
+              </button>
             </div>
           ))}
         </div>
+        {/* ------------------------------- */}
+
         <div className={styles.categoryNav}>
           <div className={styles.top}>
             <div className={styles.title}>Khám phá các danh mục khác:</div>
@@ -217,6 +234,7 @@ function Collections() {
               </Button>
             </div>
           </div>
+
           <div className={styles.mid}>
             <div className={styles["product-tags"]}>
               {tags.map((item, index) => (
@@ -233,6 +251,7 @@ function Collections() {
               ))}
             </div>
           </div>
+
           <div className={styles.bot}>
             <div className={styles.desc}>Sắp xếp theo:</div>
             <div className={styles.sortList}>{renderSortItems()}</div>

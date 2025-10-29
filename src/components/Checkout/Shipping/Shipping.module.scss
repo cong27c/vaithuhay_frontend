@@ -1,0 +1,152 @@
+.container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.methodsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.methodCard {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #fffaf0, #fffdf5);
+  }
+
+  &.selected {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #fffaf0, #fffdf5);
+  }
+}
+
+.methodHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.fee {
+  font-weight: 600;
+  color: #e74c3c;
+  font-size: 16px;
+}
+
+.description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.methodFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.estimated {
+  color: #27ae60;
+  font-size: 13px;
+}
+
+.weightInfo {
+  color: #7f8c8d;
+  font-size: 12px;
+}
+
+.selectedSummary {
+  margin-top: 16px;
+  padding: 12px;
+  background: #e8f5e8;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+
+  strong {
+    color: #2ecc71;
+  }
+}
+
+.estimatedDays {
+  color: #666;
+  font-style: italic;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  justify-content: center;
+  color: #666;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #ffd700;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.errorState {
+  color: #e74c3c;
+  background: #fdeded;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e74c3c;
+}
+
+.emptyText {
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}

@@ -14,10 +14,17 @@ function Slider({
   wrap = false,
   externalIndex,
   onIndexChange,
+  onProductClick,
 }) {
   const isControlled = externalIndex !== undefined;
   const [internalIndex, setInternalIndex] = useState(0);
   const index = isControlled ? externalIndex : internalIndex;
+
+  const handleSlideClick = (slideIndex) => {
+    if (onProductClick) {
+      onProductClick(slideIndex);
+    }
+  };
 
   const updateIndex = (newIndex) => {
     if (isControlled) {
@@ -46,13 +53,19 @@ function Slider({
   const handleNext = () => {
     updateIndex((next) => (next + 1) % maxIndex);
   };
-  const renderSlideItem = (slide, key) => {
+
+  // QUAN TRỌNG: Sửa hàm renderSlideItem để truyền onClick
+  const renderSlideItem = (slide, key, slideIndex) => {
     let SlideComponent;
 
     switch (type) {
       case "image":
         SlideComponent = (
-          <SlideImage {...slide} variant={slide.variant || "default"} />
+          <SlideImage
+            {...slide}
+            variant={slide.variant || "default"}
+            onClick={() => handleSlideClick(slideIndex)} // Truyền onClick xuống
+          />
         );
         break;
       case "banner":
@@ -63,12 +76,20 @@ function Slider({
         break;
       case "half-image":
         SlideComponent = (
-          <SlideHalfImage {...slide} variant={slide.variant || "default"} />
+          <SlideHalfImage
+            {...slide}
+            variant={slide.variant || "default"}
+            onClick={() => handleSlideClick(slideIndex)} // Truyền onClick xuống
+          />
         );
         break;
       default:
         SlideComponent = (
-          <SlideImage {...slide} variant={slide.variant || "default"} />
+          <SlideImage
+            {...slide}
+            variant={slide.variant || "default"}
+            onClick={() => handleSlideClick(slideIndex)} // Truyền onClick xuống
+          />
         );
     }
 
@@ -77,6 +98,7 @@ function Slider({
 
   const slidesPerRow = 4;
   const translateValue = wrap ? -index * 100 : -index * (100 / slidesPerRow);
+
   return (
     <div className={styles.sliderContainer}>
       <SliderButton
@@ -108,7 +130,7 @@ function Slider({
                     className={styles.slide}
                     style={{ width: `${100 / slidesPerRow}%` }}
                   >
-                    {renderSlideItem(slide)}
+                    {renderSlideItem(slide, index, index)}
                   </div>
                 ),
               )
@@ -119,11 +141,15 @@ function Slider({
                     className={styles.slide2Row}
                     style={{ width: `100%` }}
                   >
-                    {slideGroup.map((slide, slideIndex) => (
-                      <div key={slideIndex} className={styles.slideInGroup}>
-                        {renderSlideItem(slide)}
-                      </div>
-                    ))}
+                    {slideGroup.map((slide, slideIndex) => {
+                      // Tính index thực tế của slide trong mảng gốc
+                      const actualIndex = groupIndex * 8 + slideIndex;
+                      return (
+                        <div key={slideIndex} className={styles.slideInGroup}>
+                          {renderSlideItem(slide, slideIndex, actualIndex)}
+                        </div>
+                      );
+                    })}
                   </div>
                 );
               })}

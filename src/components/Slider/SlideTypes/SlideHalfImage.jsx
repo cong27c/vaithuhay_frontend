@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import styles from "./SlideHalfImage.module.scss";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import { addToCart } from "@/Services/cartService";
+import { refreshCart } from "@/features/cart/cartThunks";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 function SlideHalfImage({
+  productId,
   image = "",
   name = "",
   desc = "",
@@ -10,16 +16,37 @@ function SlideHalfImage({
   notification = "",
   originalPrice = "",
   discountedPrice = "",
-  content = "Nhận ưu đãi ngay",
+  discountPercent,
+  content = "Thêm vào giỏ hàng",
   variant = "default",
   show = false,
   order = false,
   link = "",
+  sale,
+  slug,
+  longDescription,
 }) {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = async () => {
+    try {
+      const res = await addToCart({ productId, quantity: 1 });
+
+      dispatch(refreshCart());
+      toast.success("Đã thêm vào giỏ hàng!");
+    } catch (err) {
+      console.error("Add to cart error:", err);
+      toast.error("Thêm vào giỏ thất bại!");
+    }
+  };
+
   return (
     <>
       {variant === "default" ? (
-        <div className={styles.default}>
+        <div
+          className={styles.default}
+          data-discount={discountPercent ? `-${discountPercent}%` : ""}
+        >
           <div className={styles.images}>
             <Link to={`${import.meta.env.VITE_FRONTEND_URL}/products/${link}`}>
               <img src={image} alt="" />
@@ -36,13 +63,19 @@ function SlideHalfImage({
               <div className={styles.name}>{name}</div>
             </Link>
 
-            <div className={styles.desc}>{desc}</div>
+            <div className={styles.desc}>
+              {longDescription
+                ? longDescription
+                : "10C – Âm Thanh 360°, Chống Nước IPX5, Bluetooth 5.3Khám phá Wise Tiger F10C với âm thanh vòm 360°, công suất mạnh mẽ, chống nước IPX5 và Bluetooth 5.3. Thiết kế nhỏ"}
+            </div>
             {show && (
               <div className={styles.buttonList}>
-                <button className={styles.btn}>{content}</button>
-                <div className={styles["cart-icon"]}>
-                  <i className="fa-solid fa-cart-plus"></i>
-                </div>
+                <button className={styles.btn} onClick={handleAddToCart}>
+                  <span>{content}</span>
+                  <div className={styles["cart-icon"]}>
+                    <i className="fa-solid fa-cart-plus"></i>
+                  </div>
+                </button>
               </div>
             )}
             {order && (
@@ -57,9 +90,16 @@ function SlideHalfImage({
         </div>
       ) : (
         <div className={styles.alternative}>
-          <a href="#!">
+          {sale && (
+            <div className={styles.saleBadge}>
+              {sale} <br />
+              OFF
+            </div>
+          )}
+
+          <Link to={`/products/${slug}`}>
             <img src={image} alt="" />
-          </a>
+          </Link>
           <div className={styles.content}>
             <h3 className={styles.name}>{name}</h3>
             <div className={styles.desc}>{desc}</div>

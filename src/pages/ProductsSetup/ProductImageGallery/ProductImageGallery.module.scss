@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     gap: 15px;
+    width: 50%;
     .dotList {
       position: absolute;
       display: flex;
@@ -24,7 +25,7 @@
       }
     }
     .mainImage {
-        width: 452px;
+        width: 417px;
         height: 540px;
         img {
             width: 100%;
@@ -63,6 +64,7 @@
   .endowButton {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     padding: 15px 30px;
     background-color: #ff4d4d;
@@ -79,11 +81,10 @@
   .endowButton {
     position: absolute;
     height: 45px;
-    width: auto;
     font-size: 14px;
     white-space: nowrap;
     bottom: 9%;
-    left: 34%;
+    left: 38%;
   
   }
 
@@ -137,4 +138,182 @@
     }
   }
 
+
+
+  // Các styles hiện tại giữ nguyên...
+
+// Thêm styles cho nút sản phẩm và modal
+.mainImage {
+  position: relative;
+}
+
+.productButton {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    
+    .plusIcon {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.plusIcon {
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.productModal {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+  min-width: 200px;
+  animation: modalFadeIn 0.3s ease;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: #f5f5f5;
+    color: #333;
+  }
+}
+
+.productImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.productInfo {
+  text-align: center;
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.productPrice {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ff4d4d;
+  margin: 0 0 10px 0;
+}
+
+.productLink {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+  
+  &:hover {
+    background: #0056b3;
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .productButton {
+    width: 28px;
+    height: 28px;
+    
+    .plusIcon {
+      font-size: 18px;
+    }
+  }
+  
+  .productModal {
+    min-width: 180px;
+    padding: 12px;
+    
+    &::before {
+      top: -6px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid white;
+    }
+  }
+  
+  .productImage {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .productName {
+    font-size: 13px;
+  }
+  
+  .productPrice {
+    font-size: 14px;
+  }
+}
 

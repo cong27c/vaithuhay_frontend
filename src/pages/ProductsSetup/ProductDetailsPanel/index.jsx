@@ -5,12 +5,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
 import PropTypes from "prop-types";
 
+// Import Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, FreeMode } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+
 function ProductDetailsPanel({
   currentProduct,
   products,
   onClose,
   onSelectProduct,
 }) {
+  const currentIndex = products.findIndex(
+    (product) => product.combo_id === currentProduct.id,
+  );
+  const handleSlideClick = (index) => {
+    if (products[index].combo_id !== currentProduct.id) {
+      onSelectProduct(index);
+    }
+  };
+
   return (
     <div className={styles.bodyRight}>
       <div className={styles.headerSection}>
@@ -32,7 +49,7 @@ function ProductDetailsPanel({
 
         <div className={styles.midSection}>
           <div className={styles.suggestSetup}>
-            <BlockRenderer blocks={currentProduct.detailBlocks} />
+            <BlockRenderer blocks={currentProduct?.description} />
           </div>
           <div className={styles.listBtn}>
             <ModalTrigger
@@ -41,9 +58,9 @@ function ProductDetailsPanel({
                   <span>XEM THÊM</span>
                 </button>
               }
-              products={products}
+              products={currentProduct ? [currentProduct] : []}
               renderContent={(product) => (
-                <BlockRenderer blocks={product.detailBlocks} />
+                <BlockRenderer blocks={product?.description} />
               )}
             />
             <button className={styles.adviseButton}>
@@ -59,21 +76,47 @@ function ProductDetailsPanel({
           <div className={styles.line}></div>
           <div className={styles.desc}>XEM THÊM GÓC LÀM VIỆC KHÁC</div>
           <div className={styles.Slider}>
-            <div className={styles.listItem}>
-              {products.map((item, index) => (
-                <div
-                  className={styles.item}
-                  key={item.id}
-                  onClick={() => {
-                    if (item.id !== currentProduct.id) {
-                      onSelectProduct(index);
-                    }
-                  }}
-                >
-                  <img src={item.mainImage} alt="" />
-                </div>
-              ))}
-            </div>
+            <Swiper
+              modules={[Mousewheel, FreeMode]}
+              spaceBetween={16}
+              slidesPerView={"auto"}
+              initialSlide={currentIndex}
+              freeMode={{
+                enabled: true,
+                momentum: true,
+                momentumBounce: false,
+                momentumVelocityRatio: 0.5,
+              }}
+              mousewheel={{
+                enabled: true,
+                forceToAxis: true,
+                sensitivity: 1,
+                releaseOnEdges: true,
+              }}
+              resistance={true}
+              resistanceRatio={0.85}
+              className={styles.customSwiper}
+            >
+              {products.map((item, index) => {
+                return (
+                  <SwiperSlide
+                    key={index}
+                    className={`${styles.slide} ${item.combo_id === currentProduct.id ? styles.activeSlide : ""}`}
+                    onClick={() => handleSlideClick(index)}
+                  >
+                    <div className={styles.item}>
+                      <img
+                        src={item.mainImage}
+                        alt={item.name || `Product ${index + 1}`}
+                      />
+                      {item.combo_id === currentProduct.id && (
+                        <div className={styles.activeIndicator}></div>
+                      )}
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
           </div>
         </div>
       </div>

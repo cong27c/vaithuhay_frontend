@@ -38,7 +38,8 @@ const config = {
     affiliate: "/seeMore/affiliate",
     recruitment: "/recruitment",
     parTimeJobs: "/parTimeJobs",
-    Collections: "/collections/:slug",
+    collections: "/collections/:slug",
+    collectionsPage: "/collections",
   },
   jobDetailRoutes: {
     affiliateOperation: "/affiliateOperation",

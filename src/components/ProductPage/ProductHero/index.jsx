@@ -8,6 +8,8 @@ import { useCurrentUser } from "@/Hooks/useCurrentUser";
 import QuantityBar from "../QuantityBar";
 import PreOrderModal from "../PreOrderModal/index";
 import RegisterFormModal from "../RegisterFormModal";
+import { refreshCart } from "@/features/cart/cartThunks";
+import { useDispatch } from "react-redux";
 
 function ProductHero({
   productId = null,
@@ -28,6 +30,8 @@ function ProductHero({
   const [filteredAttributes, setFilteredAttributes] = useState(
     attributes || {},
   );
+  const dispatch = useDispatch();
+
   const [quantity, setQuantity] = useState(1); // Thêm state quantity bị thiếu
   const currentUser = useCurrentUser();
   const isLoggedIn = !!currentUser;
@@ -244,8 +248,9 @@ function ProductHero({
         { productId, variantId, quantity },
         isLoggedIn,
       );
-      console.log(res);
+
       toast.success("Đã thêm vào giỏ hàng!");
+      dispatch(refreshCart());
     } catch (err) {
       console.error("Add to cart error:", err);
       toast.error("Thêm vào giỏ thất bại!");

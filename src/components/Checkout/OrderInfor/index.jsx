@@ -17,10 +17,11 @@ import { toast } from "react-toastify";
 import AddressSelector from "../AddressSelector"; // Import AddressSelector component
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Shipping from "../Shipping";
 
 // Thêm hàm xóa địa chỉ
 
-export default function OrderInfor() {
+export default function OrderInfor({ onShippingFeeUpdate }) {
   const currentUser = useCurrentUser();
   const [isChangeAddressModalOpen, setIsChangeAddressModalOpen] =
     useState(false);
@@ -49,7 +50,6 @@ export default function OrderInfor() {
 
   const isLoggedIn = !!currentUser;
   const { selectedProducts } = useSelector((state) => state.cart);
-  console.log("selectedProducts", selectedProducts);
   const {
     register,
     handleSubmit,
@@ -76,7 +76,16 @@ export default function OrderInfor() {
     },
   });
 
-  // Hàm fetch addresses (tách riêng để tái sử dụng)
+  const [shippingFee, setShippingFee] = useState(0); // 🟢 CHỈ CẦN shippingFee
+
+  const handleShippingSelect = (data) => {
+    const fee = data?.shippingFee || 0;
+    setShippingFee(fee);
+    if (onShippingFeeUpdate) {
+      onShippingFeeUpdate(fee);
+    }
+  };
+
   const fetchAddresses = async () => {
     setLoading(true);
     try {
@@ -245,6 +254,8 @@ export default function OrderInfor() {
         deliveryMethod: formData.deliveryMethod || "home",
       },
       paymentMethod: formData.paymentMethod || "cod",
+      shippingMethodId: shippingInfo.shippingMethodId,
+      shippingFee: shippingInfo.shippingFee,
     };
 
     return checkoutData;
@@ -468,6 +479,19 @@ export default function OrderInfor() {
               </div>
             </div>
           )}
+          <Shipping
+            address={
+              currentUser
+                ? selectedAddress
+                : {
+                    province: guestFormData.province,
+                    district: guestFormData.district,
+                    ward: guestFormData.ward,
+                  }
+            }
+            cartItems={selectedProducts}
+            onShippingSelect={handleShippingSelect}
+          />
         </div>
       );
     } else {
@@ -542,6 +566,20 @@ export default function OrderInfor() {
               required
             />
           </div>
+
+          <Shipping
+            address={
+              currentUser
+                ? selectedAddress
+                : {
+                    province: guestFormData.province,
+                    district: guestFormData.district,
+                    ward: guestFormData.ward,
+                  }
+            }
+            cartItems={selectedProducts}
+            onShippingSelect={handleShippingSelect}
+          />
         </div>
       );
     }

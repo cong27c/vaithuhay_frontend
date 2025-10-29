@@ -20,4 +20,20 @@ const checkout = async (formData, isLoggedIn = false) => {
     throw error;
   }
 };
-export { checkout };
+
+const getAllCombos = async () => {
+  const response = await httpRequest.get(`/combos`);
+  return response.data;
+};
+
+const getAllComboDetail = async () => {
+  const response = await httpRequest.get(`/combos/detail`);
+  return response.data;
+};
+
+const getComboProducts = async (comboId) => {
+  const response = await httpRequest.get(`/combos/${comboId}/products`);
+  return response.data;
+};
+
+export { checkout, getAllCombos, getAllComboDetail, getComboProducts };

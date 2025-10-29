@@ -16,6 +16,7 @@ export default function OrderSummary({
   showDiscountModal,
   onCloseDiscountModal,
   cartId,
+  shippingFee = 0, // 🟢 CHỈ nhận shippingFee, mặc định = 0
 }) {
   const [discountInput, setDiscountInput] = useState("");
   const [discountError, setDiscountError] = useState("");
@@ -28,15 +29,16 @@ export default function OrderSummary({
   // Thêm state để lưu thông tin discount từ API
   const [discountInfo, setDiscountInfo] = useState(null);
 
-  // Tính toán giá trị dựa trên discountInfo từ API
+  // Tính toán giá trị
   const subtotal = cartItems.reduce(
     (sum, product) => sum + product.price * product.quantity,
     0,
   );
 
-  // Sử dụng discount từ API nếu có, nếu không thì tính bình thường
+  // 🟢 TÍNH TOÁN ĐƠN GIẢN
   const discountAmount = discountInfo?.discount || 0;
-  const finalTotal = discountInfo?.finalTotal || subtotal + 0; // shipping = 0
+  const finalTotal = Math.max(0, subtotal - discountAmount + shippingFee);
+
   const { selectedProducts } = useSelector((state) => state.cart);
 
   useEffect(() => {
@@ -69,14 +71,12 @@ export default function OrderSummary({
 
     try {
       const result = await applyVoucher(cartId, discountInput.trim());
+      console.log(result);
 
       if (result.success) {
         toast.success("Áp dụng mã giảm giá thành công!");
-
-        // Cập nhật discountInfo với dữ liệu từ API
         setDiscountInfo(result.data);
 
-        // Gọi callback để cập nhật UI ở component cha
         if (onApplyDiscount) {
           onApplyDiscount(discountInput.trim(), result.data);
         }
@@ -97,10 +97,7 @@ export default function OrderSummary({
   };
 
   const handleApplyFromModal = async (voucherCode, voucherData) => {
-    // Cập nhật discountInfo với dữ liệu từ modal
     setDiscountInfo(voucherData);
-
-    // Gọi callback để cập nhật UI ở component cha
     if (onApplyDiscount) {
       onApplyDiscount(voucherCode, voucherData);
     }
@@ -179,7 +176,6 @@ export default function OrderSummary({
             <span>{subtotal.toLocaleString("vi-VN")}₫</span>
           </div>
 
-          {/* Hiển thị dòng giảm giá nếu có */}
           {discountInfo?.discount > 0 && (
             <div className={styles.summaryRow}>
               <span>Giảm giá</span>
@@ -189,9 +185,14 @@ export default function OrderSummary({
             </div>
           )}
 
+          {/* 🟢 HIỂN THỊ PHÍ VẬN CHUYỂN */}
           <div className={styles.summaryRow}>
-            <span>Phí vận chuyển</span>
-            <span>—</span>
+            <span>Phí vận chuyển:</span>
+            <span>
+              {shippingFee > 0
+                ? `${shippingFee.toLocaleString("vi-VN")}₫`
+                : "Đang tính..."}
+            </span>
           </div>
         </div>
 

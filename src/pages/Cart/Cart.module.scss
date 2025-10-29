@@ -1,9 +1,9 @@
 .wrapper {
   width: 100vw;
   min-height: 100vh;
-   background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/bg-workspace-mb.png?v=7149");
-    background-color: #E7E7E7;
-    font-family: "Montserrat", sans-serif;
+  background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/bg-workspace-mb.png?v=7149");
+  background-color: #e7e7e7;
+  font-family: "Montserrat", sans-serif;
 }
 
 .cartContainer {
@@ -132,7 +132,7 @@
   }
 }
 
-.actions { 
+.actions {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -216,10 +216,11 @@
   gap: 5px;
 }
 
-.giftBtn ,.couponBtn {
+.giftBtn,
+.couponBtn {
   min-width: 200px;
-   border: none;
-      background: #FFC700;
+  border: none;
+  background: #ffc700;
   padding: 12px 24px;
   font-weight: bold;
   font-size: 20px;
@@ -232,14 +233,13 @@
   &:hover {
     transform: translateY(-2px);
   }
-} 
-
+}
 
 .giftBtn {
-    border-radius: 0 70px 70px 0;
+  border-radius: 0 70px 70px 0;
 }
 .couponBtn {
-    border-radius: 70px 0 0 70px;
+  border-radius: 70px 0 0 70px;
 }
 
 .ticketIcon img,
@@ -268,8 +268,8 @@
 
 .totalAmount {
   font-size: 24px;
-    color: #FCDC50;
-    font-weight: bold;
+  color: #fcdc50;
+  font-weight: bold;
 }
 
 .checkoutBtn {
@@ -286,26 +286,27 @@
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
   transform: translateY(0);
-  
+
   /* Hiệu ứng ánh sáng */
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.2), 
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
       transparent
     );
     transition: left 0.7s ease;
   }
-  
+
   /* Hiệu ứng pulse nhẹ */
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -316,34 +317,34 @@
     transform: translate(-50%, -50%);
     transition: all 0.3s ease;
   }
-  
+
   &:hover {
     background: linear-gradient(135deg, #d62828 0%, #c1121f 100%);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
-    
+
     &::before {
       left: 100%;
     }
   }
-  
+
   &:active {
     transform: translateY(0);
     box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
     transition: all 0.1s ease;
-    
+
     &::after {
       width: 100px;
       height: 100px;
     }
   }
-  
+
   /* Thêm hiệu ứng loading khi click */
   &.loading {
     pointer-events: none;
-    
+
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 50%;
       left: 50%;
@@ -359,14 +360,23 @@
 }
 
 @keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 /* Optional: Thêm hiệu ứng pulse khi trang load */
 @keyframes gentlePulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
 }
 
 .checkoutBtn.pulse {
@@ -633,7 +643,6 @@
   }
 
   .checkoutBar {
-    
     background-image: url("https://theme.hstatic.net/1000069970/1001119059/14/vth-footer-bg.png?v=7149");
     flex-direction: column;
     gap: 15px;
@@ -654,52 +663,60 @@
   }
 }
 
-
-  .attributesChange {
-    margin-top: 10px;
-    padding: 5px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-    background-color: transparent; 
-    border: 2px solid #000;
-    border-radius: 25px; 
-    cursor: pointer;
-    display: flex;
+.attributesChange {
+  margin-top: 10px;
+  padding: 5px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 25px;
+  cursor: pointer;
+  display: inline-flex; /* ✅ dùng inline-flex để nội dung căn giữa */
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  width: 240px;
+  white-space: nowrap;
+  gap: 8px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+  span {
+    display: inline-flex;
     align-items: center;
-    width: 220px;
-    white-space: nowrap;
-    gap: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    span {
-        padding: 8px ;
-        background-color: #000;
-        border-radius: 99px;
-        color: white;
-        transition: background-color 0.3s ease ,background-color 0.3s ease
-    } 
-  }
-  
-  
-  .attributesChange:hover {
+    justify-content: center;
+    padding: 8px;
+    background-color: #000;
+    border-radius: 99px;
     color: white;
-    background-color: #000; 
-    transform: scale(1.05); 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    span {
-        background-color: #fff;
-        color: black;
-    }
+    transition:
+      background-color 0.3s ease,
+      background-color 0.3s ease;
   }
-  
-  .attributesChange:active {
-    transform: scale(0.95);
-    background-color: #000; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  }
+}
 
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content:space-between ;
+.attributesChange:hover {
+  color: white;
+  background-color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  span {
+    background-color: #fff;
+    color: black;
   }
+}
+
+.attributesChange:active {
+  transform: scale(0.95);
+  background-color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

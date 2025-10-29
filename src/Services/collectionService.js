@@ -7,4 +7,14 @@ const getProductsByCollectionSlug = async (slug, page, limit, sort) => {
   return response.data;
 };
 
-export { getProductsByCollectionSlug };
+const getByProductsSlug = async (slug) => {
+  const response = await httpRequest.get(`/collections/slide/${slug}`);
+  return response.data;
+};
+
+const getCollections = async () => {
+  const response = await httpRequest.get(`/collections`);
+  return response.data;
+};
+
+export { getProductsByCollectionSlug, getCollections, getByProductsSlug };
