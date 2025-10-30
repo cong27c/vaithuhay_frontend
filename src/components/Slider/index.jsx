@@ -36,7 +36,7 @@ function Slider({
 
   const groupSlides = () => {
     const groups = [];
-    for (let i = 0; i < slides.length; i += 8) {
+    for (let i = 0; i < slides?.length; i += 8) {
       groups.push(slides.slice(i, i + 8));
     }
     return groups;

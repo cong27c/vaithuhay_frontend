@@ -51,6 +51,12 @@ const register = async (data) => {
   return response;
 };
 
+const verifyEmail = async (data) => {
+  const response = await httpRequest.post("/auth/verify-email", data);
+
+  return response;
+};
+
 const login = async (data) => {
   const response = await httpRequest.post("/auth/login", data, {
     withCredentials: true,
@@ -112,6 +118,7 @@ export {
   verify,
   register,
   forgotPassword,
+  verifyEmail,
   resetPassword,
   logout,
   authMe,

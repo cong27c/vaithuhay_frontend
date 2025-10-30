@@ -11,13 +11,14 @@ const config = {
     news: "/news",
     verify: "/verify",
     preOrderVerify: "/preorder/verify",
-    resetPassword: "reset-password",
-    forgotPassword: "forgot-password",
+    resetPassword: "/reset-password",
+    forgotPassword: "/forgot-password",
     cart: "/cart",
     checkout: "/checkouts",
     admin: "/admin",
     orderSuccess: "/order-success/:id",
     orderPayment: "/order/payment/:orderId",
+    verifyEmail: "/verify-email",
   },
   accountRoutes: {
     loyalty: "/account",
@@ -73,6 +74,7 @@ const config = {
     payments: "/admin/payments",
     reviews: "/admin/reviews",
     analytics: "/admin/analytics",
+    login: "/admin/login",
   },
 };
 

@@ -1,16 +1,16 @@
 "use client";
 
-import styles from "./Input.module.scss"; // Đổi tên file cho đúng convention
+import styles from "./Input.module.scss";
 
 const Input = ({
   type = "text",
   placeholder = "",
-  value,
-  onChange,
   disabled = false,
   error = "",
   label = "",
   className = "",
+  register, // Chỉ dùng cho react-hook-form
+  // Không nhận value và onChange để tránh xung đột
   ...props
 }) => {
   return (
@@ -19,9 +19,8 @@ const Input = ({
       <input
         type={type}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         disabled={disabled}
+        {...(register ? register : {})} // Chỉ spread register nếu có
         className={`${styles.input} ${error ? styles.errorInput : ""} ${className}`}
         {...props}
       />

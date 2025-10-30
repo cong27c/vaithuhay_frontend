@@ -10,6 +10,4 @@ export const resetPasswordSchema = yup.object().shape({
     .string()
     .required("Vui lòng xác nhận mật khẩu")
     .oneOf([yup.ref("password"), null], "Mật khẩu xác nhận không khớp"),
-
-  token: yup.string().required("Token không hợp lệ hoặc đã hết hạn"),
 });

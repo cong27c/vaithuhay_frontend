@@ -4,7 +4,6 @@ import useQuery from "@/Hooks/useQuery";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
-import InputText from "@/components/InputText";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 
@@ -28,7 +27,6 @@ function ResetPassword() {
     defaultValues: {
       password: "",
       confirmPassword: "",
-      token,
     },
     resolver: yupResolver(resetPasswordSchema),
   });
@@ -41,9 +39,10 @@ function ResetPassword() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await resetPassword(data);
+      const res = await resetPassword({ ...data, token });
       if (res.status == 200) {
         toast.success("Khôi phục mật khẩu thành công!");
+        navigate("/login");
       }
     } catch (error) {
       toast.error("Khôi phục mật khẩu thất bại!");
@@ -63,22 +62,32 @@ function ResetPassword() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className={styles["input-container"]}>
-              <label htmlFor="password">Password</label>
-              <InputText
+              <label htmlFor="password">Mật khẩu</label>
+              <input
                 type="password"
-                register={register}
-                message={errors.password?.message}
-                placeholder="Điền password vào đây..."
+                id="password"
+                {...register("password")}
+                placeholder="Điền mật khẩu vào đây..."
+                className={errors.password ? styles.error : ""}
               />
+              {errors.password && (
+                <p className={styles.errorMessage}>{errors.password.message}</p>
+              )}
             </div>
             <div className={styles["input-container"]}>
-              <label htmlFor="confirmPassword">ConfirmPassword</label>
-              <InputText
+              <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
+              <input
                 type="password"
-                register={register}
-                message={errors.confirmPassword?.message}
-                placeholder="Điền confirmPassword vào đây..."
+                id="confirmPassword"
+                {...register("confirmPassword")}
+                placeholder="Điền xác nhận mật khẩu vào đây..."
+                className={errors.confirmPassword ? styles.error : ""}
               />
+              {errors.confirmPassword && (
+                <p className={styles.errorMessage}>
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
             <div className={styles.buttons}>
               <Button

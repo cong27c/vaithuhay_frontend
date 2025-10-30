@@ -1,4 +1,4 @@
-import styles from "./ForgotPassword.module.scss";
+import styles from "./ActionEmail.module.scss";
 import config from "@/config";
 import useQuery from "@/Hooks/useQuery";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,11 @@ import InputText from "@/components/InputText";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { forgotPassword } from "@/Services/authServices";
+import { verifyEmail } from "@/Services/authServices";
 import { forgotSchema } from "@/schema/forgotPassword";
 import { toast } from "react-toastify";
 
-function ForgotPassword() {
+function ActionEmail() {
   const query = useQuery();
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -36,12 +36,14 @@ function ForgotPassword() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await forgotPassword(data);
-      console.log("forgotPassword", res);
-      if (res?.status == 200) {
+      const res = await verifyEmail(data);
+      if (res?.data?.message) {
         toast.success(res?.data?.message || `Vui lòng check mail để xác thực`);
       }
+      console.log("verifyEmail", res);
     } catch (error) {
+      toast.error("Xác thực thất bại");
+
       console.log(error);
       setErrorMessage(error);
     }
@@ -50,7 +52,7 @@ function ForgotPassword() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <h1 className={styles.title}>Khôi phục mật khẩu</h1>
+        <h1 className={styles.title}>XÁC THỰC EMAIL</h1>
         <div className={styles.listInput}>
           <form
             action=""
@@ -77,7 +79,7 @@ function ForgotPassword() {
                 disabled={isSubmitting}
                 SubmitButton
               >
-                Khôi phục
+                XÁC THỰC{" "}
               </Button>
             </div>
           </form>
@@ -87,4 +89,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ActionEmail;

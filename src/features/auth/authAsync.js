@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpRequest from "@/utils/httpRequest";
 import { authMe, login, logout, register } from "@/Services/authServices";
+import axiosInstance from "@/utils/axiosInstance";
+import { setToken, clearTokens } from "@/utils/auth";
 
 export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",

@@ -1,0 +1,353 @@
+// Color variables
+$bg-primary: #0a0e27;
+$bg-secondary: #1a1f3a;
+$bg-tertiary: #252d4a;
+$text-primary: #ffffff;
+$text-secondary: #b0b8d4;
+$accent-primary: #6366f1;
+$accent-hover: #818cf8;
+$accent-active: #4f46e5;
+$border-color: #3a4158;
+$error-color: #ef4444;
+$success-color: #10b981;
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+$shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+$shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+// Transitions
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+.loginContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+  position: relative;
+  overflow: hidden;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+}
+
+.bgDecoration {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.1) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  pointer-events: none;
+
+  @media (max-width: 768px) {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+.loginWrapper {
+  width: 100%;
+  max-width: 420px;
+  background: $bg-secondary;
+  border: 1px solid $border-color;
+  border-radius: 16px;
+  padding: 48px 40px;
+  box-shadow: $shadow-lg;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 32px 24px;
+    border-radius: 12px;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, $accent-primary, $accent-hover);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: $shadow-md;
+}
+
+.logoIcon {
+  font-size: 28px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: $text-secondary;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 13px;
+  animation: slideDown 0.3s ease-out;
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.errorIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  color: #86efac;
+  font-size: 13px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.successIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.labelIcon {
+  font-size: 16px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background: $bg-tertiary;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  color: $text-primary;
+  font-size: 14px;
+  transition: $transition-smooth;
+  outline: none;
+
+  &::placeholder {
+    color: rgba($text-secondary, 0.6);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: rgba($accent-primary, 0.5);
+    background: lighten($bg-tertiary, 2%);
+  }
+
+  &:focus:not(:disabled) {
+    border-color: $accent-primary;
+    background: lighten($bg-tertiary, 3%);
+    box-shadow: 0 0 0 3px rgba($accent-primary, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  gap: 12px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  color: $text-secondary;
+  transition: $transition-smooth;
+
+  input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: $accent-primary;
+    transition: $transition-smooth;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &:hover input:not(:disabled) {
+    accent-color: $accent-hover;
+  }
+}
+
+.forgotLink {
+  color: $accent-primary;
+  text-decoration: none;
+  transition: $transition-smooth;
+  font-weight: 500;
+
+  &:hover {
+    color: $accent-hover;
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: $accent-active;
+  }
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, $accent-primary, $accent-hover);
+  border: none;
+  border-radius: 8px;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-smooth;
+  box-shadow: $shadow-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba($accent-primary, 0.4);
+    background: linear-gradient(
+      135deg,
+      $accent-hover,
+      lighten($accent-hover, 5%)
+    );
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: $shadow-md;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba($text-primary, 0.3);
+  border-top-color: $text-primary;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid $border-color;
+  font-size: 13px;
+  color: $text-secondary;
+
+  p {
+    margin: 0;
+  }
+}
+
+.supportLink {
+  color: $accent-primary;
+  text-decoration: none;
+  transition: $transition-smooth;
+  font-weight: 500;
+
+  &:hover {
+    color: $accent-hover;
+    text-decoration: underline;
+  }
+}

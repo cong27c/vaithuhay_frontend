@@ -21,7 +21,7 @@ function App() {
       <UserProvider />
       <ScrollTop />
       <AppRoutes />
-      <FixedButtons />
+      {/* <FixedButtons /> */}
     </Router>
   );
 }

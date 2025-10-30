@@ -54,6 +54,7 @@ import Checkout from "@/pages/Checkout";
 import Dashboard from "@/pages/Admin/Dashboard";
 import Users from "@/pages/Admin/Users";
 import Products from "@/pages/Admin/Products";
+import LoginAdmin from "@/pages/Admin/Login";
 import Orders from "@/pages/Admin/Orders";
 import Vouchers from "@/pages/Admin/Vouchers";
 import Payments from "@/pages/Admin/Payments";
@@ -65,6 +66,7 @@ import PreOrderVerify from "@/components/PreOrderVerify";
 import OrderSuccessPage from "@/components/OrderSuccessPage";
 import PaymentQRCodePage from "@/components/PaymentQRCodePage";
 import ProductsSetup from "@/pages/ProductsSetup";
+import ActionEmail from "@/components/ActionEmail";
 
 const routes = [
   {
@@ -94,6 +96,11 @@ const routes = [
     component: Checkout,
   },
   { path: config.adminRoutes.users, component: Users, layout: AdminLayout },
+  {
+    path: config.adminRoutes.login,
+    component: LoginAdmin,
+    layout: AuthLayout,
+  },
   {
     path: config.adminRoutes.products,
     component: Products,
@@ -150,6 +157,11 @@ const routes = [
   {
     path: config.routes.forgotPassword,
     component: ForgotPassword,
+    layout: AuthLayout,
+  },
+  {
+    path: config.routes.verifyEmail,
+    component: ActionEmail,
     layout: AuthLayout,
   },
   {

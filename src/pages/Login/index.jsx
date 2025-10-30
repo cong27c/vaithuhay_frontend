@@ -1,7 +1,7 @@
 import styles from "./Login.module.scss";
 import config from "@/config";
 import useQuery from "@/Hooks/useQuery";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import InputText from "@/components/InputText";
@@ -92,6 +92,14 @@ function Login() {
                 Thông tin đăng nhập ko chính xác
               </span>
             )}
+            <div className={styles.links}>
+              <Link to={config.routes.verifyEmail} className={styles.link}>
+                Verify Email
+              </Link>
+              <Link to={config.routes.forgotPassword} className={styles.link}>
+                Forgot Password?
+              </Link>
+            </div>
 
             <div className={styles.buttons}>
               <Button

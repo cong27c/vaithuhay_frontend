@@ -3,8 +3,6 @@ import styles from "./SlideHalfImageAlternative.module.scss";
 
 import PropTypes from "prop-types";
 import Slider from "@/components/Slider";
-import { getByProductsSlug } from "@/Services/collectionService";
-import { useEffect, useState } from "react";
 
 function SlideHalfImageAlternative({ title, backGroundImage, products }) {
   return (
@@ -18,7 +16,7 @@ function SlideHalfImageAlternative({ title, backGroundImage, products }) {
           <span className={styles.line}></span>
         </div>
         <div className={styles.listCard}>
-          <Slider slides={products} type="half-image" />
+          <Slider slides={products || []} type="half-image" />
         </div>
         <img src={backGroundImage} className={styles.backGround} alt="" />
       </div>
