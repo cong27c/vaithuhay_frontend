@@ -34,7 +34,7 @@ const useVoucher = () => {
 
     try {
       const result = await voucherService.getAllVouchers(params);
-      setVouchers(result || []);
+      setVouchers(result.vouchers || []);
       setPagination(result.pagination || {});
       return result;
     } catch (err) {
@@ -93,6 +93,7 @@ const useVoucher = () => {
     setError(null);
 
     try {
+      console.log(deleteVoucher, "id");
       const result = await voucherService.deleteVoucher(id);
       setVouchers((prev) => prev.filter((voucher) => voucher.id !== id));
       toast.success("Xóa voucher thành công");

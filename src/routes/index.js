@@ -53,7 +53,7 @@ import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Dashboard from "@/pages/Admin/Dashboard";
 import Users from "@/pages/Admin/Users";
-import Products from "@/pages/Admin/Products";
+import Products from "@/pages/Admin/Products/ProductManagement";
 import LoginAdmin from "@/pages/Admin/Login";
 import Orders from "@/pages/Admin/Orders";
 import Vouchers from "@/pages/Admin/Vouchers";
@@ -65,7 +65,6 @@ import BlogDetail from "@/pages/BlogDetail";
 import PreOrderVerify from "@/components/PreOrderVerify";
 import OrderSuccessPage from "@/components/OrderSuccessPage";
 import PaymentQRCodePage from "@/components/PaymentQRCodePage";
-import ProductsSetup from "@/pages/ProductsSetup";
 import ActionEmail from "@/components/ActionEmail";
 
 const routes = [

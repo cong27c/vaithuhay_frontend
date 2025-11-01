@@ -1,52 +1,47 @@
-@import '@/styles/variables.scss';
-
+// Products.module.scss
 .productsPage {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xl;
+  padding: 20px;
 }
 
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 
   h1 {
-    font-size: $font-size-3xl;
-    font-weight: 700;
-    color: $text-white;
     margin: 0;
+    font-size: 24px;
+    font-weight: 600;
   }
 }
 
 .toolbar {
-  display: flex;
-  gap: $spacing-lg;
-  margin-bottom: $spacing-lg;
-  align-items: center;
+  margin-bottom: 20px;
 }
 
 .searchBox {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  background-color: $secondary-gray;
-  border: 1px solid $border-gray;
-  border-radius: $radius-md;
-  padding: $spacing-md;
-  flex: 1;
+  position: relative;
   max-width: 400px;
 
-  input {
-    flex: 1;
-    background: none;
-    border: none;
-    color: $text-light;
-    outline: none;
-    font-size: $font-size-md;
+  svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
 
-    &::placeholder {
-      color: $light-gray;
+  input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: #ffd700;
     }
   }
 }
@@ -55,78 +50,526 @@
   width: 100%;
   border-collapse: collapse;
 
-  thead {
-    background-color: $secondary-gray;
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
   }
 
   th {
-    padding: $spacing-md;
-    text-align: left;
     font-weight: 600;
-    color: $text-white;
-    border-bottom: 2px solid $border-gray;
-    font-size: $font-size-sm;
-    text-transform: uppercase;
-  }
-
-  td {
-    padding: $spacing-md;
-    border-bottom: 1px solid $border-gray;
-    color: $text-light;
-
-    &:hover {
-      background-color: $secondary-gray;
-    }
+    color: #333;
+    background-color: #f8f9fa;
   }
 }
 
 .badge {
-  display: inline-block;
-  padding: $spacing-sm $spacing-md;
-  border-radius: $radius-md;
-  font-size: $font-size-sm;
-  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
 
-  &.instock {
-    background-color: rgba(76, 175, 80, 0.2);
-    color: $success;
+  &.available {
+    background-color: #d4edda;
+    color: #155724;
   }
 
-  &.outofstock {
-    background-color: rgba(244, 67, 54, 0.2);
-    color: $danger;
+  &.coming_soon {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  &.pre_order {
+    background-color: #cce7ff;
+    color: #004085;
   }
 }
 
 .actions {
   display: flex;
-  gap: $spacing-sm;
+  gap: 8px;
 }
 
 .actionBtn {
-  background: none;
+  padding: 6px;
   border: none;
-  color: $text-light;
+  background: none;
+  border-radius: 4px;
   cursor: pointer;
-  padding: $spacing-sm;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color $transition-fast;
+  color: #666;
 
   &:hover {
-    color: $primary-yellow;
+    background-color: #f5f5f5;
+    color: #333;
   }
+}
+
+.variantInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  gap: 16px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .modalFooter {
   display: flex;
-  gap: $spacing-md;
   justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.variantList {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+
+  h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.variantItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  margin-bottom: 8px;
+
+  span {
+    font-size: 14px;
+  }
+}
+
+.variantActions {
+  display: flex;
+  gap: 4px;
+}
+
+.productsPage {
+  .productInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .productImage {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+
+  .priceInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .finalPrice {
+      font-weight: 600;
+      color: #10b981;
+    }
+
+    .discountBadge {
+      background: #ef4444;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+
+  .imageSection {
+    margin-bottom: 16px;
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .imageInput {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .previewImage {
+      max-width: 100px;
+      max-height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .subImages {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .subImageItem {
+      position: relative;
+
+      img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #e5e7eb;
+      }
+
+      .removeImageBtn {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &:hover {
+          background: #dc2626;
+        }
+      }
+    }
+
+    .addImageBtn {
+      margin-top: 8px;
+    }
+  }
+
+  .collectionsSection {
+    .collectionsList {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .collectionCheckbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+
+      input[type="checkbox"] {
+        margin: 0;
+      }
+    }
+  }
+}
+
+// Variant Management Styles
+.variantManagement {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-height: 600px;
+  overflow-y: auto;
+
+  .variantForm {
+    .formActions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  }
+
+  .variantsGrid {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .variantCard {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+
+    .variantHeader {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .variantImage {
+      .variantImg {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .noImage {
+        width: 60px;
+        height: 60px;
+        background: #f3f4f6;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+      }
+    }
+
+    .variantInfo {
+      flex: 1;
+
+      h5 {
+        margin: 0 0 4px 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .sku {
+        margin: 0 0 2px 0;
+        font-size: 12px;
+        color: #6b7280;
+      }
+
+      .price {
+        margin: 0 0 2px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #10b981;
+      }
+
+      .stock {
+        margin: 0;
+        font-size: 12px;
+        color: #6b7280;
+      }
+    }
+
+    .variantAttributes {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 8px;
+
+      .attribute {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+
+        .attributeKey {
+          font-weight: 500;
+          color: #374151;
+        }
+
+        .attributeValue {
+          color: #6b7280;
+        }
+      }
+    }
+
+    .variantActions {
+      display: flex;
+      gap: 4px;
+      justify-content: flex-end;
+
+      .actionBtn {
+        padding: 4px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:hover {
+          background: #f3f4f6;
+        }
+
+        &.danger:hover {
+          background: #fef2f2;
+          color: #ef4444;
+        }
+      }
+    }
+  }
+
+  .noVariants {
+    text-align: center;
+    padding: 24px;
+    color: #6b7280;
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .variantManagement {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Thêm các styles sau vào file SCSS của bạn
+
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uploadButton {
+  position: relative;
+  display: inline-block;
+}
+
+.fileInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.uploadLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #e9ecef;
+    border-color: #6c757d;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.imagePreviewWithActions {
+  position: relative;
+  display: inline-block;
+
+  .previewImage {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+  }
+
+  .removeImageBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background: #c82333;
+    }
+
+    &:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.subImages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.subImageItem {
+  position: relative;
+
+  img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+  }
+
+  .removeImageBtn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 20px;
+    height: 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 10px;
+
+    &:hover {
+      background: #c82333;
+    }
+
+    &:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.deleteAllSection {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #dee2e6;
+}
+
+// Spinner animation
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -61,11 +61,6 @@ export default function OrderSummary({
       return;
     }
 
-    if (!cartId) {
-      setDiscountError("Không tìm thấy giỏ hàng");
-      return;
-    }
-
     setApplyingDiscount(true);
     setDiscountError("");
 

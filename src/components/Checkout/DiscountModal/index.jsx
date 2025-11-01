@@ -30,11 +30,6 @@ export default function DiscountModal({ onClose, onApply, cartId }) {
   }, []);
 
   const handleApplyVoucher = async (voucherCode) => {
-    if (!cartId) {
-      toast.error("Không tìm thấy giỏ hàng");
-      return;
-    }
-
     setApplyingCoupon(voucherCode);
 
     try {

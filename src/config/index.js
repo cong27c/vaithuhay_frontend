@@ -66,7 +66,7 @@ const config = {
     leatherCareTips: "news/leatherCareTips",
   },
   adminRoutes: {
-    dashboard: "/admin",
+    dashboard: "/admin/dashboard",
     users: "/admin/users",
     products: "/admin/products",
     orders: "/admin/orders",

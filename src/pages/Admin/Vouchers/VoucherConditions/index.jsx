@@ -1,98 +1,90 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Plus, Trash2, HelpCircle, Check, X } from "lucide-react";
 import Button from "@/components/Admin/ui/Button";
 import styles from "./VoucherConditions.module.scss";
+
+const conditionTypes = [
+  {
+    value: "min_order_value",
+    label: "💰 Giá trị đơn hàng tối thiểu",
+    description: "Áp dụng khi tổng giá trị đơn hàng đạt mức tối thiểu",
+  },
+  {
+    value: "collection",
+    label: "📁 Danh mục sản phẩm",
+    description: "Chỉ áp dụng cho sản phẩm trong danh mục được chọn",
+  },
+  {
+    value: "product",
+    label: "🛍️ Sản phẩm áp dụng",
+    description: "Chỉ áp dụng cho những sản phẩm cụ thể",
+  },
+  {
+    value: "first_order",
+    label: "🎯 Đơn hàng đầu tiên",
+    description: "Chỉ áp dụng cho đơn hàng đầu tiên của khách hàng",
+  },
+  {
+    value: "specific_user",
+    label: "👤 Người dùng cụ thể",
+    description: "Chỉ áp dụng cho những người dùng được chỉ định",
+  },
+  {
+    value: "time_frame",
+    label: "⏰ Khung thời gian",
+    description: "Chỉ áp dụng trong khung giờ nhất định",
+  },
+];
+
+const operators = [
+  { value: "=", label: "Bằng" },
+  { value: ">", label: "Lớn hơn" },
+  { value: "<", label: "Nhỏ hơn" },
+  { value: ">=", label: "Lớn hơn hoặc bằng" },
+  { value: "<=", label: "Nhỏ hơn hoặc bằng" },
+  { value: "in", label: "Nằm trong" },
+  { value: "not_in", label: "Không nằm trong" },
+];
+
+// Mock data - Thay thế bằng API call thực tế
+const mockCategories = [
+  { id: 1, name: "Setup Góc Làm Việc" },
+  { id: 2, name: "Bàn phím hay" },
+  { id: 3, name: "Du Lịch Dã Ngoại" },
+  { id: 4, name: "Loa - Tai Nghe" },
+  { id: 5, name: "Sản phẩm độc đáo nhất" },
+  { id: 6, name: "Sản phẩm HOT" },
+  { id: 7, name: "Sản phẩm DIY Steampunk" },
+  { id: 8, name: "Đèn tràn trí NID LIGHT" },
+];
+
+const mockProducts = [
+  { id: 1, name: "iPhone 15", collection: "Điện tử" },
+  { id: 2, name: "MacBook Pro", collection: "Điện tử" },
+  { id: 3, name: "Sách lập trình", collection: "Sách" },
+  { id: 4, name: "Áo thun basic", collection: "Quần áo" },
+  { id: 5, name: "Máy xay sinh tố", collection: "Đồ gia dụng" },
+];
+
+const mockUsers = [
+  { id: 1, email: "user1@example.com", name: "Nguyễn Văn A" },
+  { id: 2, email: "user2@example.com", name: "Trần Thị B" },
+  { id: 3, email: "user3@example.com", name: "Lê Văn C" },
+];
 
 const VoucherConditions = ({ conditions = [], onChange }) => {
   const [localConditions, setLocalConditions] = useState([]);
 
   useEffect(() => {
-    setLocalConditions(conditions || []);
+    if (conditions && conditions.length > 0 && localConditions.length === 0) {
+      setLocalConditions(conditions);
+    }
   }, [conditions]);
-
-  const conditionTypes = [
-    {
-      value: "min_order_value",
-      label: "💰 Giá trị đơn hàng tối thiểu",
-      description: "Áp dụng khi tổng giá trị đơn hàng đạt mức tối thiểu",
-    },
-    {
-      value: "category",
-      label: "📁 Danh mục sản phẩm",
-      description: "Chỉ áp dụng cho sản phẩm trong danh mục được chọn",
-    },
-    {
-      value: "product",
-      label: "🛍️ Sản phẩm áp dụng",
-      description: "Chỉ áp dụng cho những sản phẩm cụ thể",
-    },
-    {
-      value: "user_group",
-      label: "👥 Nhóm người dùng",
-      description: "Chỉ áp dụng cho nhóm người dùng nhất định",
-    },
-    {
-      value: "first_order",
-      label: "🎯 Đơn hàng đầu tiên",
-      description: "Chỉ áp dụng cho đơn hàng đầu tiên của khách hàng",
-    },
-    {
-      value: "specific_user",
-      label: "👤 Người dùng cụ thể",
-      description: "Chỉ áp dụng cho những người dùng được chỉ định",
-    },
-    {
-      value: "time_frame",
-      label: "⏰ Khung thời gian",
-      description: "Chỉ áp dụng trong khung giờ nhất định",
-    },
-  ];
-
-  const operators = [
-    { value: "=", label: "Bằng" },
-    { value: ">", label: "Lớn hơn" },
-    { value: "<", label: "Nhỏ hơn" },
-    { value: ">=", label: "Lớn hơn hoặc bằng" },
-    { value: "<=", label: "Nhỏ hơn hoặc bằng" },
-    { value: "in", label: "Nằm trong" },
-    { value: "not_in", label: "Không nằm trong" },
-  ];
-
-  const userGroups = [
-    { value: "all", label: "Tất cả người dùng" },
-    { value: "new", label: "Người dùng mới" },
-    { value: "vip", label: "Người dùng VIP" },
-    { value: "regular", label: "Người dùng thường xuyên" },
-  ];
-
-  // Mock data - Thay thế bằng API call thực tế
-  const mockCategories = [
-    { id: 1, name: "Điện tử" },
-    { id: 2, name: "Sách" },
-    { id: 3, name: "Quần áo" },
-    { id: 4, name: "Đồ gia dụng" },
-    { id: 5, name: "Thể thao" },
-  ];
-
-  const mockProducts = [
-    { id: 1, name: "iPhone 15", category: "Điện tử" },
-    { id: 2, name: "MacBook Pro", category: "Điện tử" },
-    { id: 3, name: "Sách lập trình", category: "Sách" },
-    { id: 4, name: "Áo thun basic", category: "Quần áo" },
-    { id: 5, name: "Máy xay sinh tố", category: "Đồ gia dụng" },
-  ];
-
-  const mockUsers = [
-    { id: 1, email: "user1@example.com", name: "Nguyễn Văn A" },
-    { id: 2, email: "user2@example.com", name: "Trần Thị B" },
-    { id: 3, email: "user3@example.com", name: "Lê Văn C" },
-  ];
 
   const addCondition = () => {
     const newCondition = {
-      id: Date.now() + Math.random(),
       condition_type: "min_order_value",
       operator: ">=",
       condition_value: "",
@@ -116,24 +108,31 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
     onChange(updatedConditions);
   };
 
-  const getOperatorOptions = (conditionType) => {
+  const getOperatorOptions = useCallback((conditionType) => {
     switch (conditionType) {
       case "min_order_value":
-        return operators.filter((op) =>
-          [">", ">=", "<", "<=", "="].includes(op.value),
-        );
-      case "category":
+        return [
+          { value: ">", label: "Lớn hơn" },
+          { value: ">=", label: "Lớn hơn hoặc bằng" },
+          { value: "=", label: "Bằng" },
+          { value: "<", label: "Nhỏ hơn" },
+          { value: "<=", label: "Nhỏ hơn hoặc bằng" },
+        ];
+      case "collection":
       case "product":
-      case "user_group":
       case "specific_user":
-        return operators.filter((op) => ["in", "not_in"].includes(op.value));
+        return [
+          { value: "in", label: "Nằm trong" },
+          { value: "not_in", label: "Không nằm trong" },
+        ];
       case "first_order":
+        return [{ value: "=", label: "Bằng" }];
       case "time_frame":
-        return operators.filter((op) => op.value === "=");
+        return [{ value: "=", label: "Trong khoảng" }];
       default:
-        return operators;
+        return [{ value: "=", label: "Bằng" }];
     }
-  };
+  }, []);
 
   const getConditionDescription = (conditionType) => {
     const condition = conditionTypes.find((c) => c.value === conditionType);
@@ -164,7 +163,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
           </div>
         );
 
-      case "category":
+      case "collection":
         return (
           <div className={styles.inputGroup}>
             <label>Danh mục áp dụng</label>
@@ -179,10 +178,8 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                       onChange={() => {
                         const currentValues = condition_value || [];
                         const updatedValues = isSelected
-                          ? currentValues.filter(
-                              (id) => id !== cat.id.toString(),
-                            )
-                          : [...currentValues, cat.id.toString()];
+                          ? currentValues.filter((id) => id !== cat.id)
+                          : [...currentValues, cat.id];
                         updateCondition(
                           index,
                           "condition_value",
@@ -232,7 +229,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                     <div className={styles.productInfo}>
                       <div className={styles.productName}>{product.name}</div>
                       <div className={styles.productCategory}>
-                        {product.category}
+                        {product.collection}
                       </div>
                     </div>
                   </label>
@@ -240,27 +237,6 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
               })}
             </div>
             <small>Chọn sản phẩm cụ thể được áp dụng voucher</small>
-          </div>
-        );
-
-      case "user_group":
-        return (
-          <div className={styles.inputGroup}>
-            <label>Nhóm người dùng</label>
-            <select
-              value={condition_value || ""}
-              onChange={(e) =>
-                updateCondition(index, "condition_value", e.target.value)
-              }
-            >
-              <option value="">Chọn nhóm người dùng</option>
-              {userGroups.map((group) => (
-                <option key={group.value} value={group.value}>
-                  {group.label}
-                </option>
-              ))}
-            </select>
-            <small>Chọn nhóm người dùng được phép sử dụng voucher</small>
           </div>
         );
 
@@ -442,9 +418,16 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                     <label>Loại điều kiện</label>
                     <select
                       value={condition.condition_type}
-                      onChange={(e) =>
-                        updateCondition(index, "condition_type", e.target.value)
-                      }
+                      onChange={(e) => {
+                        const newType = e.target.value;
+                        // Lấy danh sách toán tử hợp lệ cho loại mới
+                        const validOps = getOperatorOptions(newType);
+                        // Lấy toán tử đầu tiên làm mặc định
+                        const defaultOp = validOps[0]?.value || "=";
+                        // Reset lại cả condition_type + operator
+                        updateCondition(index, "condition_type", newType);
+                        updateCondition(index, "operator", defaultOp);
+                      }}
                     >
                       {conditionTypes.map((type) => (
                         <option key={type.value} value={type.value}>

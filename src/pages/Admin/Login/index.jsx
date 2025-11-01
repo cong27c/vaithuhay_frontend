@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import styles from "./Login.module.scss";
+import { login } from "@/Services/adminAuthService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const emailInputRef = useRef(null);
 
-  // Focus input tự động khi component mount
+  // Focus input khi mount
   useEffect(() => {
     emailInputRef.current?.focus();
   }, []);
@@ -44,64 +45,52 @@ const Login = () => {
     setError("");
     setSuccess("");
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setLoading(true);
 
     try {
-      // Gọi API /admin/login
-      const response = await fetch("/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          rememberMe,
-        }),
-      });
+      // Gọi API login qua service
+      const data = await login({ email, password });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Đăng nhập thất bại");
+      // Nếu server trả về lỗi
+      if (data?.error || data?.status === "error") {
+        setError(data?.message || "Đăng nhập thất bại");
         return;
       }
 
+      // Thành công
       setSuccess("Đăng nhập thành công!");
-      // Lưu token nếu cần
-      if (data.token) {
+
+      // Lưu token nếu có
+      if (data?.token) {
         localStorage.setItem("adminToken", data.token);
       }
+
       // Reset form
       setEmail("");
       setPassword("");
-      // Redirect hoặc xử lý tiếp theo
+
+      // Chuyển hướng sau 1.5s
       setTimeout(() => {
         window.location.href = "/admin/dashboard";
       }, 1500);
     } catch (err) {
-      setError("Lỗi kết nối. Vui lòng thử lại.");
       console.error("Login error:", err);
+      setError("Lỗi kết nối. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle Enter key
+  // Submit khi nhấn Enter
   const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !loading) {
-      handleSubmit(e);
-    }
+    if (e.key === "Enter" && !loading) handleSubmit(e);
   };
 
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginWrapper}>
-        {/* Header */}
         <div className={styles.header}>
           <div className={styles.logo}>
             <span className={styles.logoIcon}>⚙️</span>
@@ -110,12 +99,8 @@ const Login = () => {
           <p className={styles.subtitle}>Đăng nhập để tiếp tục</p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className={styles.form}>
-          {/* Error Message */}
           {error && <div className={styles.errorMessage}>{error}</div>}
-
-          {/* Success Message */}
           {success && (
             <div className={styles.successMessage}>
               <span className={styles.successIcon}>✓</span>
@@ -123,7 +108,6 @@ const Login = () => {
             </div>
           )}
 
-          {/* Email Input */}
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.label}>
               Email
@@ -144,7 +128,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Password Input */}
           <div className={styles.formGroup}>
             <label htmlFor="password" className={styles.label}>
               Mật khẩu
@@ -153,7 +136,7 @@ const Login = () => {
               type="password"
               id="password"
               className={styles.input}
-              placeholder="password.."
+              placeholder="password..."
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -164,7 +147,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Remember Me & Forgot Password */}
           <div className={styles.formFooter}>
             <label className={styles.checkbox}>
               <input
@@ -180,7 +162,6 @@ const Login = () => {
             </a>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className={styles.submitButton}
@@ -197,7 +178,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Footer */}
         <div className={styles.footer}>
           <p>
             Cần hỗ trợ?{" "}
@@ -208,7 +188,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Background decoration */}
       <div className={styles.bgDecoration}></div>
     </div>
   );

@@ -1,0 +1,36 @@
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  background-color: #fff;
+  appearance: none; // loại bỏ style mặc định của browser
+  transition: border 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #ffd700; // màu chủ đạo focus
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  }
+}
+
+.error {
+  border-color: #f87171; // đỏ báo lỗi
+}
+
+.errorText {
+  color: #f87171;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}

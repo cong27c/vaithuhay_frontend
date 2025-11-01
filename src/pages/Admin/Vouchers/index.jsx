@@ -48,9 +48,11 @@ const Vouchers = () => {
     conditions: [],
   });
   const [formErrors, setFormErrors] = useState({});
-
-  useEffect(async () => {
+  const callVouchers = async () => {
     await fetchVouchers();
+  };
+  useEffect(() => {
+    callVouchers();
   }, []);
 
   useEffect(() => {
@@ -159,7 +161,10 @@ const Vouchers = () => {
         min_order_amount: parseFloat(form.min_order_amount),
         usage_limit: form.usage_limit ? parseInt(form.usage_limit) : null,
         per_user_limit: parseInt(form.per_user_limit),
+        start_date: form.start_date || null,
+        end_date: form.end_date || null,
       };
+      console.log(formattedData);
 
       if (editingVoucher) {
         await updateVoucher(editingVoucher.id, formattedData);
@@ -169,7 +174,7 @@ const Vouchers = () => {
       setModalOpen(false);
       fetchVouchers();
     } catch (error) {
-      // Error handled in hook
+      console.log(error);
     }
   };
 
@@ -178,16 +183,19 @@ const Vouchers = () => {
       try {
         await deleteVoucher(id);
       } catch (error) {
-        // Error handled in hook
+        console.log(error);
       }
     }
   };
+  useEffect(() => {
+    console.log("End date changed:", form.end_date);
+  }, [form.end_date]);
 
   const handleStatusChange = async (id, newStatus) => {
     try {
       await updateStatus(id, newStatus);
     } catch (error) {
-      // Error handled in hook
+      console.log(error);
     }
   };
 
@@ -230,6 +238,9 @@ const Vouchers = () => {
           <h1>Quản lý Voucher</h1>
           <p>Quản lý mã giảm giá và khuyến mãi</p>
         </div>
+        <Button variant="primary" onClick={() => openModal()}>
+          <Plus size={18} /> Add Voucher
+        </Button>
       </div>
 
       <Card className={styles.card}>
@@ -666,9 +677,7 @@ const Vouchers = () => {
                       <small>Để trống nếu có hiệu lực ngay</small>
                     </div>
 
-                    <div
-                      className={`${styles.inputGroup} ${formErrors.end_date ? styles.error : ""}`}
-                    >
+                    <div className={`${styles.inputGroup}`}>
                       <label>Ngày kết thúc</label>
                       <input
                         type="date"
@@ -677,11 +686,13 @@ const Vouchers = () => {
                           setForm({ ...form, end_date: e.target.value })
                         }
                       />
+                      {console.log("end_date", form.end_date)}
                       {formErrors.end_date && (
                         <span className={styles.errorText}>
                           {formErrors.end_date}
                         </span>
                       )}
+
                       <small>Để trống nếu không có hạn sử dụng</small>
                     </div>
                   </div>

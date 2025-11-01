@@ -239,11 +239,6 @@ function ProductHero({
       const matched = findMatchedVariantBySelected();
       const variantId = matched?.id || null;
 
-      if (!variantId) {
-        toast.warn("Không tìm được biến thể phù hợp để thêm vào giỏ.");
-        return;
-      }
-
       const res = await addToCart(
         { productId, variantId, quantity },
         isLoggedIn,
