@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import styles from "./couponModel.module.scss";
+import styles from "./CouponModel.module.scss";
 
 const CouponModal = ({ coupons = [], onClose, onCopyCoupon, onGetCoupon }) => {
   const modalRef = useRef(null);

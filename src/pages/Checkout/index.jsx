@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "./Checkout.module.scss";
-import OrderSummary from "@/components/checkout/OrderSummary";
+import OrderSummary from "@/components/Checkout/OrderSummary";
 import { useSelector } from "react-redux";
 import OrderInfor from "@/components/Checkout/OrderInfor";
 import { toast } from "react-toastify";
