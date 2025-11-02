@@ -10,7 +10,7 @@ import {
   createProductVariant,
   updateProductVariant,
   deleteProductVariant,
-} from "@/services/productAdminService";
+} from "@/Services/productAdminService";
 import styles from "../Products.module.scss";
 
 const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
