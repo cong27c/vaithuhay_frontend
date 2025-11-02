@@ -1,11 +1,10 @@
 // hooks/useSearch.js
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   searchAll,
-  getHotTopics,
   searchProducts,
   searchBlogs,
-} from "@/services/searchService";
+} from "@/Services/searchService";
 
 const useSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
