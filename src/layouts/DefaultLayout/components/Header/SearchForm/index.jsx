@@ -1,6 +1,6 @@
 // SearchForm/index.jsx
 import { useState, useEffect, useRef } from "react";
-import useSearch from "@/hooks/useSearch";
+import useSearch from "@/Hooks/useSearch";
 import styles from "./SearchForm.module.scss";
 
 function SearchForm() {
