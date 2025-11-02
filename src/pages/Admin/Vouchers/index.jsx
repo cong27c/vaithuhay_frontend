@@ -15,7 +15,7 @@ import {
 import Card from "@/components/Admin/ui/Card";
 import Button from "@/components/Admin/ui/Button";
 import VoucherConditions from "./VoucherConditions";
-import useVoucher from "@/hooks/useVoucher";
+import useVoucher from "@/Hooks/useVoucher";
 import styles from "./Vouchers.module.scss";
 
 const Vouchers = () => {
