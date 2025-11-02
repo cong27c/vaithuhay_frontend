@@ -12,13 +12,13 @@ import {
   updateProduct,
   deleteProduct,
   transformProductForDisplay,
-} from "@/services/productAdminService";
+} from "@/Services/productAdminService";
 import {
   uploadMainProductImage,
   uploadSubProductImage,
   deleteProductImage,
   deleteAllProductImages,
-} from "@/services/productImageService";
+} from "@/Services/productImageService";
 import styles from "./Products.module.scss";
 
 const ProductManagement = () => {
