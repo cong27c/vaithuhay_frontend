@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./buttonBars.module.scss";
+import styles from "./ButtonBars.module.scss";
 import { faBars, faL, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import CollectionTab from "@/pages/SeeMore/Showcase/CollectionTab";
