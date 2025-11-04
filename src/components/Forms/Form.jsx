@@ -24,7 +24,7 @@ function Form({
     formState: { errors },
   } = useForm(config);
 
-  const inputs = React.Children.toArray(children).map((child) => {
+  const inputs = React.Children.toArray(children)?.map((child) => {
     if (!ALLOW_REGISTER_INPUTS.includes(child.type)) return child;
 
     return React.cloneElement(child, {

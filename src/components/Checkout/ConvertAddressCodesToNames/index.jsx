@@ -42,5 +42,5 @@ export const convertAddressCodesToNames = (address) => {
 
 // Hàm quy đổi toàn bộ mảng addresses
 export const convertAllAddressesToNames = (addresses) => {
-  return addresses.map((address) => convertAddressCodesToNames(address));
+  return addresses?.map((address) => convertAddressCodesToNames(address));
 };

@@ -45,7 +45,7 @@ function ReturnPolicy() {
         Chính sách đổi trả, bảo hành và bồi hoàn sản phẩm
       </div>
       <div className={styles.listImage}>
-        {listImage.map((item, index) => (
+        {listImage?.map((item, index) => (
           <div key={index} className={styles.image}>
             <img src={item.image} alt="" />
           </div>

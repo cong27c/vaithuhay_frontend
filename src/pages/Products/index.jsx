@@ -16,7 +16,7 @@ function Products() {
   return (
     <div>
       <ul>
-        {products.map((product) => (
+        {products?.map((product) => (
           <li key={product.id}>
             <Link to={`${config.routes.products}/${product.slug}`}>
               {product.title}

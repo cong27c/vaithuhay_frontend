@@ -4,7 +4,7 @@ import axios from "axios";
 console.log(import.meta.env.VITE_BASE_URL);
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  withCredentials: true, // nếu bạn dùng cookie cho refresh token
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -33,6 +33,10 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    if (originalRequest.url.includes("/auth/login")) {
+      return Promise.reject(error);
+    }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {

@@ -71,13 +71,13 @@ const Reviews = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredReviews.map((review) => (
+            {filteredReviews?.map((review) => (
               <tr key={review.id}>
                 <td>{review.product}</td>
                 <td>{review.author}</td>
                 <td>
                   <div className={styles.rating}>
-                    {[...Array(review.rating)].map((_, i) => (
+                    {[...Array(review.rating)]?.map((_, i) => (
                       <Star key={i} size={16} fill="#FFD700" color="#FFD700" />
                     ))}
                   </div>

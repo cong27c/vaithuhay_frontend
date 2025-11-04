@@ -67,7 +67,7 @@ const ConditionInputs = memo(({ condition, index, onUpdate }) => {
       <div className={styles.inputGroup}>
         <label>Danh mục áp dụng</label>
         <div className={styles.multiSelect}>
-          {mockCategories.map((cat) => {
+          {mockCategories?.map((cat) => {
             const isSelected = condition_value?.includes(cat.id.toString());
             return (
               <label key={cat.id} className={styles.checkboxItem}>
@@ -99,7 +99,7 @@ const ConditionInputs = memo(({ condition, index, onUpdate }) => {
       <div className={styles.inputGroup}>
         <label>Sản phẩm áp dụng</label>
         <div className={styles.multiSelect}>
-          {mockProducts.map((product) => {
+          {mockProducts?.map((product) => {
             const isSelected = condition_value?.includes(product.id.toString());
             return (
               <label key={product.id} className={styles.checkboxItem}>
@@ -160,7 +160,7 @@ const ConditionInputs = memo(({ condition, index, onUpdate }) => {
       <div className={styles.inputGroup}>
         <label>Người dùng cụ thể</label>
         <div className={styles.multiSelect}>
-          {mockUsers.map((user) => {
+          {mockUsers?.map((user) => {
             const isSelected = condition_value?.includes(user.id.toString());
             return (
               <label key={user.id} className={styles.checkboxItem}>

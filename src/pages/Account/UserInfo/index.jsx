@@ -195,7 +195,7 @@ function UserInfo() {
         <div className={styles["form-group"]}>
           <label>Giới tính</label>
           <div className={styles["radio-group"]}>
-            {["male", "female", "other"].map((gender) => (
+            {["male", "female", "other"]?.map((gender) => (
               <div key={gender}>
                 <input
                   type="radio"

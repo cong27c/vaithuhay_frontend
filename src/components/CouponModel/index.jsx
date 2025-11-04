@@ -5,7 +5,7 @@ const CouponModal = ({ coupons = [], onClose, onCopyCoupon, onGetCoupon }) => {
   const modalRef = useRef(null);
 
   const transformCoupons = (apiCoupons) => {
-    return apiCoupons.map((coupon) => ({
+    return apiCoupons?.map((coupon) => ({
       id: coupon.id,
       title: coupon.description,
       code: coupon.code,

@@ -3,7 +3,7 @@ import styles from "./ProductFeatureBanner.module.scss";
 import { useState } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-function ProductFeatureBanner({ highlights }) {
+function ProductFeatureBanner({ highlights, productName }) {
   const [active, setActive] = useState(false);
 
   return (
@@ -15,10 +15,10 @@ function ProductFeatureBanner({ highlights }) {
           </div>
         </div>
         <div className={styles.bodyRight}>
-          <div className={styles.title}>{highlights?.name}</div>
+          <div className={styles.title}>{highlights?.name || productName}</div>
 
           <ul>
-            {highlights?.highlightsHtml.map((item, index) => (
+            {highlights?.highlightsHtml?.map((item, index) => (
               <li key={index}>
                 <strong>{item.feature}</strong> {item.description}
               </li>

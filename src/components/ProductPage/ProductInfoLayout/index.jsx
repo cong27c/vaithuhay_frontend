@@ -158,7 +158,7 @@ function ProductInfoLayout({ blogsProduct, specifications }) {
         <div className={styles["related-products"]}>
           <h2 className={styles["section-title"]}>SẢN PHẨM LIÊN QUAN</h2>
           <div className={styles["product-list"]}>
-            {listItem.map((product, index) => (
+            {listItem?.map((product, index) => (
               <div key={index} className={styles["product-card"]}>
                 <div className={styles.image}>
                   <img src={product.image} alt="" />

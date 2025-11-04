@@ -5,7 +5,6 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-
 import "swiper/css";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 const navThemeList = [
@@ -121,7 +120,7 @@ function MegaMenu() {
       <h2>KHÁM PHÁ THEO CHỦ ĐỀ</h2>
       <section className={styles["theme-explore"]}>
         <div className={styles["theme-navigation"]}>
-          {navThemeList.map((item, index) => (
+          {navThemeList?.map((item, index) => (
             <div key={index} className={styles.navBox}>
               <div className={styles.image}>
                 <img src={item.image} alt="" />
@@ -131,7 +130,7 @@ function MegaMenu() {
           ))}
         </div>
         <div className={styles["theme-list"]}>
-          {themeImageList.map((item, index) => (
+          {themeImageList?.map((item, index) => (
             <div key={index} className={styles["theme-item"]}>
               <div className={styles.image}>
                 <img src={item.image} alt={item.subTitle} />
@@ -181,7 +180,7 @@ function MegaMenu() {
             1080: { slidesPerView: 4 },
           }}
         >
-          {slideImageList.map((item, index) => (
+          {slideImageList?.map((item, index) => (
             <SwiperSlide key={index}>
               <div className={styles.item}>
                 <img src={item.image} alt="" />

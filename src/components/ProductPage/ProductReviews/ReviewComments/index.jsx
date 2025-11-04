@@ -11,7 +11,7 @@ const ReviewComments = ({ reviews }) => {
   const [activeShareIndex, setActiveShareIndex] = useState(null);
   return (
     <div className={styles.reviewComments}>
-      {reviews.map((review, index) => (
+      {reviews?.map((review, index) => (
         <div key={index} className={styles.reviewItem}>
           <div className={styles.reviewHeader}>
             <div className={styles.useInfo}>
@@ -31,7 +31,7 @@ const ReviewComments = ({ reviews }) => {
           <p className={styles.reviewContent}>{review.content}</p>
           {review.images && review.images.length > 0 && (
             <div className={styles.reviewImages}>
-              {review.images.map((img, imgIndex) => (
+              {review.images?.map((img, imgIndex) => (
                 <img key={imgIndex} src={img} alt={`Review ${imgIndex + 1}`} />
               ))}
             </div>

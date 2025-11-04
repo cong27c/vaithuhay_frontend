@@ -70,7 +70,7 @@ function Account() {
           </div>
           <nav className={styles["account-menu"]}>
             <ul>
-              {menuItems.map((item, index) => (
+              {menuItems?.map((item, index) => (
                 <li
                   key={index}
                   className={

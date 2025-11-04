@@ -71,7 +71,7 @@ const ComboModal = ({
       }
 
       // Chuẩn bị payload: comboId + products với quantity mặc định là 1 cho từng sản phẩm
-      const comboProducts = products.map((product) => ({
+      const comboProducts = products?.map((product) => ({
         productId: product.id,
         variantId: product.variantId || null,
         quantity: 1, // Mỗi sản phẩm trong combo luôn có quantity = 1
@@ -119,7 +119,7 @@ const ComboModal = ({
 
         {/* Products List - Hiển thị sản phẩm không có quantity control */}
         <div className={styles.productsList}>
-          {products.map((product, index) => (
+          {products?.map((product, index) => (
             <div key={product.id || index} className={styles.productItem}>
               <img
                 src={product.image || "/placeholder.svg"}

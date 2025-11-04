@@ -416,7 +416,7 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
             <div className={styles.loading}>Đang tải địa chỉ...</div>
           ) : addresses.length > 0 ? (
             <div className={styles.addressList}>
-              {addresses.map((address) => (
+              {addresses?.map((address) => (
                 <div
                   key={address.id}
                   className={`${styles.addressItem} ${
@@ -701,7 +701,7 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
                 </div>
                 <div className={styles.modalContent}>
                   <div className={styles.addressOptions}>
-                    {addresses.map((address) => (
+                    {addresses?.map((address) => (
                       <div
                         key={address.id}
                         className={`${styles.addressOption} ${

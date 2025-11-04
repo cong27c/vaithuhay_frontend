@@ -117,7 +117,7 @@ const ImageUploadSection = ({
 
           {/* Hiển thị danh sách ảnh phụ */}
           <div className={styles.subImages}>
-            {subImagesToShow.map((image, index) => (
+            {subImagesToShow?.map((image, index) => (
               <div key={index} className={styles.subImageItem}>
                 <img
                   src={image}

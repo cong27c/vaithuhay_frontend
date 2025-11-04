@@ -27,7 +27,7 @@ const ModalTrigger = ({ trigger, products, renderContent }) => {
             <button className={styles.closeBtn} onClick={closeModal}>
               <i className="fa-solid fa-xmark"></i>
             </button>
-            {products.map((product) => (
+            {products?.map((product) => (
               <div key={product.id} className={styles.productItem}>
                 <h2>{product.name}</h2>
                 {renderContent ? renderContent(product) : null}

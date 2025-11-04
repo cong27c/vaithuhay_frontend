@@ -62,7 +62,7 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
         }
 
         // 🟢 SỬA LẠI: Sử dụng trực tiếp methods từ result (không cần map với shippingMethods)
-        const methodsWithFee = result.methods.map((method) => ({
+        const methodsWithFee = result.methods?.map((method) => ({
           ...method,
           isAvailable: true,
         }));
@@ -129,7 +129,7 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
         <div className={styles.errorState}>{error}</div>
       ) : availableMethods.length > 0 ? (
         <div className={styles.methodsList}>
-          {availableMethods.map((method) => {
+          {availableMethods?.map((method) => {
             const isSelected = selectedShipping?.id === method.id;
             return (
               <div

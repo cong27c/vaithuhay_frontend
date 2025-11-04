@@ -5,12 +5,12 @@ export const selectCombos = (state) => state.cart.combos;
 
 // Selector để lấy tất cả items (cả sản phẩm lẻ và combo)
 export const selectAllCartItems = (state) => {
-  const individualItems = state.cart.cartItems.map((item) => ({
+  const individualItems = state.cart.cartItems?.map((item) => ({
     ...item,
     type: "product",
   }));
 
-  const comboItems = state.cart.combos.map((combo) => ({
+  const comboItems = state.cart.combos?.map((combo) => ({
     ...combo,
     type: "combo",
   }));

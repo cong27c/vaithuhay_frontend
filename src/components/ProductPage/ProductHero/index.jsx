@@ -113,7 +113,7 @@ function ProductHero({
       return null;
     const keys = Object.keys(attributes);
     if (keys.some((k) => !selVariants[k])) return null;
-    const selectedValues = keys.map(
+    const selectedValues = keys?.map(
       (k) =>
         attributes[k].find((i) => i.variantId === selVariants[k])?.variantValue,
     );
@@ -176,7 +176,7 @@ function ProductHero({
       setFilteredAttributes(newFiltered);
       setSelectedVariants(newSelected);
 
-      const selectedValues = attrKeys.map(
+      const selectedValues = attrKeys?.map(
         (k) =>
           attributes[k].find((i) => i.variantId === newSelected[k])
             ?.variantValue,
@@ -210,7 +210,7 @@ function ProductHero({
 
       const keys = Object.keys(attributes || {});
       if (!keys.some((k) => !next[k])) {
-        const selVals = keys.map(
+        const selVals = keys?.map(
           (k) =>
             attributes[k].find((i) => i.variantId === next[k])?.variantValue,
         );
@@ -319,7 +319,7 @@ function ProductHero({
             />
           </div>
           <div className={styles.listImage}>
-            {visibleImages.map((img, i) => (
+            {visibleImages?.map((img, i) => (
               <img
                 key={i}
                 src={img}
@@ -376,12 +376,12 @@ function ProductHero({
 
           {/* RENDER ATTRIBUTES */}
           <div className={styles.titleBtn}>
-            {Object.entries(filteredAttributes || {}).map(
+            {Object.entries(filteredAttributes || {})?.map(
               ([variantType, items]) => (
                 <div key={variantType} className={styles.titleBtn}>
                   <div className={styles.title}>{variantType}</div>
                   <div className={styles.listBtn}>
-                    {items.map((item, idx) => {
+                    {items?.map((item, idx) => {
                       const isSelected =
                         selectedVariants[variantType] === item.variantId;
                       return (

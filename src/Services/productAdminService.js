@@ -1,103 +1,28 @@
-import * as httpRequest from "@/utils/httpRequest";
+import adminHttpRequest from "@/utils/adminHttpRequest";
 
 // 📦 Product CRUD Operations
 const getAllProducts = async (params = {}) => {
-  const response = await httpRequest.get("/api/v1/products", { params });
+  const response = await adminHttpRequest.get("/products", { params });
   return response.data;
 };
 
 const getProductById = async (id) => {
-  const response = await httpRequest.get(`/api/v1/products/${id}`);
+  const response = await adminHttpRequest.get(`/products/${id}`);
   return response.data;
 };
 
 const createProduct = async (productData) => {
-  // Transform data to match backend structure
-  const transformedData = {
-    name: productData.name,
-    slug: productData.slug,
-    description: productData.description,
-    price: parseFloat(productData.price),
-    stock: parseInt(productData.stock),
-    weight: parseFloat(productData.weight),
-    release_date: productData.release_date,
-    status: productData.status,
-    brand_id: parseInt(productData.brand_id),
-
-    // Handle images
-    images: [
-      // Main image
-      ...(productData.main_image
-        ? [
-            {
-              image_url: productData.main_image,
-              is_main: true,
-            },
-          ]
-        : []),
-
-      // Sub images
-      ...(productData.sub_images?.map((image_url) => ({
-        image_url,
-        is_main: false,
-      })) || []),
-    ],
-
-    // Handle discount
-    ...(productData.discount && {
-      discount: {
-        discount_type: "percentage",
-        discount_value: parseFloat(productData.discount),
-        start_date: new Date().toISOString().split("T")[0],
-        end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split("T")[0], // 30 days from now
-        status: "active",
-      },
-    }),
-
-    // Handle detail
-    detail: {
-      title: productData.name,
-      long_description: productData.description,
-      specifications: {},
-      highlights: [],
-      care_instructions: "",
-      origin: "",
-      material: "",
-    },
-  };
-
-  const response = await httpRequest.post("/api/v1/products", transformedData);
+  const response = await adminHttpRequest.post("/products", productData);
   return response.data;
 };
 
 const updateProduct = async (id, productData) => {
-  // Transform data for update
-  const transformedData = {
-    name: productData.name,
-    slug: productData.slug,
-    description: productData.description,
-    price: parseFloat(productData.price),
-    stock: parseInt(productData.stock),
-    weight: parseFloat(productData.weight),
-    release_date: productData.release_date,
-    status: productData.status,
-    brand_id: parseInt(productData.brand_id),
-
-    // For images and discount, we might need separate API calls
-    // as they have their own models
-  };
-
-  const response = await httpRequest.put(
-    `/api/v1/products/${id}`,
-    transformedData,
-  );
+  const response = await adminHttpRequest.put(`/products/${id}`, productData);
   return response.data;
 };
 
 const deleteProduct = async (id) => {
-  const response = await httpRequest.delete(`/api/v1/products/${id}`);
+  const response = await adminHttpRequest.del(`/products/${id}`);
   return response.data;
 };
 
@@ -110,7 +35,7 @@ const createProductVariant = async (productId, variantData) => {
     stock: parseInt(variantData.stock),
     image_url: variantData.image_url,
     // Transform variant attributes to match backend structure
-    variant_attributes: Object.entries(variantData.variant_type || {}).map(
+    variant_attributes: Object.entries(variantData.variant_type || {})?.map(
       ([key, value]) => ({
         attribute_type: key,
         attribute_value: variantData.variant_value?.[key] || value,
@@ -118,8 +43,8 @@ const createProductVariant = async (productId, variantData) => {
     ),
   };
 
-  const response = await httpRequest.post(
-    `/api/v1/products/${productId}/variants`,
+  const response = await adminHttpRequest.post(
+    `/products/${productId}/variants`,
     transformedVariantData,
   );
   return response.data;
@@ -132,7 +57,7 @@ const updateProductVariant = async (variantId, variantData) => {
     price: parseFloat(variantData.price),
     stock: parseInt(variantData.stock),
     image_url: variantData.image_url,
-    variant_attributes: Object.entries(variantData.variant_type || {}).map(
+    variant_attributes: Object.entries(variantData.variant_type || {})?.map(
       ([key, value]) => ({
         attribute_type: key,
         attribute_value: variantData.variant_value?.[key] || value,
@@ -140,16 +65,16 @@ const updateProductVariant = async (variantId, variantData) => {
     ),
   };
 
-  const response = await httpRequest.put(
-    `/api/v1/products/variants/${variantId}`,
+  const response = await adminHttpRequest.put(
+    `/products/variants/${variantId}`,
     transformedVariantData,
   );
   return response.data;
 };
 
 const deleteProductVariant = async (variantId) => {
-  const response = await httpRequest.delete(
-    `/api/v1/products/variants/${variantId}`,
+  const response = await adminHttpRequest.del(
+    `/products/variants/${variantId}`,
   );
   return response.data;
 };
@@ -158,16 +83,16 @@ const deleteProductVariant = async (variantId) => {
 
 // 🏷️ Product Collections Operations
 const addProductToCollection = async (productId, collectionId) => {
-  const response = await httpRequest.post(
-    `/api/v1/products/${productId}/collections`,
+  const response = await adminHttpRequest.post(
+    `/products/${productId}/collections`,
     { collection_id: collectionId },
   );
   return response.data;
 };
 
 const removeProductFromCollection = async (productId, collectionId) => {
-  const response = await httpRequest.delete(
-    `/api/v1/products/${productId}/collections/${collectionId}`,
+  const response = await adminHttpRequest.del(
+    `/products/${productId}/collections/${collectionId}`,
   );
   return response.data;
 };
@@ -176,8 +101,8 @@ const updateProductCollections = async (productId, collectionIds) => {
   // First remove all existing collections
   // Then add new ones
   // This would require knowing current collections first
-  const response = await httpRequest.put(
-    `/api/v1/products/${productId}/collections`,
+  const response = await adminHttpRequest.put(
+    `/products/${productId}/collections`,
     { collection_ids: collectionIds },
   );
   return response.data;
@@ -185,8 +110,8 @@ const updateProductCollections = async (productId, collectionIds) => {
 
 // 📊 Product Status Management
 const updateProductStatus = async (productId, status) => {
-  const response = await httpRequest.patch(
-    `/api/v1/products/${productId}/status`,
+  const response = await adminHttpRequest.patch(
+    `/products/${productId}/status`,
     { status },
   );
   return response.data;
@@ -194,31 +119,31 @@ const updateProductStatus = async (productId, status) => {
 
 // 💰 Product Discount Operations
 const createProductDiscount = async (productId, discountData) => {
-  const response = await httpRequest.post(
-    `/api/v1/products/${productId}/discounts`,
+  const response = await adminHttpRequest.post(
+    `/products/${productId}/discounts`,
     discountData,
   );
   return response.data;
 };
 
 const updateProductDiscount = async (productId, discountData) => {
-  const response = await httpRequest.put(
-    `/api/v1/products/${productId}/discounts`,
+  const response = await adminHttpRequest.put(
+    `/products/${productId}/discounts`,
     discountData,
   );
   return response.data;
 };
 
 const deleteProductDiscount = async (productId) => {
-  const response = await httpRequest.delete(
-    `/api/v1/products/${productId}/discounts`,
+  const response = await adminHttpRequest.del(
+    `/products/${productId}/discounts`,
   );
   return response.data;
 };
 
 // 🔍 Advanced Search
 const searchProducts = async (filters = {}) => {
-  const response = await httpRequest.get("/api/v1/products/search", {
+  const response = await adminHttpRequest.get("/products/search", {
     params: filters,
   });
   return response.data;
@@ -226,7 +151,7 @@ const searchProducts = async (filters = {}) => {
 
 // 📦 Bulk Operations
 const bulkUpdateProducts = async (productIds, updateData) => {
-  const response = await httpRequest.patch("/api/v1/products/bulk/update", {
+  const response = await adminHttpRequest.patch("/products/bulk/update", {
     product_ids: productIds,
     ...updateData,
   });
@@ -234,7 +159,7 @@ const bulkUpdateProducts = async (productIds, updateData) => {
 };
 
 const bulkDeleteProducts = async (productIds) => {
-  const response = await httpRequest.post("/api/v1/products/bulk/delete", {
+  const response = await adminHttpRequest.post("/products/bulk/delete", {
     product_ids: productIds,
   });
   return response.data;
@@ -261,7 +186,7 @@ const transformProductForDisplay = (product) => {
     brand_id: product.brand_id,
     discount: product.discount?.discount_value || null,
     main_image: mainImage?.image_url || "",
-    sub_images: subImages.map((img) => img.image_url),
+    sub_images: subImages?.map((img) => img.image_url),
     collections: product.collections?.map((col) => col.id) || [],
     variants: product.variants || [],
     images: product.images || [],
@@ -283,7 +208,7 @@ const calculateFinalPrice = (product) => {
   if (product.collections && product.collections.length > 0) {
     // This would require fetching collection details to get their discounts
     // For now, we'll assume collections data includes discount info
-    const collectionDiscounts = product.collections.map(
+    const collectionDiscounts = product.collections?.map(
       (collection) => collection.discount_value || 0,
     );
 

@@ -24,7 +24,7 @@ function Accordion({
       setActiveIndex((prev) =>
         prev.includes(index)
           ? prev.filter((i) => i !== index)
-          : [...prev, index]
+          : [...prev, index],
       );
     }
     if (prevIndex.current !== index) {
@@ -67,7 +67,7 @@ function Accordion({
   return (
     <div className={styles["Accordion-container"]}>
       <div className={clsx(styles.AccordionList)}>
-        {accordions.map((accordion, index) => {
+        {accordions?.map((accordion, index) => {
           const isActive = activeIndex.includes(index);
           const header = accordion.props.header;
           const isMegaMenu = accordion.props.isMegaMenu || false;
@@ -80,7 +80,7 @@ function Accordion({
                 styles.accordionItem,
                 accordionClassName,
                 isActive ? styles.active : styles.inactive,
-                isMegaMenu && styles.megaMenuItem
+                isMegaMenu && styles.megaMenuItem,
               )}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
@@ -95,7 +95,7 @@ function Accordion({
                   className,
                   styles.btn,
                   trigger === "hover" && styles.noFocusStyle,
-                  isMegaMenu && styles.megaMenuBtn
+                  isMegaMenu && styles.megaMenuBtn,
                 )}
                 onClick={() => {
                   if (trigger === "click") toggleIndex(index);
@@ -115,7 +115,7 @@ function Accordion({
                 <div
                   className={clsx(
                     styles.megaMenuContent,
-                    isActive && styles.active
+                    isActive && styles.active,
                   )}
                 >
                   {accordion.props.children}
@@ -124,7 +124,7 @@ function Accordion({
                 <div
                   className={clsx(
                     styles.AccordionContent,
-                    isActive ? styles.active : styles.inactive
+                    isActive ? styles.active : styles.inactive,
                   )}
                 >
                   {accordion.props.children}

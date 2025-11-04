@@ -23,7 +23,7 @@ const cartSlice = createSlice({
   reducers: {
     setCartItems: (state, action) => {
       if (Array.isArray(action.payload)) {
-        state.cartItems = action.payload.map((item) => ({
+        state.cartItems = action.payload?.map((item) => ({
           ...item,
           checked: item.checked || false,
         }));
@@ -207,7 +207,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(fetchCartItems.fulfilled, (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.map((item) => ({
+      state.cartItems = action.payload?.map((item) => ({
         ...item,
         checked: item.checked || false,
       }));
@@ -225,7 +225,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(fetchCartCombos.fulfilled, (state, action) => {
       state.loading = false;
-      state.combos = action.payload.map((item) => ({
+      state.combos = action.payload?.map((item) => ({
         ...item,
         checked: item.checked || false,
       }));

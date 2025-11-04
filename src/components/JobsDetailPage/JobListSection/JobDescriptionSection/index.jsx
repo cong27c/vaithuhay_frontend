@@ -47,7 +47,7 @@ function JobDescriptionSection({ requests = [], btnDownLoad = false }) {
         </p>
       </div>
       <div className={styles.middleList}>
-        {boxItemImage.map((item, index) => (
+        {boxItemImage?.map((item, index) => (
           <div key={index} className={styles.boxItem}>
             <img src={item.image} alt="" />
           </div>
@@ -60,10 +60,10 @@ function JobDescriptionSection({ requests = [], btnDownLoad = false }) {
       )}
       {requests && (
         <div className={styles.require}>
-          {requests.map((item, index) => (
+          {requests?.map((item, index) => (
             <div key={index}>
               <div className={styles.subTitle}>{item.title}</div>
-              {item.listDesc.map((desc, i) => (
+              {item.listDesc?.map((desc, i) => (
                 <p
                   key={i}
                   className={styles.desc}

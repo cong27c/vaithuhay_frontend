@@ -102,7 +102,7 @@ export default function OrderSummary({
     <>
       <div className={styles.container}>
         <div className={styles.productList}>
-          {cartItems.map((product) => (
+          {cartItems?.map((product) => (
             <div key={product.id} className={styles.productItem}>
               <div className={styles.productImage}>
                 <img

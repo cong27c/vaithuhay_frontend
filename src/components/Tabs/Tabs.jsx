@@ -15,7 +15,7 @@ function Tabs({ children, defaultIndex = 0, onChange }) {
   return (
     <div className="containerTabs">
       <div className="tabList">
-        {Tabs.map((tab, index) => {
+        {Tabs?.map((tab, index) => {
           const active = currentIndex === index ? true : false;
           return (
             <Button

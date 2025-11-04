@@ -15,7 +15,7 @@ function SlideHalfImageDefault() {
       const data = await getByProductsSlug(slug);
 
       // Thêm field variant cho mỗi sản phẩm
-      const updatedProducts = data.map((product) => ({
+      const updatedProducts = data?.map((product) => ({
         ...product,
         variant: "alternative",
       }));

@@ -43,7 +43,7 @@ function CurrentActivitiesSection() {
         <span className={styles.highlight}>VAITHUHAY</span>
       </h2>
       <div className={styles.listItem}>
-        {listItem.map((item, index) => (
+        {listItem?.map((item, index) => (
           <div
             key={index}
             className={clsx(styles.item, index % 2 !== 0 ? styles.reverse : "")}
@@ -65,7 +65,7 @@ function CurrentActivitiesSection() {
       <div className={styles.dots}>
         {Array(15)
           .fill(null)
-          .map((_, index) => (
+          ?.map((_, index) => (
             <div key={index} className={styles.dot}></div>
           ))}
       </div>

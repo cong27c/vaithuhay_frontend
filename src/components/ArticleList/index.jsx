@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function ArticleList({ articles }) {
   return (
     <div className={styles.articleList}>
-      {articles.map((article) => (
+      {articles?.map((article) => (
         <Link to={`/blogs/${article.type}/${article.slug}`} key={article.id}>
           <div className={styles.articleItem}>
             <img src={article.image} alt="" />

@@ -302,7 +302,7 @@ const Vouchers = () => {
                   </td>
                 </tr>
               ) : (
-                vouchers.map((voucher) => (
+                vouchers?.map((voucher) => (
                   <tr key={voucher.id} className={styles.voucherRow}>
                     <td>
                       <div className={styles.codeCell}>

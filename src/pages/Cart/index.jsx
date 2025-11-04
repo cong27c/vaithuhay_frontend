@@ -411,8 +411,8 @@ const Cart = () => {
 
     // Lưu selected products và combos vào Redux store
     const checkoutData = [
-      ...selectedSingleItems.map((item) => ({ ...item, isCombo: false })),
-      ...selectedCombos.map((combo) => ({ ...combo, isCombo: true })),
+      ...selectedSingleItems?.map((item) => ({ ...item, isCombo: false })),
+      ...selectedCombos?.map((combo) => ({ ...combo, isCombo: true })),
     ];
 
     dispatch(setSelectedProducts(checkoutData));
@@ -444,7 +444,7 @@ const Cart = () => {
         {combos.length > 0 && (
           <div className={styles.combosSection}>
             <h2 className={styles.sectionTitle}>Combo Ưu Đãi</h2>
-            {combos.map((combo) => (
+            {combos?.map((combo) => (
               <ComboSection
                 key={combo.id}
                 comboData={{
@@ -452,7 +452,7 @@ const Cart = () => {
                   name: combo.name,
                   discount: combo.discountValue,
                   quantity: combo.quantity,
-                  items: combo.products.map((product) => ({
+                  items: combo.products?.map((product) => ({
                     id: product.id,
                     name: product.name,
                     price: product.price,
@@ -490,7 +490,7 @@ const Cart = () => {
           ) : cartItems.length > 0 ? (
             <>
               <h2 className={styles.sectionTitle}>Sản Phẩm Đơn Lẻ</h2>
-              {cartItems.map((item) => (
+              {cartItems?.map((item) => (
                 <div key={item.id} className={styles.cartItem}>
                   <input
                     type="checkbox"

@@ -26,7 +26,7 @@ const Dropdown = ({ label, options, onSelect, defaultValue = "" }) => {
 
       {isOpen && (
         <div className={styles.menu}>
-          {options.map((option) => (
+          {options?.map((option) => (
             <button
               key={option.value}
               className={`${styles.item} ${selected === option.value ? styles.active : ""}`}

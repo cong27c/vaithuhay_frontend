@@ -72,7 +72,7 @@ const Payments = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredPayments.map((payment) => (
+            {filteredPayments?.map((payment) => (
               <tr key={payment.id}>
                 <td>{payment.id}</td>
                 <td>{payment.orderId}</td>

@@ -33,7 +33,7 @@ function JobBenefitsSection() {
         />
       </div>
       <div className={styles.listItem}>
-        {benefitsIn4.map((item, index) => (
+        {benefitsIn4?.map((item, index) => (
           <div key={index} className={styles.item}>
             <div className={styles.childTitle}>
               <img src={item.childTitle} alt="" />

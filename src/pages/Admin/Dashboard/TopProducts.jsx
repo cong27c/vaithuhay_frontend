@@ -21,7 +21,7 @@ const TopProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {topProducts.map((product) => (
+          {topProducts?.map((product) => (
             <tr key={product.id}>
               <td>{product.name}</td>
               <td>{product.sales}</td>

@@ -203,7 +203,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user) => (
+            {filteredUsers?.map((user) => (
               <tr key={user.id}>
                 <td>{`${user.first_name || ""} ${user.last_name || ""}`}</td>
                 <td>{user.email}</td>

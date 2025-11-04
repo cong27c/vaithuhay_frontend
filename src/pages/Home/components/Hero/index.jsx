@@ -157,7 +157,7 @@ function Hero() {
                   <p>Đang tải danh mục...</p>
                 ) : (
                   <ul className={styles.listItem}>
-                    {categories.map((item, index) => (
+                    {categories?.map((item, index) => (
                       <li key={index} className={styles.item}>
                         <div className={styles.image}>
                           <img src={item.image} alt="" />
@@ -173,7 +173,7 @@ function Hero() {
             {isOpen === "partner" && (
               <div className={styles.contentPartner}>
                 <div className={styles.listPartner}>
-                  {partnerList.map((item, index) => (
+                  {partnerList?.map((item, index) => (
                     <div key={index} className={styles.partner}>
                       <a href={item.link}>
                         <img src={item.image} alt="" />

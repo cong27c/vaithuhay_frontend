@@ -9,7 +9,7 @@ const DotList = ({
 }) => {
   return (
     <div className={styles.dotList}>
-      {Array.from({ length: total }).map((_, index) => (
+      {Array.from({ length: total })?.map((_, index) => (
         <span
           key={index}
           className={clsx(styles.dot, {

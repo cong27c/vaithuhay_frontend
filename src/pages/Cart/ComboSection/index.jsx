@@ -164,7 +164,7 @@ const ComboSection = ({ comboData, onComboChange }) => {
 
       {/* Combo Items */}
       <div className={styles.comboItems}>
-        {comboData.items.map((item) => (
+        {comboData.items?.map((item) => (
           <div key={item.id} className={styles.comboItem}>
             <img
               src={item.image || "/placeholder.svg"}

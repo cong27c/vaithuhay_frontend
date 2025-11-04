@@ -90,7 +90,7 @@ function Introduce() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>Giới thiệu về Vaithuhay</div>
-      {listImage.map((item, index) =>
+      {listImage?.map((item, index) =>
         item.image ? (
           <div key={index} className={styles.image}>
             <img src={item.image} alt="" />
@@ -103,7 +103,7 @@ function Introduce() {
               allowfullscreen
             ></iframe>
           </div>
-        )
+        ),
       )}
     </div>
   );

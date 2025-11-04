@@ -70,7 +70,7 @@ const ProductImageGallery = ({ product }) => {
   // Chuyển đổi dữ liệu combo để phù hợp với ComboModal
   const transformComboData = (comboData) => {
     if (!comboData || !comboData.products) return [];
-    return comboData.products.map((product) => ({
+    return comboData.products?.map((product) => ({
       id: product.product_id || Math.random().toString(),
       name: product.name,
       finalPrice: parseFloat(product?.final_price.replace(/[^\d]/g, "")) || 0,
@@ -145,7 +145,7 @@ const ProductImageGallery = ({ product }) => {
       {/* Danh sách ảnh nhỏ bên trái */}
       {sliderImages.length > 1 && (
         <div className={styles.listImage}>
-          {visibleImages.map((img, index) => (
+          {visibleImages?.map((img, index) => (
             <img
               key={`${img}-${index}`}
               src={img}
@@ -198,7 +198,7 @@ const ProductImageGallery = ({ product }) => {
       {/* Dot indicator */}
       {sliderImages.length > 1 && (
         <div className={styles.dotList}>
-          {sliderImages.map((img, index) => (
+          {sliderImages?.map((img, index) => (
             <div
               className={clsx(
                 styles.dot,

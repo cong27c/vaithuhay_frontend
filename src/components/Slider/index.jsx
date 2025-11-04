@@ -123,7 +123,7 @@ function Slider({
           }}
         >
           {!wrap
-            ? [...slides, ...slides.slice(0, slidesPerRow)].map(
+            ? [...slides, ...slides.slice(0, slidesPerRow)]?.map(
                 (slide, index) => (
                   <div
                     key={index}
@@ -134,14 +134,14 @@ function Slider({
                   </div>
                 ),
               )
-            : slideTwoRow.map((slideGroup, groupIndex) => {
+            : slideTwoRow?.map((slideGroup, groupIndex) => {
                 return (
                   <div
                     key={groupIndex}
                     className={styles.slide2Row}
                     style={{ width: `100%` }}
                   >
-                    {slideGroup.map((slide, slideIndex) => {
+                    {slideGroup?.map((slide, slideIndex) => {
                       // Tính index thực tế của slide trong mảng gốc
                       const actualIndex = groupIndex * 8 + slideIndex;
                       return (

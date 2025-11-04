@@ -57,7 +57,7 @@ const ProductList = ({
             </tr>
           </thead>
           <tbody>
-            {filteredProducts.map((product) => (
+            {filteredProducts?.map((product) => (
               <ProductTableRow
                 key={product.id}
                 product={product}

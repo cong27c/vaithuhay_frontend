@@ -11,7 +11,7 @@ function RatingSummary({ ratings, averageRating, totalReviews }) {
           className={i < starCount ? styles.filledStar : styles.emptyStar}
         >
           ★
-        </span>
+        </span>,
       );
     }
     return stars;
@@ -27,7 +27,7 @@ function RatingSummary({ ratings, averageRating, totalReviews }) {
         </div>
       </div>
       <div className={styles.statisticsTable}>
-        {ratings.map((rating, index) => (
+        {ratings?.map((rating, index) => (
           <div key={index} className={styles.ratingRow}>
             <div className={styles.stars}>{renderStars(rating.stars)}</div>
             <div className={styles.progressBar}>

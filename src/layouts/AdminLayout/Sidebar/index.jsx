@@ -47,7 +47,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </div>
 
       <nav className={styles.menu}>
-        {menuItems.map((item) => {
+        {menuItems?.map((item) => {
           const Icon = item.icon;
           return (
             <Link

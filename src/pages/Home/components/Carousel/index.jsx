@@ -24,7 +24,7 @@ export default function Carousel() {
         const data = await getUpcomingCampaigns();
         console.log("API Data:", data);
 
-        const formattedCampaigns = data.map((campaign) => ({
+        const formattedCampaigns = data?.map((campaign) => ({
           name: campaign.product?.name || "Không có tên",
           image: campaign.product?.image || "",
           startDate: campaign.startDate,
@@ -137,7 +137,7 @@ export default function Carousel() {
                 : "none",
             }}
           >
-            {extendedCampaigns.map((campaign, index) => (
+            {extendedCampaigns?.map((campaign, index) => (
               <div key={index} className={styles["carousel-item"]}>
                 <div className={styles["item-image-wrapper"]}>
                   <Link to={`/products/${campaign.slug}`}>
@@ -203,7 +203,7 @@ export default function Carousel() {
       </div>
 
       <div className={styles["carousel-dots"]}>
-        {campaigns.map((_, index) => (
+        {campaigns?.map((_, index) => (
           <button
             key={index}
             className={`${styles["dot"]} ${index === currentIndex % campaigns.length ? styles["dot-active"] : ""}`}

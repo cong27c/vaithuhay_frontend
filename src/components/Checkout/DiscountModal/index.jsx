@@ -85,7 +85,7 @@ export default function DiscountModal({ onClose, onApply, cartId }) {
           ) : (
             <>
               <div className={styles.discountList}>
-                {displayedVouchers.map((voucher, index) => (
+                {displayedVouchers?.map((voucher, index) => (
                   <div
                     key={voucher.id || index}
                     className={styles.discountItem}

@@ -127,7 +127,7 @@ function Collections() {
       const voucherData = await getVouchers();
 
       // Lấy 3 voucher đầu tiên, thêm title tương ứng
-      const featureVoucher = voucherData.slice(0, 3).map((item, index) => ({
+      const featureVoucher = voucherData.slice(0, 3)?.map((item, index) => ({
         ...item,
         title: dealTitles[index] || `Voucher #${index + 1}`,
       }));
@@ -154,7 +154,7 @@ function Collections() {
   };
 
   const renderSortItems = () =>
-    sortList.map((item) => {
+    sortList?.map((item) => {
       const active = sort === item.key;
       return (
         <div
@@ -203,7 +203,7 @@ function Collections() {
 
         {/* --- Phần voucher thay cho deals --- */}
         <div className={styles.promDeal}>
-          {vouchers.map((item, index) => (
+          {vouchers?.map((item, index) => (
             <div key={item.id || index} className={styles["deal-container"]}>
               <div className={styles["deal-title"]}>{item.title}</div>
               <div className={styles["deal-content"]}>{item.description}</div>
@@ -237,7 +237,7 @@ function Collections() {
 
           <div className={styles.mid}>
             <div className={styles["product-tags"]}>
-              {tags.map((item, index) => (
+              {tags?.map((item, index) => (
                 <a key={index} href={item.link}>
                   <div className={styles["tag-item"]}>
                     <div className={styles.box}>

@@ -9,19 +9,11 @@ import { useDispatch } from "react-redux";
 import { fetchCartCombos, fetchCartItems } from "./features/cart/cartThunks";
 
 function App() {
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   // Lấy giỏ hàng ngay khi app load
-  //   dispatch(fetchCartItems());
-  //   dispatch(fetchCartCombos());
-  // }, [dispatch]);
   return (
     <Router>
       <UserProvider />
       <ScrollTop />
       <AppRoutes />
-      {/* <FixedButtons /> */}
     </Router>
   );
 }

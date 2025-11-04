@@ -97,7 +97,7 @@ function ProductDetailsPanel({
               resistanceRatio={0.85}
               className={styles.customSwiper}
             >
-              {products.map((item, index) => {
+              {products?.map((item, index) => {
                 return (
                   <SwiperSlide
                     key={index}

@@ -6,7 +6,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 function StarRating({ setRating, rating }) {
   return (
     <div className={styles.listStar}>
-      {[1, 2, 3, 4, 5].map((star) => (
+      {[1, 2, 3, 4, 5]?.map((star) => (
         <span
           key={star}
           className={clsx(star <= rating ? styles.starFilled : styles.star)}

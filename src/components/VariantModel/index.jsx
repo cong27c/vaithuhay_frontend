@@ -42,7 +42,7 @@ export default function VariantModel({
     // Require selected for all keys
     if (keys.some((k) => !selVariants[k])) return null;
 
-    const selectedValues = keys.map(
+    const selectedValues = keys?.map(
       (k) =>
         attributes[k].find((i) => i.variantId === selVariants[k])?.variantValue,
     );
@@ -183,12 +183,12 @@ export default function VariantModel({
               {/* Variant Sections */}
             </div>
           </div>
-          {Object.entries(filteredAttributes || {}).map(
+          {Object.entries(filteredAttributes || {})?.map(
             ([variantType, items]) => (
               <div key={variantType} className={styles.variantSection}>
                 <h3 className={styles.variantLabel}>{variantType}</h3>
                 <div className={styles.variantOptions}>
-                  {items.map((item, idx) => {
+                  {items?.map((item, idx) => {
                     const isSelected =
                       selectedVariants[variantType] === item.variantId;
                     const isAvailable = isOptionAvailable(

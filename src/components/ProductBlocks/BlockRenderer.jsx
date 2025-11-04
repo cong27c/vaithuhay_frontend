@@ -6,7 +6,7 @@ import TextBlock from "./TextBlock";
 import VideoBlock from "./VideoBlock";
 
 const BlockRenderer = ({ blocks }) => {
-  return blocks.map((block, index) => {
+  return blocks?.map((block, index) => {
     switch (block.type) {
       case "text":
         return <TextBlock key={index} data={block} />;

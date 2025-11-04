@@ -167,7 +167,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
 
     const updatedProduct = {
       ...product,
-      variants: product.variants.map((variant) =>
+      variants: product.variants?.map((variant) =>
         variant.id === editingVariant.id
           ? { ...variant, ...updatedVariant }
           : variant,
@@ -430,7 +430,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
                     Xem trước Thuộc tính
                   </label>
                   <div className={styles.previewTags}>
-                    {getCurrentVariantAttributes().map((attr, index) => (
+                    {getCurrentVariantAttributes()?.map((attr, index) => (
                       <span key={index} className={styles.previewTag}>
                         {attr.type}: {attr.value}
                       </span>
@@ -510,7 +510,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
           <h4>Biến thể Hiện có ({product?.variants?.length || 0})</h4>
           {product?.variants?.length > 0 ? (
             <div className={styles.variantsGrid}>
-              {product.variants.map((variant) => (
+              {product.variants?.map((variant) => (
                 <div
                   key={variant.id}
                   className={`${styles.variantCard} ${editingVariant?.id === variant.id ? styles.editing : ""}`}
@@ -553,7 +553,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
                   {variant.variant_attributes &&
                   variant.variant_attributes.length > 0 ? (
                     <div className={styles.variantAttributes}>
-                      {variant.variant_attributes.map((attr, index) => (
+                      {variant.variant_attributes?.map((attr, index) => (
                         <div key={index} className={styles.attribute}>
                           <span className={styles.attributeKey}>
                             {attr.attribute_type}:
@@ -567,7 +567,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
                   ) : (
                     Object.keys(variant.variant_type || {}).length > 0 && (
                       <div className={styles.variantAttributes}>
-                        {Object.entries(variant.variant_type).map(
+                        {Object.entries(variant.variant_type)?.map(
                           ([key, typeValue]) =>
                             typeValue &&
                             variant.variant_value?.[key] && (

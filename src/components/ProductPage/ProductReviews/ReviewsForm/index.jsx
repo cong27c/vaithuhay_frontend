@@ -49,7 +49,7 @@ function ReviewsForm({ email, username, phone, product }) {
     const newFiles = [...imageFiles, ...files];
     setImageFiles(newFiles);
 
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    const newPreviews = files?.map((file) => URL.createObjectURL(file));
     setPreviewImages((prev) => [...prev, ...newPreviews]);
   };
 
@@ -152,7 +152,7 @@ function ReviewsForm({ email, username, phone, product }) {
 
         {/* Preview ảnh/video */}
         <div className={styles.previewContainer}>
-          {previewImages.map((url, idx) => (
+          {previewImages?.map((url, idx) => (
             <div key={idx} className={styles.previewItem}>
               <img src={url} alt={`preview-${idx}`} />
               <button

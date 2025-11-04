@@ -105,7 +105,7 @@ export default function AddressSelector({
           className={`${styles.select} ${errors?.province ? styles.error : ""}`}
         >
           <option value="">Chọn tỉnh / thành</option>
-          {provinceList.map((item) => (
+          {provinceList?.map((item) => (
             <option key={item.code} value={item.code}>
               {item.name}
             </option>
@@ -125,7 +125,7 @@ export default function AddressSelector({
           className={`${styles.select} ${errors?.district ? styles.error : ""}`}
         >
           <option value="">Chọn quận / huyện</option>
-          {districtList.map((item) => (
+          {districtList?.map((item) => (
             <option key={item.code} value={item.code}>
               {item.name}
             </option>
@@ -145,7 +145,7 @@ export default function AddressSelector({
           className={`${styles.select} ${errors?.ward ? styles.error : ""}`}
         >
           <option value="">Chọn phường / xã</option>
-          {wardList.map((item) => (
+          {wardList?.map((item) => (
             <option key={item.code} value={item.code}>
               {item.name}
             </option>

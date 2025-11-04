@@ -111,7 +111,7 @@ const ConditionItem = memo(
                 value={condition.condition_type}
                 onChange={handleTypeChange}
               >
-                {conditionTypes.map((type) => (
+                {conditionTypes?.map((type) => (
                   <option key={type.value} value={type.value}>
                     {type.label}
                   </option>
@@ -125,7 +125,7 @@ const ConditionItem = memo(
                 value={condition.operator}
                 onChange={handleOperatorChange}
               >
-                {getOperatorOptions(condition.condition_type).map((op) => (
+                {getOperatorOptions(condition.condition_type)?.map((op) => (
                   <option key={op.value} value={op.value}>
                     {op.label}
                   </option>

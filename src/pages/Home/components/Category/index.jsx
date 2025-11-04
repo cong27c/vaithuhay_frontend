@@ -84,7 +84,7 @@ function Category({
           padding,
         }}
       >
-        {categories.map((item, index) => (
+        {categories?.map((item, index) => (
           <div key={index} className={`${styles["category-item"]}`}>
             <img
               src={item.image}

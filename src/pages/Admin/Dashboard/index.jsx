@@ -82,7 +82,7 @@ const Dashboard = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, index) => (
+        {stats?.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}
       </div>
@@ -140,7 +140,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {topProducts.map((product) => (
+              {topProducts?.map((product) => (
                 <tr
                   key={product.id}
                   className="border-b border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"

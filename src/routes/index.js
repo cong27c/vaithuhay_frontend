@@ -94,7 +94,13 @@ const routes = [
     path: config.routes.checkout,
     component: Checkout,
   },
-  { path: config.adminRoutes.users, component: Users, layout: AdminLayout },
+
+  {
+    path: config.adminRoutes.users,
+    component: Users,
+    layout: AdminLayout,
+    adminProtected: true,
+  },
   {
     path: config.adminRoutes.login,
     component: LoginAdmin,
@@ -104,37 +110,44 @@ const routes = [
     path: config.adminRoutes.products,
     component: Products,
     layout: AdminLayout,
+    adminProtected: true,
   },
   {
     path: config.adminRoutes.orders,
     component: Orders,
     layout: AdminLayout,
+    adminProtected: true,
   },
   {
     path: config.adminRoutes.vouchers,
     component: Vouchers,
     layout: AdminLayout,
+    adminProtected: true,
   },
 
   {
     path: config.adminRoutes.payments,
     component: Payments,
     layout: AdminLayout,
+    adminProtected: true,
   },
   {
     path: config.adminRoutes.reviews,
     component: Reviews,
     layout: AdminLayout,
+    adminProtected: true,
   },
   {
     path: config.adminRoutes.analytics,
     component: Analytics,
     layout: AdminLayout,
+    adminProtected: true,
   },
   {
     path: config.adminRoutes.dashboard,
     component: Dashboard,
     layout: AdminLayout,
+    adminProtected: true,
   },
   {
     path: config.routes.register,

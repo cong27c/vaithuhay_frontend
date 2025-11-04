@@ -26,7 +26,7 @@ function Blogs({ title = "Setup Decor", type = "setup-decor" }) {
         const result = await getBlogsByType(type, 1, 4); // Luôn lấy 4 bài đầu tiên từ trang 1
         const blogsData = result.blogs || result.data || [];
 
-        const processedFeaturedBlogs = blogsData.map((blog, index) => ({
+        const processedFeaturedBlogs = blogsData?.map((blog, index) => ({
           id: blog.id || `featured-${index}`,
           title: blog.title || "Không có tiêu đề",
           author: blog.author || "Jaithubay.com",
@@ -57,7 +57,7 @@ function Blogs({ title = "Setup Decor", type = "setup-decor" }) {
         const blogsData = result.blogs || result.data || [];
         const paginationData = result.pagination || {};
         // Xử lý tất cả blogs từ API
-        const processedBlogs = blogsData.map((blog, index) => ({
+        const processedBlogs = blogsData?.map((blog, index) => ({
           id: blog.id || `blog-${currentPage}-${index}`,
           title: blog.title || "Không có tiêu đề",
           author: blog.author || "Jaithubay.com",
@@ -110,7 +110,7 @@ function Blogs({ title = "Setup Decor", type = "setup-decor" }) {
         {
           <div className={styles.banner}>
             {featuredBlogs.length > 0
-              ? featuredBlogs.map((blog, index) => {
+              ? featuredBlogs?.map((blog, index) => {
                   const classParticular =
                     index === 0
                       ? styles.first

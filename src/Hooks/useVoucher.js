@@ -118,7 +118,7 @@ const useVoucher = () => {
 
       // Update local state
       setVouchers((prev) =>
-        prev.map((voucher) =>
+        prev?.map((voucher) =>
           voucher.id === id ? { ...voucher, status } : voucher,
         ),
       );

@@ -110,7 +110,7 @@ function ButtonBars() {
               <div className={styles.hotCollection}>
                 <div className={styles.title}>HOT COLLECTION</div>
                 <div className={styles.hotCollGrid}>
-                  {hotCollectionList.map((item, index) => (
+                  {hotCollectionList?.map((item, index) => (
                     <div className={styles.hotCollItem} key={index}>
                       <span className={styles.icon}>
                         <img src={item.icon} alt="" />

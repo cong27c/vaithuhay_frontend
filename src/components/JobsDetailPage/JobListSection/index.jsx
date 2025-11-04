@@ -8,7 +8,7 @@ import JobProgressionSection from "./JobProgressionSection";
 function JobListSection({ sections = [] }) {
   return (
     <div className={styles.JobListSection}>
-      {sections.map((section, index) => (
+      {sections?.map((section, index) => (
         <div key={index}>{section}</div>
       ))}
     </div>

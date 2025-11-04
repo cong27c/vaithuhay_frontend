@@ -95,7 +95,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
   };
 
   const updateCondition = (index, field, value) => {
-    const updatedConditions = localConditions.map((condition, i) =>
+    const updatedConditions = localConditions?.map((condition, i) =>
       i === index ? { ...condition, [field]: value } : condition,
     );
     setLocalConditions(updatedConditions);
@@ -168,7 +168,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
           <div className={styles.inputGroup}>
             <label>Danh mục áp dụng</label>
             <div className={styles.multiSelect}>
-              {mockCategories.map((cat) => {
+              {mockCategories?.map((cat) => {
                 const isSelected = condition_value?.includes(cat.id.toString());
                 return (
                   <label key={cat.id} className={styles.checkboxItem}>
@@ -202,7 +202,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
           <div className={styles.inputGroup}>
             <label>Sản phẩm áp dụng</label>
             <div className={styles.multiSelect}>
-              {mockProducts.map((product) => {
+              {mockProducts?.map((product) => {
                 const isSelected = condition_value?.includes(
                   product.id.toString(),
                 );
@@ -271,7 +271,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
           <div className={styles.inputGroup}>
             <label>Người dùng cụ thể</label>
             <div className={styles.multiSelect}>
-              {mockUsers.map((user) => {
+              {mockUsers?.map((user) => {
                 const isSelected = condition_value?.includes(
                   user.id.toString(),
                 );
@@ -388,7 +388,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
         </div>
       ) : (
         <div className={styles.conditionsList}>
-          {localConditions.map((condition, index) => (
+          {localConditions?.map((condition, index) => (
             <div key={condition.id} className={styles.conditionItem}>
               <div className={styles.conditionHeader}>
                 <div className={styles.conditionTitle}>
@@ -429,7 +429,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                         updateCondition(index, "operator", defaultOp);
                       }}
                     >
-                      {conditionTypes.map((type) => (
+                      {conditionTypes?.map((type) => (
                         <option key={type.value} value={type.value}>
                           {type.label}
                         </option>
@@ -445,7 +445,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                         updateCondition(index, "operator", e.target.value)
                       }
                     >
-                      {getOperatorOptions(condition.condition_type).map(
+                      {getOperatorOptions(condition.condition_type)?.map(
                         (op) => (
                           <option key={op.value} value={op.value}>
                             {op.label}

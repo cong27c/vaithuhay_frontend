@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./Login.module.scss";
 import { login } from "@/Services/adminAuthService";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const emailInputRef = useRef(null);
+  const navigate = useNavigate();
 
   // Focus input khi mount
   useEffect(() => {
@@ -53,19 +55,12 @@ const Login = () => {
       // Gọi API login qua service
       const data = await login({ email, password });
 
-      // Nếu server trả về lỗi
-      if (data?.error || data?.status === "error") {
-        setError(data?.message || "Đăng nhập thất bại");
-        return;
+      if (data?.access_token) {
+        setSuccess("Đăng nhập thành công!");
+        localStorage.setItem("admin_access_token", data?.access_token);
       }
 
       // Thành công
-      setSuccess("Đăng nhập thành công!");
-
-      // Lưu token nếu có
-      if (data?.token) {
-        localStorage.setItem("adminToken", data.token);
-      }
 
       // Reset form
       setEmail("");
@@ -73,11 +68,10 @@ const Login = () => {
 
       // Chuyển hướng sau 1.5s
       setTimeout(() => {
-        window.location.href = "/admin/dashboard";
-      }, 1500);
+        navigate("/admin/dashboard");
+      }, 500);
     } catch (err) {
-      console.error("Login error:", err);
-      setError("Lỗi kết nối. Vui lòng thử lại.");
+      setError(err?.message || "Đăng nhập thất bại");
     } finally {
       setLoading(false);
     }

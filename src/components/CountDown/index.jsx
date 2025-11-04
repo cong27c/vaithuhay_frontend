@@ -9,7 +9,7 @@ function CountDown({ startDate, endDate, type = "default" }) {
     if (!dateString) return null;
 
     // Parse date từ định dạng "dd.mm.yyyy"
-    const [day, month, year] = dateString.split(".").map(Number);
+    const [day, month, year] = dateString.split(".")?.map(Number);
     return new Date(year, month - 1, day); // month - 1 vì Date month bắt đầu từ 0
   }
 

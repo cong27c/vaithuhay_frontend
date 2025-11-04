@@ -53,7 +53,7 @@ const Accordion = ({ children, allowMultiple = false }) => {
 
   return (
     <div className={styles.accordionWrapper}>
-      {React.Children.map(children, (child) => {
+      {React.Children?.map(children, (child) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, {
             isOpen: openItems.includes(child.props.title),

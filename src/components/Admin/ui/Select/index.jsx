@@ -22,7 +22,7 @@ const Select = ({
         {...props}
       >
         {placeholder && <option value="">{placeholder}</option>}
-        {options.map((opt) => (
+        {options?.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}
           </option>

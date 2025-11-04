@@ -97,7 +97,7 @@ function JobIntroSection({ array }) {
         </div>
         <div className={styles.boxList}>
           {array &&
-            array.map((item, index) => (
+            array?.map((item, index) => (
               <div key={index} className={styles.boxItem}>
                 <div className={styles.iconTitle}>
                   <div className={styles.iconCircle}>{item.icon}</div>
@@ -106,7 +106,7 @@ function JobIntroSection({ array }) {
                 <div className={styles.underline}></div>
                 <ul className={styles.desc}>
                   {item.listDesc &&
-                    item.listDesc.map((desc, i) => <li key={i}>{desc}</li>)}
+                    item.listDesc?.map((desc, i) => <li key={i}>{desc}</li>)}
                 </ul>
               </div>
             ))}

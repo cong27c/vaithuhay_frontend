@@ -1,8 +1,8 @@
-import * as httpRequest from "@/utils/httpRequest";
+import adminHttpRequest from "@/utils/adminHttpRequest";
 
 const login = async (data) => {
-  const response = await httpRequest.post("/api/v1/auth/login", data);
+  const response = await adminHttpRequest.post("/auth/login", data);
 
-  return response;
+  return response.data;
 };
 export { login };

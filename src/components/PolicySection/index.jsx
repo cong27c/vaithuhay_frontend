@@ -28,7 +28,7 @@ function PolicySection({ slideImage, listItem, slidesData, title = "" }) {
       <div className={styles.bodySection}>
         <div className={styles.bodyLeft}>
           <div className={styles.slideImage}>
-            {slideImage.map((item, index) => (
+            {slideImage?.map((item, index) => (
               <div key={index} className={styles.image}>
                 <img src={item.image} alt="" />
               </div>
@@ -38,7 +38,7 @@ function PolicySection({ slideImage, listItem, slidesData, title = "" }) {
         <div className={styles.bodyRight}>
           <div className={styles.subTitle}>BÀI VIẾT MỚI</div>
           <div className={styles.listItem}>
-            {listItem.map((item, index) => (
+            {listItem?.map((item, index) => (
               <Link key={index} to={configs[index]}>
                 <div className={styles.item}>
                   <div className={styles.image}>

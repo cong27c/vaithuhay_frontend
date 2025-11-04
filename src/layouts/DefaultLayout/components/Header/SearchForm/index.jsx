@@ -147,7 +147,7 @@ function SearchForm() {
               <div className={styles.section}>
                 {products.items && products.items.length > 0 ? (
                   <div className={styles.productsList}>
-                    {products.items.map((product, index) => (
+                    {products.items?.map((product, index) => (
                       <div
                         key={product.id || index}
                         className={styles.productItem}
@@ -189,7 +189,7 @@ function SearchForm() {
               <div className={styles.section}>
                 {blogs.items && blogs.items.length > 0 ? (
                   <div className={styles.blogsList}>
-                    {blogs.items.map((article) => (
+                    {blogs.items?.map((article) => (
                       <div
                         key={article.id}
                         className={styles.articleItem}

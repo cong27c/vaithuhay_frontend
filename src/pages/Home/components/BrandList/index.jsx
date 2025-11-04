@@ -70,7 +70,7 @@ function BrandList() {
           1360: { slidesPerView: 4 },
         }}
       >
-        {brandList.map((item, index) => (
+        {brandList?.map((item, index) => (
           <SwiperSlide key={index}>
             <div className={styles.brand}>
               <div className={styles.image}>

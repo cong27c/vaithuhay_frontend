@@ -122,7 +122,7 @@ function News({
         <div className={styles.bodyRight}>
           <div className={styles.subTitle}>BÀI VIẾT MỚI</div>
           <div className={styles.listItem}>
-            {listItem.map((item, index) => (
+            {listItem?.map((item, index) => (
               <Link key={index} to={configs[index]}>
                 <div className={styles.item}>
                   <div className={styles.image}>

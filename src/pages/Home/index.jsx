@@ -25,7 +25,7 @@ function Home() {
       const data = await getByProductsSlug(slug);
 
       // Thêm field variant cho mỗi sản phẩm
-      const updatedProducts = data.map((product) => ({
+      const updatedProducts = data?.map((product) => ({
         ...product,
         variant: "default",
         show: true,
@@ -43,7 +43,7 @@ function Home() {
       const slug = "nid-light";
       const data = await getByProductsSlug(slug);
 
-      const updatedProducts = data.map((product) => ({
+      const updatedProducts = data?.map((product) => ({
         ...product,
         variant: "default",
         show: true,

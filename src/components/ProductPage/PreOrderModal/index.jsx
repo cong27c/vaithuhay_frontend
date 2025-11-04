@@ -144,7 +144,7 @@ const PreOrderModal = ({
     const keys = Object.keys(attributes);
     if (keys.some((k) => !selectedVariants[k])) return null;
 
-    const selectedValues = keys.map((k) => {
+    const selectedValues = keys?.map((k) => {
       const selectedItem = attributes[k].find(
         (item) => item.variantId === selectedVariants[k],
       );
@@ -223,7 +223,7 @@ const PreOrderModal = ({
     if (!filteredAttributes || Object.keys(selectedVariants).length === 0)
       return null;
 
-    const selectedValues = Object.entries(selectedVariants).map(
+    const selectedValues = Object.entries(selectedVariants)?.map(
       ([type, id]) => {
         const items = filteredAttributes[type];
         return items?.find((item) => item.variantId === id)?.variantValue;
@@ -379,7 +379,7 @@ const PreOrderModal = ({
             <div className={styles.optionsSection}>
               {/* Hiển thị các variant type */}
               {filteredAttributes &&
-                Object.entries(filteredAttributes).map(
+                Object.entries(filteredAttributes)?.map(
                   ([variantType, items]) => (
                     <div key={variantType} className={styles.selectGroup}>
                       <label
@@ -404,7 +404,7 @@ const PreOrderModal = ({
                         }}
                         className={styles.select}
                       >
-                        {items.map((item, idx) => (
+                        {items?.map((item, idx) => (
                           <option key={idx} value={item.variantId}>
                             {item.variantValue}
                           </option>
@@ -442,7 +442,7 @@ const PreOrderModal = ({
             {filteredAttributes && Object.keys(selectedVariants).length > 0 && (
               <div className={styles.selectedVariantsSummary}>
                 <h4 className={styles.summaryTitle}>Thông số đã chọn:</h4>
-                {Object.keys(filteredAttributes).map((variantType) => (
+                {Object.keys(filteredAttributes)?.map((variantType) => (
                   <div key={variantType} className={styles.variantSummaryItem}>
                     <span className={styles.variantType}>{variantType}</span>
                     <strong className={styles.variantValue}>
