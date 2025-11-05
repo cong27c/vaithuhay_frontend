@@ -16,7 +16,7 @@ import Pagination from "@/components/Pagination";
 import SlideImageAlternative from "@/pages/Home/components/SlideImage/SlideImageAlternative";
 import Youtube from "@/pages/Home/components/Youtube";
 import CollectionTab from "./CollectionTab";
-import { getProductsByCollectionSlug } from "@/Services/collectionService";
+import { useProductsByCollectionSlug } from "@/hooks/useCollection"; // Import hook
 import { useParams, useSearchParams } from "react-router-dom";
 import { getVouchers } from "@/Services/voucherService";
 
@@ -24,13 +24,21 @@ function Collections() {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [products, setProducts] = useState([]);
   const [vouchers, setVouchers] = useState([]);
   const currentPage = parseInt(searchParams.get("page")) || 1;
-  const sort = searchParams.get("sort") || null;
-
-  const [totalPages, setTotalPages] = useState(1);
+  const sort = searchParams.get("sort") || "newest"; // Default sort
   const postsPerPage = 16;
+
+  // Sử dụng React Query hook
+  const {
+    data: productsData,
+    isLoading,
+    isError,
+    error,
+  } = useProductsByCollectionSlug(slug, currentPage, postsPerPage, sort);
+
+  const products = productsData?.products || [];
+  const totalPages = productsData?.totalCount || 1;
 
   const itemsPerBox = 8;
   const box1Products = products.slice(0, itemsPerBox);
@@ -117,28 +125,21 @@ function Collections() {
   ];
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getProductsByCollectionSlug(
-        slug,
-        currentPage,
-        postsPerPage,
-        sort,
-      );
-      const voucherData = await getVouchers();
-
-      // Lấy 3 voucher đầu tiên, thêm title tương ứng
-      const featureVoucher = voucherData.slice(0, 3)?.map((item, index) => ({
-        ...item,
-        title: dealTitles[index] || `Voucher #${index + 1}`,
-      }));
-
-      console.log("voucherData", featureVoucher);
-      setVouchers(featureVoucher);
-      setProducts(data.products);
-      setTotalPages(data.totalCount);
+    const fetchVouchers = async () => {
+      try {
+        const voucherData = await getVouchers();
+        // Lấy 3 voucher đầu tiên, thêm title tương ứng
+        const featureVoucher = voucherData.slice(0, 3)?.map((item, index) => ({
+          ...item,
+          title: dealTitles[index] || `Voucher #${index + 1}`,
+        }));
+        setVouchers(featureVoucher);
+      } catch (error) {
+        console.error("Failed to fetch vouchers:", error);
+      }
     };
-    fetchData();
-  }, [currentPage, slug, sort]);
+    fetchVouchers();
+  }, []);
 
   const handleSortClick = (key) => {
     const params = new URLSearchParams(searchParams);
@@ -174,6 +175,26 @@ function Collections() {
         </div>
       );
     });
+
+  // Hiển thị loading state
+  if (isLoading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.loading}>Đang tải sản phẩm...</div>
+      </div>
+    );
+  }
+
+  // Hiển thị error state
+  if (isError) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.error}>
+          Có lỗi xảy ra khi tải sản phẩm: {error.message}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -259,12 +280,14 @@ function Collections() {
         </div>
       </div>
 
-      {box1Products.length > 0 && (
+      {products.length > 0 ? (
         <div className={styles.container}>
-          <div className={styles.box1}>
-            <Slider slides={box1Products} type="half-image" wrap={true} />
-            <div className={styles.background}></div>
-          </div>
+          {box1Products.length > 0 && (
+            <div className={styles.box1}>
+              <Slider slides={box1Products} type="half-image" wrap={true} />
+              <div className={styles.background}></div>
+            </div>
+          )}
           {box2Products.length > 0 && (
             <div className={styles.box2}>
               <Slider slides={box2Products} type="half-image" wrap={true} />
@@ -272,21 +295,30 @@ function Collections() {
             </div>
           )}
         </div>
+      ) : (
+        <div className={styles.empty}>
+          Không có sản phẩm nào trong collection này.
+        </div>
       )}
 
-      <Pagination
-        size={60}
-        fontSize={28}
-        gap={15}
-        prevNextWidth="80px"
-        prevNextPadding="0 10px"
-        currentPage={currentPage}
-        totalItems={totalPages}
-        itemsPerPage={postsPerPage}
-        onPageChange={(page) => {
-          setSearchParams({ page });
-        }}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          size={60}
+          fontSize={28}
+          gap={15}
+          prevNextWidth="80px"
+          prevNextPadding="0 10px"
+          currentPage={currentPage}
+          totalItems={totalPages}
+          itemsPerPage={postsPerPage}
+          onPageChange={(page) => {
+            const params = new URLSearchParams(searchParams);
+            params.set("page", page.toString());
+            setSearchParams(params);
+          }}
+        />
+      )}
+
       <SlideImageAlternative />
       <div className={styles.youtube}>
         <Youtube />

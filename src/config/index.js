@@ -16,7 +16,7 @@ const config = {
     cart: "/cart",
     checkout: "/checkouts",
     admin: "/admin",
-    orderSuccess: "/order-success/:id",
+    orderSuccess: "/order-success/:orderId",
     orderPayment: "/order/payment/:orderId",
     verifyEmail: "/verify-email",
   },

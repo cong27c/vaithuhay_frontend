@@ -5,4 +5,10 @@ const login = async (data) => {
 
   return response.data;
 };
-export { login };
+
+const logoutAdmin = async () => {
+  const response = await adminHttpRequest.post("/auth/logout");
+
+  return response.data;
+};
+export { login, logoutAdmin };

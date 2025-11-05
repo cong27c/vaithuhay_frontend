@@ -12,7 +12,53 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
   const [calculating, setCalculating] = useState(false);
   const [error, setError] = useState(null);
 
-  // 🟢 1. Tải danh sách phương thức vận chuyển (chưa tính phí)
+  // 🟢 Hàm chuẩn hóa dữ liệu cartItems
+  const normalizeCartItems = (items) => {
+    if (!items || !items.length) return [];
+
+    // Nếu là combo (có thuộc tính isCombo hoặc comboId)
+    if (items[0]?.isCombo || items[0]?.comboId) {
+      console.log("🛒 Phát hiện COMBO, chuẩn hóa dữ liệu...");
+
+      const normalizedItems = [];
+      items.forEach((combo) => {
+        if (combo.products && Array.isArray(combo.products)) {
+          combo.products.forEach((product) => {
+            normalizedItems.push({
+              id: product.id,
+              name: product.name,
+              price: product.price || 0,
+              quantity: product.quantity || combo.quantity || 1, // Sử dụng quantity của product hoặc combo
+              weight: product.weight || 0,
+              image: product.image,
+              // Thêm các trường bắt buộc khác nếu API yêu cầu
+              variant: product.variant || "N/A",
+              slug: product.slug || "",
+            });
+          });
+        }
+      });
+      console.log("📦 Danh sách sản phẩm sau chuẩn hóa:", normalizedItems);
+      return normalizedItems;
+    }
+    // Nếu là sản phẩm riêng lẻ
+    else {
+      console.log("🛒 Phát hiện sản phẩm riêng lẻ");
+      const normalizedItems = items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price || 0,
+        quantity: item.quantity || 1,
+        weight: item.weight || 0,
+        image: item.image,
+        variant: item.variant || "N/A",
+        slug: item.slug || "",
+      }));
+      return normalizedItems;
+    }
+  };
+
+  // 🟢 1. Tải danh sách phương thức vận chuyển
   useEffect(() => {
     const loadShippingMethods = async () => {
       setLoading(true);
@@ -31,7 +77,7 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
     loadShippingMethods();
   }, []);
 
-  // 🟢 2. Khi có address + cartItems → gọi calculateShipping
+  // 🟢 2. Tính phí vận chuyển khi có address + cartItems
   useEffect(() => {
     const fetchShippingCalculation = async () => {
       if (!address?.province || !cartItems?.length) {
@@ -45,15 +91,24 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
       setError(null);
 
       try {
+        // Chuẩn hóa dữ liệu cartItems trước khi gửi API
+        const normalizedItems = normalizeCartItems(cartItems);
+
+        if (normalizedItems.length === 0) {
+          setError("Không có sản phẩm hợp lệ để tính phí vận chuyển");
+          return;
+        }
+
         const shippingData = {
           province: address?.province,
           district: address?.district,
           ward: address?.ward,
-          items: cartItems,
+          items: normalizedItems, // Sử dụng dữ liệu đã chuẩn hóa
         };
 
+        console.log("🚀 Gửi dữ liệu tính phí vận chuyển:", shippingData);
+
         const result = await calculateShipping(shippingData);
-        console.log("Shipping calculate result:", result);
 
         if (!result?.success && !result?.methods) {
           setAvailableMethods([]);
@@ -61,7 +116,6 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
           return;
         }
 
-        // 🟢 SỬA LẠI: Sử dụng trực tiếp methods từ result (không cần map với shippingMethods)
         const methodsWithFee = result.methods?.map((method) => ({
           ...method,
           isAvailable: true,
@@ -83,8 +137,8 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
           onShippingSelect?.(null);
         }
       } catch (err) {
-        console.error("Failed to calculate shipping:", err);
-        setError("Không thể tính phí vận chuyển");
+        console.error("❌ Calculate shipping error:", err);
+        setError(err.message || "Không thể tính phí vận chuyển");
         setAvailableMethods([]);
         setSelectedShipping(null);
         onShippingSelect?.(null);
@@ -94,9 +148,9 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
     };
 
     fetchShippingCalculation();
-  }, [address?.province, address?.district, address?.ward, cartItems]); // 🟢 Loại bỏ shippingMethods khỏi dependency
+  }, [address?.province, address?.district, address?.ward, cartItems]);
 
-  // 🟢 3. Chọn phương thức sau khi có danh sách khả dụng
+  // 🟢 3. Chọn phương thức vận chuyển
   const handleSelectMethod = (method) => {
     setSelectedShipping(method);
     onShippingSelect?.({
@@ -126,7 +180,15 @@ export default function Shipping({ address, cartItems, onShippingSelect }) {
           </p>
         </div>
       ) : error ? (
-        <div className={styles.errorState}>{error}</div>
+        <div className={styles.errorState}>
+          <p>❌ {error}</p>
+          <button
+            className={styles.retryButton}
+            onClick={() => window.location.reload()}
+          >
+            Thử lại
+          </button>
+        </div>
       ) : availableMethods.length > 0 ? (
         <div className={styles.methodsList}>
           {availableMethods?.map((method) => {

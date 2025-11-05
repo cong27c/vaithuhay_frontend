@@ -187,9 +187,7 @@ const transformProductForDisplay = (product) => {
     discount: product.discount?.discount_value || null,
     main_image: mainImage?.image_url || "",
     sub_images: subImages?.map((img) => img.image_url),
-    collections: product.collections?.map((col) => col.id) || [],
     variants: product.variants || [],
-    images: product.images || [],
     detail: product.detail || null,
   };
 };

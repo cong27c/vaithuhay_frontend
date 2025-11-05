@@ -1,11 +1,12 @@
 import PusherJS from "pusher-js";
 
-const socketClient = new PusherJS("soketi-key", {
+const socketClient = new PusherJS("vaithuhay-soketi-key", {
   cluster: "eu-west-1",
-  wsHost: "103.20.96.210",
+  wsHost: "103.20.96.135",
   wsPort: 6001,
   forceTLS: false,
-  authEndpoint: "http://localhost:3000/api/v1/pusher/auth",
+  authEndpoint: `${import.meta.env.VITE_BASE_URL}/pusher/auth`,
+
   auth: {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,

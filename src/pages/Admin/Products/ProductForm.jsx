@@ -70,16 +70,21 @@ const ProductForm = ({
   const [highlightImageFile, setHighlightImageFile] = useState(null);
   const [highlightImagePreview, setHighlightImagePreview] = useState("");
 
+  // 🎯 THÊM: State quản lý hình ảnh
+  const [localProductImages, setLocalProductImages] = useState([]);
+  const [localTempImageUrls, setLocalTempImageUrls] = useState([]);
+  const [localTempImageFiles, setLocalTempImageFiles] = useState([]);
+
   const watchedValues = watch();
 
-  // 🎯 THÊM: Reset form khi isOpen thay đổi và không có editingProduct
+  // 🎯 CẬP NHẬT: Reset form khi isOpen thay đổi
   useEffect(() => {
     if (isOpen && !editingProduct) {
       resetFormState();
     }
   }, [isOpen, editingProduct]);
 
-  // 🎯 THÊM: Hàm reset state của form
+  // 🎯 CẬP NHẬT: Hàm reset state của form
   const resetFormState = useCallback(() => {
     setSpecifications([]);
     setHighlights({
@@ -88,6 +93,9 @@ const ProductForm = ({
     });
     setHighlightImageFile(null);
     setHighlightImagePreview("");
+    setLocalProductImages([]);
+    setLocalTempImageUrls([]);
+    setLocalTempImageFiles([]);
 
     // Reset form values
     reset({
@@ -115,19 +123,56 @@ const ProductForm = ({
     });
   }, [reset]);
 
-  // Set giá trị form khi editing
+  // 🎯 CẬP NHẬT: Set giá trị form khi editing - FIX SPECIFICATIONS PARSING
   useEffect(() => {
     if (editingProduct && isOpen) {
       const productDetail = editingProduct.detail || {};
 
-      // Parse specifications từ HTML string hoặc JSON
+      console.log("Original specifications:", productDetail.specifications); // Debug
+
+      // Parse specifications từ HTML string
       let parsedSpecifications = [];
       if (productDetail.specifications) {
-        if (typeof productDetail.specifications === "string") {
-          // Nếu là HTML string, có thể parse hoặc để trống
+        try {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(
+            productDetail.specifications,
+            "text/html",
+          );
+          const rows = doc.querySelectorAll("tbody tr");
+
+          parsedSpecifications = Array.from(rows)
+            .map((row) => {
+              const cells = row.querySelectorAll("td");
+              if (cells.length >= 2) {
+                const keyCell = cells[0];
+                const valueCell = cells[1];
+
+                // Extract và làm sạch nội dung
+                let key = keyCell.innerHTML || keyCell.textContent || "";
+                let value = valueCell.innerHTML || valueCell.textContent || "";
+
+                // Remove strong tags và &nbsp; từ key
+                key = key
+                  .replace(/<strong>/gi, "")
+                  .replace(/<\/strong>/gi, "")
+                  .replace(/&nbsp;/g, " ")
+                  .trim();
+                value = value.replace(/<br>/gi, "\n").trim();
+
+                // Chỉ trả về nếu cả key và value đều có giá trị
+                if (key && value && key !== "&nbsp;" && value !== "&nbsp;") {
+                  return { key, value };
+                }
+              }
+              return null;
+            })
+            .filter((spec) => spec !== null);
+
+          console.log("Parsed specifications:", parsedSpecifications); // Debug
+        } catch (e) {
+          console.error("Error parsing specifications:", e);
           parsedSpecifications = [];
-        } else {
-          parsedSpecifications = productDetail.specifications;
         }
       }
 
@@ -139,11 +184,16 @@ const ProductForm = ({
       if (productDetail.highlights) {
         if (typeof productDetail.highlights === "string") {
           try {
-            parsedHighlights = JSON.parse(productDetail.highlights);
-          } catch (e) {
+            const parsed = JSON.parse(productDetail.highlights);
             parsedHighlights = {
-              img: productDetail.highlights.img || "",
-              highlights_html: productDetail.highlights.highlights_html || [],
+              img: parsed.img || parsed.image || "",
+              highlights_html: parsed.highlights_html || [],
+            };
+          } catch (e) {
+            console.error("Error parsing highlights:", e);
+            parsedHighlights = {
+              img: "",
+              highlights_html: [],
             };
           }
         } else {
@@ -151,10 +201,18 @@ const ProductForm = ({
         }
       }
 
+      // 🎯 CẬP NHẬT: Set state cho hình ảnh
+      setLocalProductImages(
+        [editingProduct.main_image, ...editingProduct.sub_images].filter(
+          Boolean,
+        ),
+      );
+
       setSpecifications(parsedSpecifications);
       setHighlights(parsedHighlights);
       setHighlightImagePreview(parsedHighlights.img || "");
 
+      // Reset form với dữ liệu editing
       reset({
         name: editingProduct.name || "",
         slug: editingProduct.slug || "",
@@ -186,9 +244,81 @@ const ProductForm = ({
     { value: "available", label: "available" },
   ];
 
+  // 🎯 THÊM: Handlers cho hình ảnh local
+  const handleLocalFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      const newTempFiles = [...localTempImageFiles];
+      const newTempUrls = [...localTempImageUrls];
+
+      files.forEach((file) => {
+        if (file.type.startsWith("image/")) {
+          const previewUrl = URL.createObjectURL(file);
+          newTempFiles.push(file);
+          newTempUrls.push(previewUrl);
+        }
+      });
+
+      setLocalTempImageFiles(newTempFiles);
+      setLocalTempImageUrls(newTempUrls);
+      onFileChange(e); // Gọi callback từ parent nếu cần
+    }
+  };
+
+  const handleLocalDeleteImage = (index, isTemp = false) => {
+    if (isTemp) {
+      // Xóa ảnh tạm
+      const newTempUrls = localTempImageUrls.filter((_, i) => i !== index);
+      const newTempFiles = localTempImageFiles.filter((_, i) => i !== index);
+
+      // Clean up object URL
+      if (localTempImageUrls[index].startsWith("blob:")) {
+        URL.revokeObjectURL(localTempImageUrls[index]);
+      }
+
+      setLocalTempImageUrls(newTempUrls);
+      setLocalTempImageFiles(newTempFiles);
+    } else {
+      // Xóa ảnh từ server
+      const newProductImages = localProductImages.filter((_, i) => i !== index);
+      setLocalProductImages(newProductImages);
+
+      // Cập nhật main_image và sub_images trong form
+      if (index === 0) {
+        // Nếu xóa main image
+        setValue("main_image", newProductImages[0] || "");
+        setValue("sub_images", newProductImages.slice(1));
+      } else {
+        setValue("sub_images", newProductImages.slice(1));
+      }
+    }
+    onDeleteImage(index, isTemp); // Gọi callback từ parent
+  };
+
+  const handleLocalDeleteAllImages = () => {
+    // Clean up all temp URLs
+    localTempImageUrls.forEach((url) => {
+      if (url.startsWith("blob:")) {
+        URL.revokeObjectURL(url);
+      }
+    });
+
+    setLocalProductImages([]);
+    setLocalTempImageUrls([]);
+    setLocalTempImageFiles([]);
+
+    // Reset form values
+    setValue("main_image", "");
+    setValue("sub_images", []);
+
+    onDeleteAllImages(); // Gọi callback từ parent
+  };
+
   // Specifications handlers
   const addSpecification = () => {
-    setSpecifications([...specifications, { key: "", value: "" }]);
+    const newSpecifications = [...specifications, { key: "", value: "" }];
+    setSpecifications(newSpecifications);
+    setValue("specifications", newSpecifications);
   };
 
   const updateSpecification = (index, field, value) => {
@@ -241,14 +371,23 @@ const ProductForm = ({
   const handleHighlightImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("Vui lòng chọn file hình ảnh");
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Kích thước file không được vượt quá 5MB");
+        return;
+      }
+
       setHighlightImageFile(file);
       const previewUrl = URL.createObjectURL(file);
       setHighlightImagePreview(previewUrl);
 
-      // Lưu file để xử lý khi submit
       const updatedHighlights = {
         ...highlights,
-        img: previewUrl, // Tạm thời dùng preview URL, backend sẽ xử lý upload
+        img: previewUrl,
       };
       setHighlights(updatedHighlights);
       setValue("highlights", updatedHighlights);
@@ -256,6 +395,10 @@ const ProductForm = ({
   };
 
   const removeHighlightImage = () => {
+    if (highlightImagePreview && highlightImagePreview.startsWith("blob:")) {
+      URL.revokeObjectURL(highlightImagePreview);
+    }
+
     setHighlightImageFile(null);
     setHighlightImagePreview("");
     const updatedHighlights = {
@@ -270,15 +413,16 @@ const ProductForm = ({
     // Format specifications thành HTML table
     const formattedSpecifications =
       specifications.length > 0
-        ? `<tbody>${specifications
+        ? `<table><tbody>${specifications
+            ?.filter((spec) => spec.key && spec.value)
             ?.map(
               (spec) =>
-                `<tr><td><strong>${spec.key}&nbsp;&nbsp; &nbsp;</strong></td><td>${spec.value}</td></tr>`,
+                `<tr><td><strong>${spec.key.replace(/</g, "&lt;").replace(/>/g, "&gt;")}&nbsp;&nbsp;&nbsp;</strong></td><td>${spec.value.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>")}</td></tr>`,
             )
-            .join("")}</tbody>`
+            .join("")}</tbody></table>`
         : "";
 
-    // Format highlights đúng structure
+    // Format highlights
     const formattedHighlights = {
       img: highlights.img,
       highlights_html: highlights.highlights_html.filter(
@@ -297,7 +441,7 @@ const ProductForm = ({
       status: data.status,
       brand_id: data.brand_id,
 
-      // ProductDetail data - ĐÚNG STRUCTURE
+      // ProductDetail data
       title: data.title,
       long_description: data.long_description,
       specifications: formattedSpecifications,
@@ -308,18 +452,32 @@ const ProductForm = ({
 
       // File uploads
       highlight_image_file: highlightImageFile,
+      temp_image_files: localTempImageFiles,
+      existing_images: localProductImages,
     };
 
-    console.log("Submitting form data:", formData); // Debug
+    console.log("Submitting form data:", formData);
     onSubmit(formData);
   };
 
-  // 🎯 SỬA: Xử lý đóng modal
   const handleClose = () => {
-    // Reset form state trước khi đóng
+    // Clean up object URLs
+    if (highlightImagePreview && highlightImagePreview.startsWith("blob:")) {
+      URL.revokeObjectURL(highlightImagePreview);
+    }
+
+    localTempImageUrls.forEach((url) => {
+      if (url.startsWith("blob:")) {
+        URL.revokeObjectURL(url);
+      }
+    });
+
     resetFormState();
     onClose();
   };
+
+  // Kết hợp tất cả hình ảnh để hiển thị
+  const allDisplayImages = [...localProductImages, ...localTempImageUrls];
 
   return (
     <Modal
@@ -408,7 +566,7 @@ const ProductForm = ({
             </div>
           ) : (
             <div className={styles.specificationsList}>
-              {specifications?.map((spec, index) => (
+              {specifications.map((spec, index) => (
                 <div key={index} className={styles.specificationItem}>
                   <div className={styles.specificationInputs}>
                     <Input
@@ -418,12 +576,13 @@ const ProductForm = ({
                         updateSpecification(index, "key", e.target.value)
                       }
                     />
-                    <Input
+                    <Textarea
                       placeholder="Giá trị (VD: 140kg)"
                       value={spec.value}
                       onChange={(e) =>
                         updateSpecification(index, "value", e.target.value)
                       }
+                      rows={2}
                     />
                   </div>
                   <Button
@@ -452,21 +611,34 @@ const ProductForm = ({
             <div className={styles.uploadArea}>
               {highlightImagePreview ? (
                 <div className={styles.imagePreview}>
-                  <img src={highlightImagePreview} alt="Highlight preview" />
-                  <Button
-                    type="button"
-                    variant="danger"
-                    size="sm"
-                    onClick={removeHighlightImage}
-                    className={styles.removeImageBtn}
-                  >
-                    <Trash2 size={16} />
-                  </Button>
+                  <img
+                    src={highlightImagePreview}
+                    alt="Highlight preview"
+                    className={styles.previewImage}
+                  />
+                  <div className={styles.imageOverlay}>
+                    <Button
+                      type="button"
+                      variant="danger"
+                      size="sm"
+                      onClick={removeHighlightImage}
+                      className={styles.removeImageBtn}
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <label className={styles.uploadPlaceholder}>
-                  <Upload size={24} />
-                  <span>Tải lên hình ảnh highlight</span>
+                  <div className={styles.uploadIcon}>
+                    <Upload size={24} />
+                  </div>
+                  <span className={styles.uploadText}>
+                    Tải lên hình ảnh highlight
+                  </span>
+                  <span className={styles.uploadHint}>
+                    PNG, JPG, WEBP (Tối đa 5MB)
+                  </span>
                   <input
                     type="file"
                     accept="image/*"
@@ -498,7 +670,7 @@ const ProductForm = ({
             </div>
           ) : (
             <div className={styles.highlightsList}>
-              {highlights.highlights_html?.map((highlight, index) => (
+              {highlights.highlights_html.map((highlight, index) => (
                 <div key={index} className={styles.highlightItem}>
                   <div className={styles.highlightInputs}>
                     <Input

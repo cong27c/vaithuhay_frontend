@@ -5,11 +5,16 @@ const getOrderById = async (orderId) => {
   return response.data;
 };
 
-const checkTransactionExists = async (orderId) => {
-  const response = await httpRequest.get(
-    `/orders/${orderId}/check-transaction`,
-  );
-  return response.data;
+const getPaymentStatus = async (orderId) => {
+  try {
+    const response = await httpRequest.get(
+      `/orders/${orderId}/check-transaction`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Get payment status error:", error);
+    throw error;
+  }
 };
 
-export { getOrderById, checkTransactionExists };
+export { getOrderById, getPaymentStatus };

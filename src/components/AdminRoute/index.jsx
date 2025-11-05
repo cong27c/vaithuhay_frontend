@@ -8,6 +8,7 @@ export default function AdminRoute({ children }) {
 
   try {
     const decoded = jwtDecode(token);
+
     const allowedRoles = ["admin", "staff"];
     if (!allowedRoles.includes(decoded.role)) {
       return <Navigate to="/admin/login" replace />;

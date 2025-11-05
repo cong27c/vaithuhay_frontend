@@ -1,51 +1,35 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import styles from "./Carousel.module.scss";
-import { getUpcomingCampaigns } from "@/Services/preOrderService";
-import CountDown from "@/components/CountDown";
 import { Link } from "react-router-dom";
+import styles from "./Carousel.module.scss";
+import CountDown from "@/components/CountDown";
+import { useUpcomingCampaigns } from "@/Hooks/usePreorder";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
-  const [campaigns, setCampaigns] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const sliderRef = useRef(null);
   const VISIBLE_ITEMS = 3;
-  const ITEM_WIDTH = 360; // width of each item
-  const GAP = 24; // gap between items
+  const ITEM_WIDTH = 360;
+  const GAP = 24;
 
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        setLoading(true);
-        const data = await getUpcomingCampaigns();
-        console.log("API Data:", data);
+  // ✅ Dùng React Query để cache dữ liệu
+  const { data: campaignsData = [], isLoading, error } = useUpcomingCampaigns();
 
-        const formattedCampaigns = data?.map((campaign) => ({
-          name: campaign.product?.name || "Không có tên",
-          image: campaign.product?.image || "",
-          startDate: campaign.startDate,
-          endDate: campaign.endDate,
-          slug: campaign.product?.slug || "",
-          id: campaign.id,
-          status: campaign.status,
-        }));
+  // format data cho UI
+  const campaigns =
+    campaignsData?.map((campaign) => ({
+      name: campaign.product?.name || "Không có tên",
+      image: campaign.product?.image || "",
+      startDate: campaign.startDate,
+      endDate: campaign.endDate,
+      slug: campaign.product?.slug || "",
+      id: campaign.id,
+      status: campaign.status,
+    })) || [];
 
-        setCampaigns(formattedCampaigns || []);
-      } catch (err) {
-        console.error("Error fetching campaigns:", err);
-        setError("Không thể tải danh sách sản phẩm sắp mở bán");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCampaigns();
-  }, []);
-
+  // clone thêm vài item để tạo vòng lặp
   const extendedCampaigns =
     campaigns.length > 0
       ? [...campaigns, ...campaigns.slice(0, VISIBLE_ITEMS)]
@@ -82,21 +66,13 @@ export default function Carousel() {
     }
   }, [currentIndex, campaigns.length]);
 
-  const getTransformPosition = () => {
-    return -(currentIndex * (ITEM_WIDTH + GAP));
-  };
+  const getTransformPosition = () => -(currentIndex * (ITEM_WIDTH + GAP));
 
-  if (loading) {
-    return <div className={styles.loading}>Đang tải...</div>;
-  }
-
-  if (error) {
-    return <div className={styles.error}>{error}</div>;
-  }
-
-  if (campaigns.length === 0) {
+  // ==== UI trạng thái ====
+  if (isLoading) return <div className={styles.loading}>Đang tải...</div>;
+  if (error) return <div className={styles.error}>Không thể tải dữ liệu</div>;
+  if (campaigns.length === 0)
     return <div className={styles.error}>Không có sản phẩm nào</div>;
-  }
 
   return (
     <div className={styles["carousel-container"]}>
@@ -115,13 +91,7 @@ export default function Carousel() {
           onClick={handlePrev}
           aria-label="Previous slide"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
+          <svg width="24" height="24" viewBox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
@@ -137,7 +107,7 @@ export default function Carousel() {
                 : "none",
             }}
           >
-            {extendedCampaigns?.map((campaign, index) => (
+            {extendedCampaigns.map((campaign, index) => (
               <div key={index} className={styles["carousel-item"]}>
                 <div className={styles["item-image-wrapper"]}>
                   <Link to={`/products/${campaign.slug}`}>
@@ -147,6 +117,7 @@ export default function Carousel() {
                         "/placeholder.svg?height=400&width=360&query=product"
                       }
                       alt={campaign.name}
+                      loading="lazy"
                       className={styles["item-image"]}
                     />
                   </Link>
@@ -168,12 +139,12 @@ export default function Carousel() {
                         : "Đang mở bán"}
                     </span>
                   </div>
+
                   <CountDown
                     startDate={campaign.startDate}
                     endDate={campaign.endDate}
-                  ></CountDown>
+                  />
 
-                  <div className={styles["item-date"]}>{campaign.endDate}</div>
                   <button className={styles["item-button"]}>
                     <Link to={`/products/${campaign.slug}`}>
                       Đăng ký đặt trước
@@ -190,23 +161,21 @@ export default function Carousel() {
           onClick={handleNext}
           aria-label="Next slide"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
+          <svg width="24" height="24" viewBox="0 0 24 24">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </button>
       </div>
 
       <div className={styles["carousel-dots"]}>
-        {campaigns?.map((_, index) => (
+        {campaigns.map((_, index) => (
           <button
             key={index}
-            className={`${styles["dot"]} ${index === currentIndex % campaigns.length ? styles["dot-active"] : ""}`}
+            className={`${styles["dot"]} ${
+              index === currentIndex % campaigns.length
+                ? styles["dot-active"]
+                : ""
+            }`}
             onClick={() => {
               setIsTransitioning(true);
               setCurrentIndex(index);

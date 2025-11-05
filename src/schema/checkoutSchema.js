@@ -36,6 +36,6 @@ export const checkoutSchema = yup.object({
     .required("Phương thức giao hàng là bắt buộc"),
   paymentMethod: yup
     .string()
-    .oneOf(["cod", "bank", "momo", "vnpay"])
+    .oneOf(["cod", "bank"])
     .required("Phương thức thanh toán là bắt buộc"),
 });

@@ -1,112 +1,48 @@
 import Slider from "@/components/Slider";
 import styles from "./SlideImageDefault.module.scss";
-import images from "@/assets/images";
 import Button from "@/components/Button";
-import { getPreOrderCampaigns } from "@/Services/preOrderService";
-import { useEffect, useState } from "react";
+import { usePreOrderCampaigns } from "@/Hooks/usePreorder";
 
 function SlideImageDefault() {
-  const slidesData = [
-    {
-      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course4,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 3 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course1,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course2,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course3,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course5,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course2,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 2 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course3,
-      variant: "default",
-    },
-    {
-      title: "Blindbox Natra 3 Popmart - Hộp mù Natra 2 Ma động náo hải",
-      status: "Số lượng đã đặt: 23/360",
-      date: "Chiến dịch kết thúc: 12/04/2025",
-      description: "",
-      image: images.course1,
-      variant: "default",
-    },
-  ];
+  const {
+    data: campaignsData,
+    isLoading: loading,
+    error: queryError,
+    refetch,
+  } = usePreOrderCampaigns();
 
-  const [campaigns, setCampaigns] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Lấy danh sách campaigns từ data
+  const campaigns = campaignsData || [];
 
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        setLoading(true);
-        const data = await getPreOrderCampaigns();
-        console.log("API Data:", data);
+  // Xử lý lỗi
+  const error = queryError
+    ? "Không thể tải danh sách sản phẩm sắp mở bán"
+    : null;
 
-        setCampaigns(data || []);
-      } catch (err) {
-        console.error("Error fetching campaigns:", err);
-        setError("Không thể tải danh sách sản phẩm sắp mở bán");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCampaigns();
-  }, []);
+  // Hàm retry khi có lỗi
+  const handleRetry = () => {
+    refetch();
+  };
 
   if (loading) {
     return <div className={styles.loading}>Đang tải...</div>;
   }
 
   if (error) {
-    return <div className={styles.error}>{error}</div>;
+    return (
+      <div className={styles.error}>
+        {error}
+        <Button onClick={handleRetry} style={{ marginLeft: "10px" }}>
+          Thử lại
+        </Button>
+      </div>
+    );
   }
 
   if (campaigns.length === 0) {
     return null;
   }
+
   return (
     <>
       <div className={styles.Slider}>

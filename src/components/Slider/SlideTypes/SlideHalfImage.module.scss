@@ -272,8 +272,11 @@
   gap: 30px;
   cursor: pointer;
 }
-
 .alternative .content .buttonList .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; // khoảng cách giữa text và icon
   white-space: nowrap;
   padding: 10px 20px;
   border: 1px solid #d62727;
@@ -285,6 +288,20 @@
   transition:
     background-color 0.3s ease,
     transform 0.2s ease;
+
+  i {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background-color: #d62727;
+    transform: scale(1.05);
+    color: white;
+
+    i {
+      color: white;
+    }
+  }
 }
 .alternative .content .buttonList .btn:hover {
   background-color: #d62727;

@@ -76,10 +76,13 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
     },
   });
 
-  const [shippingFee, setShippingFee] = useState(0); // 🟢 CHỈ CẦN shippingFee
+  const [shippingFee, setShippingFee] = useState(0);
+  const [shippingMethodId, setShippingMethodId] = useState(0);
 
   const handleShippingSelect = (data) => {
     const fee = data?.shippingFee || 0;
+
+    setShippingMethodId(data?.shippingMethod.id);
     setShippingFee(fee);
     if (onShippingFeeUpdate) {
       onShippingFeeUpdate(fee);
@@ -254,8 +257,8 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
         deliveryMethod: formData.deliveryMethod || "home",
       },
       paymentMethod: formData.paymentMethod || "cod",
-      shippingMethodId: shippingInfo.shippingMethodId,
-      shippingFee: shippingInfo.shippingFee,
+      shippingMethodId: shippingMethodId,
+      shippingFee: shippingFee,
     };
 
     return checkoutData;
@@ -265,10 +268,8 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
   const handleCheckout = async (formData, isGuest = false) => {
     try {
       const checkoutData = prepareCheckoutData(formData, isGuest);
-      console.log("Checkout data:", checkoutData);
 
       const result = await checkout(checkoutData);
-      console.log("Checkout result:", result);
 
       // Nếu đơn hàng thanh toán COD thành công
       if (
@@ -823,11 +824,6 @@ function PaymentMethods({ register, errors }) {
         </div>
       </label>
 
-      <div className={styles.paymentNote}>
-        Đơn hàng sẽ được giao cho khách hàng từ 2-4 ngày làm việc nếu khách hàng
-        ở tỉnh xa, yêu cầu giao gấp liên hệ ngay hotline 0938223885
-      </div>
-
       <label className={styles.paymentOption}>
         <input
           type="radio"
@@ -837,55 +833,7 @@ function PaymentMethods({ register, errors }) {
         />
         <div className={styles.paymentContent}>
           <div className={styles.paymentIcon}>🏦</div>
-          <span>Chuyển khoản ngân hàng (Tự động xác nhận giao dịch)</span>
-        </div>
-      </label>
-
-      <label className={styles.paymentOption}>
-        <input
-          type="radio"
-          value="momo"
-          {...register("paymentMethod")}
-          className={styles.radio}
-        />
-        <div className={styles.paymentContent}>
-          <div className={styles.paymentIcon}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <rect width="24" height="24" rx="4" fill="#a50064" />
-              <text
-                x="12"
-                y="17"
-                fontSize="14"
-                fill="white"
-                textAnchor="middle"
-                fontWeight="bold"
-              >
-                M
-              </text>
-            </svg>
-          </div>
-          <span>Ví MoMo</span>
-        </div>
-      </label>
-
-      <label className={styles.paymentOption}>
-        <input
-          type="radio"
-          value="vnpay"
-          {...register("paymentMethod")}
-          className={styles.radio}
-        />
-        <div className={styles.paymentContent}>
-          <div className={styles.paymentIcon}>🏦</div>
-          <div className={styles.paymentLogos}>
-            <span>Thanh toán online qua cổng VNPay</span>
-            <div className={styles.cardLogos}>
-              <span className={styles.cardBadge}>VNPAY</span>
-              <span className={styles.cardBadge}>VISA</span>
-              <span className={styles.cardBadge}>MC</span>
-              <span className={styles.cardBadge}>JCB</span>
-            </div>
-          </div>
+          <span>Sepay</span>
         </div>
       </label>
       {errors.paymentMethod && (

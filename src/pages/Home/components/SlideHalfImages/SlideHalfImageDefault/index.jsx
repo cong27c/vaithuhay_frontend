@@ -3,29 +3,65 @@ import styles from "./SlideHalfImageDefault.module.scss";
 import Button from "@/components/Button";
 import Slider from "@/components/Slider";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { getByProductsSlug } from "@/Services/collectionService";
+import { useCollectionSlideBySlug } from "@/hooks/useCollection";
 
 function SlideHalfImageDefault() {
-  const [products, setProducts] = useState([]);
+  const slug = "cong-nghe-tien-ich-co-san";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const slug = "cong-nghe-tien-ich-co-san";
-      const data = await getByProductsSlug(slug);
+  const {
+    data: collectionData,
+    isLoading,
+    error,
+    refetch,
+  } = useCollectionSlideBySlug(slug);
 
-      // Thêm field variant cho mỗi sản phẩm
-      const updatedProducts = data?.map((product) => ({
-        ...product,
-        variant: "alternative",
-      }));
+  // Xử lý dữ liệu sản phẩm
+  const products =
+    collectionData?.map((product) => ({
+      ...product,
+      variant: "alternative",
+    })) || [];
 
-      console.log(updatedProducts);
-      setProducts(updatedProducts);
-    };
+  // Hàm retry khi có lỗi
+  const handleRetry = () => {
+    refetch();
+  };
 
-    fetchData();
-  }, []);
+  // Hiển thị loading
+  if (isLoading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Đang tải sản phẩm...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Hiển thị lỗi
+  if (error) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.error}>
+          <p>Không thể tải danh sách sản phẩm. Vui lòng thử lại.</p>
+          <Button onClick={handleRetry}>Thử lại</Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Hiển thị khi không có sản phẩm
+  if (products.length === 0 && !isLoading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.error}>
+          <p>Không có sản phẩm nào được tìm thấy.</p>
+          <Button onClick={handleRetry}>Tải lại</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>

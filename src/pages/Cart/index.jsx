@@ -483,7 +483,7 @@ const Cart = () => {
           {cartItems.length === 0 && combos.length === 0 ? (
             <div className={styles.emptyCart}>
               <p>Giỏ hàng của bạn đang trống</p>
-              <Link to="/products" className={styles.continueShopping}>
+              <Link to="/" className={styles.continueShopping}>
                 Tiếp tục mua sắm
               </Link>
             </div>

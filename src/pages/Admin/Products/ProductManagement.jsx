@@ -308,6 +308,7 @@ const ProductManagement = () => {
   // 📝 Xử lý form
   const handleFormSubmit = async (formData) => {
     setSubmitting(true);
+    console.log("handleFormSubmit", formData);
 
     try {
       if (editingProduct) {

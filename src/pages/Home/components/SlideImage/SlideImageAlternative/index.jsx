@@ -4,46 +4,37 @@ import Button from "@/components/Button";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import ProductsSetup from "@/pages/ProductsSetup";
 import DotList from "@/components/DotList/inddex";
-import { useEffect, useState } from "react";
-import { getAllComboDetail, getAllCombos } from "@/Services/stuffService";
+import { useState } from "react";
 import ProductModal from "@/pages/ProductsSetup/ProductModal";
+import { useAllComboDetail, useAllCombos } from "@/Hooks/useCombo";
 
 function SlideImageAlternative() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [productsSlice, setProductsSlice] = useState([]);
-  const [productsDetail, setProductsDetail] = useState([]);
   const [selectedProductIndex, setSelectedProductIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchCombos();
-  }, []);
+  // Sử dụng React Query hooks
+  const {
+    data: combosData,
+    isLoading: isLoadingCombos,
+    error: combosError,
+    refetch: refetchCombos,
+  } = useAllCombos();
 
-  const fetchCombos = async () => {
-    setLoading(true);
-    setError(null);
+  const {
+    data: comboDetailData,
+    isLoading: isLoadingDetail,
+    error: detailError,
+    refetch: refetchDetail,
+  } = useAllComboDetail();
 
-    try {
-      // Gọi từng API riêng lẻ thay vì Promise.all
-      const result1 = await getAllCombos();
-      setProductsSlice(result1.combos || []);
+  // Lấy dữ liệu từ response
+  const productsSlice = combosData || [];
+  const productsDetail = comboDetailData || [];
 
-      const result2 = await getAllComboDetail();
-      setProductsDetail(result2 || []);
-    } catch (err) {
-      console.error("Failed to fetch combos:", err);
-      setError("Không thể tải dữ liệu combo. Vui lòng thử lại.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Hàm retry khi có lỗi
-  const handleRetry = () => {
-    fetchCombos();
-  };
+  // Xử lý loading và error
+  const isLoading = isLoadingCombos || isLoadingDetail;
+  const error = combosError || detailError;
 
   const totalGroups = Math.ceil(productsSlice.length / 8);
 
@@ -61,8 +52,14 @@ function SlideImageAlternative() {
     setSelectedProductIndex(null);
   };
 
+  // Hàm retry khi có lỗi
+  const handleRetry = () => {
+    refetchCombos();
+    refetchDetail();
+  };
+
   // Hiển thị loading
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.loading}>
@@ -78,8 +75,22 @@ function SlideImageAlternative() {
     return (
       <div className={styles.wrapper}>
         <div className={styles.error}>
-          <p>{error}</p>
+          <p>
+            {error.message || "Không thể tải dữ liệu combo. Vui lòng thử lại."}
+          </p>
           <Button onClick={handleRetry}>Thử lại</Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Hiển thị khi không có dữ liệu
+  if (productsSlice.length === 0) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.error}>
+          <p>Không có combo nào được tìm thấy.</p>
+          <Button onClick={handleRetry}>Tải lại</Button>
         </div>
       </div>
     );

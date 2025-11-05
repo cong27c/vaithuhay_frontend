@@ -108,10 +108,10 @@ function SlideHalfImage({
             <div className={styles.buttonList}>
               <button className={styles.btn}>
                 {content} {originalPrice}
+                <div className={styles["cart-icon"]}>
+                  <i className="fa-solid fa-cart-plus"></i>
+                </div>
               </button>
-              <div className={styles["cart-icon"]}>
-                <i className="fa-solid fa-cart-plus"></i>
-              </div>
             </div>
           </div>
         </div>
