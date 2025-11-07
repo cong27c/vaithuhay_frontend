@@ -12,7 +12,7 @@ import {
   updateProduct,
   deleteProduct,
   transformProductForDisplay,
-  getProductById, // 🎯 THÊM IMPORT NÀY
+  getProductById,
 } from "@/Services/productAdminService";
 import {
   uploadMainProductImage,
@@ -39,15 +39,12 @@ const ProductManagement = () => {
     main: null,
     sub: [],
   });
-
-  // 🎯 THÊM: State để quản lý loading khi fetch product detail
-  const [loadingProductDetail, setLoadingProductDetail] = useState(false);
-
-  // Thêm state để lưu trữ URLs tạm thời
   const [tempImageUrls, setTempImageUrls] = useState({
     main: null,
     sub: [],
   });
+
+  const [loadingProductDetail, setLoadingProductDetail] = useState(false);
 
   // Fetch products từ API
   useEffect(() => {
@@ -99,22 +96,39 @@ const ProductManagement = () => {
     setTempImageUrls({ main: null, sub: [] });
   }, [tempImageUrls]);
 
-  // 🎯 SỬA HOÀN TOÀN HÀM handleEditProduct
+  // 🎯 Hàm xử lý edit product
   const handleEditProduct = async (product) => {
     const loadingToast = toast.loading("Đang tải dữ liệu sản phẩm...");
     setLoadingProductDetail(true);
 
     try {
-      // 🎯 Gọi API lấy chi tiết sản phẩm
       const fullProduct = await getProductById(product.id);
-
-      // 🎯 Transform dữ liệu để chuẩn hóa
       const transformedProduct = transformProductForDisplay(fullProduct);
+      console.log("fullProduct", fullProduct);
 
-      // 🎯 Set editing product với đầy đủ dữ liệu
+      // Cập nhật state productImages với thông tin ảnh từ API
+      setProductImages((prev) => ({
+        ...prev,
+        [product.id]: {
+          main: fullProduct.main_image
+            ? {
+                data: {
+                  id: fullProduct.main_image.id,
+                  image_url: fullProduct.main_image.image_url,
+                },
+              }
+            : null,
+          sub:
+            fullProduct.sub_images?.map((img) => ({
+              data: {
+                id: img.id,
+                image_url: img.image_url,
+              },
+            })) || [],
+        },
+      }));
+
       setEditingProduct(transformedProduct);
-
-      // 🎯 Mở modal edit
       setIsProductModalOpen(true);
 
       toast.update(loadingToast, {
@@ -136,36 +150,43 @@ const ProductManagement = () => {
     }
   };
 
-  // 🎯 THÊM HÀM MỞ MODAL CREATE MỚI
+  // 🎯 Hàm mở modal create mới
   const handleOpenCreateModal = () => {
     resetProductForm();
     setIsProductModalOpen(true);
   };
 
-  // 🎯 SỬA HÀM ĐÓNG MODAL
+  // 🎯 Hàm đóng modal
   const handleCloseProductModal = () => {
     setIsProductModalOpen(false);
     resetProductForm();
   };
 
-  // 🖼️ Xử lý upload ảnh - CHẠY NGẦM (không hiển thị toast)
+  // 🖼️ Xử lý upload ảnh
   const handleMainImageUpload = async (productId, file) => {
     if (!file) return null;
+    console.log("handleMainImageUpload", productId);
 
     setUploadingImages((prev) => ({ ...prev, main: true }));
     try {
       const response = await uploadMainProductImage(productId, file);
+
       setProductImages((prev) => ({
         ...prev,
         [productId]: {
-          main: response,
+          ...prev[productId],
+          main: {
+            data: {
+              id: response.id,
+              image_url: response.image_url,
+            },
+          },
           sub: prev[productId]?.sub || [],
         },
       }));
       return response;
     } catch (error) {
       console.error("Lỗi upload ảnh chính:", error);
-      // KHÔNG hiển thị toast để tránh làm phiền người dùng
       return null;
     } finally {
       setUploadingImages((prev) => ({ ...prev, main: false }));
@@ -174,6 +195,7 @@ const ProductManagement = () => {
 
   const handleSubImageUpload = async (productId, file) => {
     if (!file) return null;
+    console.log("handleSubImageUpload", productId);
 
     setUploadingImages((prev) => ({ ...prev, sub: true }));
     try {
@@ -188,14 +210,13 @@ const ProductManagement = () => {
       return response;
     } catch (error) {
       console.error("Lỗi upload ảnh phụ:", error);
-      // KHÔNG hiển thị toast
       return null;
     } finally {
       setUploadingImages((prev) => ({ ...prev, sub: false }));
     }
   };
 
-  // 🆕 Hàm upload nhiều ảnh phụ cùng lúc - CHẠY NGẦM
+  // 🆕 Hàm upload nhiều ảnh phụ cùng lúc
   const handleMultipleSubImagesUpload = async (productId, files) => {
     if (!files.length) return [];
 
@@ -209,43 +230,71 @@ const ProductManagement = () => {
     });
 
     const results = await Promise.all(uploadPromises);
-    const successfulUploads = results.filter((result) => result !== null);
-
-    // Log kết quả upload nhưng không hiển thị toast
-
-    return successfulUploads;
+    return results.filter((result) => result !== null);
   };
 
-  // 🗑️ Xử lý xóa ảnh - VẪN HIỂN THỊ THÔNG BÁO (vì là hành động chủ động)
-  const handleDeleteImage = async (
-    productId,
-    imageId,
-    imageType,
-    imageIndex = null,
-  ) => {
+  // 🗑️ Xử lý xóa ảnh
+  const handleDeleteImage = async (productId, imageId, imageType) => {
     if (!confirm("Bạn có chắc chắn muốn xóa ảnh này?")) return;
 
+    const deleteToast = toast.loading("Đang xóa ảnh...");
     try {
       await deleteProductImage(productId, imageId);
-      if (imageType === "main") {
-        setProductImages((prev) => ({
-          ...prev,
-          [productId]: { ...prev[productId], main: null },
-        }));
-      } else if (imageType === "sub" && imageIndex !== null) {
-        setProductImages((prev) => ({
-          ...prev,
-          [productId]: {
-            ...prev[productId],
-            sub:
-              prev[productId]?.sub?.filter((img) => img.id !== imageId) || [],
-          },
-        }));
-      }
-      toast.success("Xóa ảnh thành công");
+
+      setProductImages((prev) => {
+        const updatedImages = { ...prev };
+        if (imageType === "main") {
+          if (updatedImages[productId]?.main?.data?.id === imageId) {
+            delete updatedImages[productId].main;
+          }
+        } else if (imageType === "sub") {
+          if (updatedImages[productId]?.sub) {
+            updatedImages[productId].sub = updatedImages[productId].sub.filter(
+              (img) => img.data.id !== imageId,
+            );
+          }
+        }
+        return updatedImages;
+      });
+
+      toast.update(deleteToast, {
+        render: "Xóa ảnh thành công!",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
     } catch (error) {
       console.error("Lỗi xóa ảnh:", error);
-      toast.error("Xóa ảnh thất bại");
+      toast.update(deleteToast, {
+        render: "Xóa ảnh thất bại!",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  // 🗑️ Xử lý xóa ảnh tạm (chưa upload)
+  const handleDeleteTempImage = (imageType, index = null) => {
+    if (imageType === "main") {
+      if (tempImageUrls.main) {
+        URL.revokeObjectURL(tempImageUrls.main);
+      }
+      setTempImageFiles((prev) => ({ ...prev, main: null }));
+      setTempImageUrls((prev) => ({ ...prev, main: null }));
+    } else if (imageType === "sub" && index !== null) {
+      const newSubUrls = [...tempImageUrls.sub];
+      const newSubFiles = [...tempImageFiles.sub];
+
+      if (newSubUrls[index]) {
+        URL.revokeObjectURL(newSubUrls[index]);
+      }
+
+      newSubUrls.splice(index, 1);
+      newSubFiles.splice(index, 1);
+
+      setTempImageUrls((prev) => ({ ...prev, sub: newSubUrls }));
+      setTempImageFiles((prev) => ({ ...prev, sub: newSubFiles }));
     }
   };
 
@@ -266,10 +315,11 @@ const ProductManagement = () => {
     }
   };
 
-  // 📤 Xử lý file input change - VẪN HIỂN THỊ LỖI VALIDATION
+  // 📤 Xử lý file input change
   const handleFileChange = (type, event) => {
     const files = Array.from(event.target.files);
     if (!files.length) return;
+    console.log("handleFileChange", files);
 
     const validFiles = files.filter((file) => {
       if (!file.type.startsWith("image/")) {
@@ -308,7 +358,6 @@ const ProductManagement = () => {
   // 📝 Xử lý form
   const handleFormSubmit = async (formData) => {
     setSubmitting(true);
-    console.log("handleFormSubmit", formData);
 
     try {
       if (editingProduct) {
@@ -329,7 +378,6 @@ const ProductManagement = () => {
 
     try {
       const result = await uploadSubProductImage(productId, file);
-      console.log("handleHighlightImageUpload", result);
       const imageUrl = result?.url || result?.image_url || "";
 
       if (!imageUrl) throw new Error("Không nhận được URL ảnh từ server");
@@ -346,7 +394,6 @@ const ProductManagement = () => {
       return result;
     } catch (error) {
       console.error("Lỗi upload highlight image:", error);
-      // KHÔNG hiển thị toast, lỗi sẽ được xử lý ở hàm chính
       throw error;
     }
   };
@@ -355,7 +402,6 @@ const ProductManagement = () => {
     const createToast = toast.loading("Đang tạo sản phẩm...");
 
     try {
-      // Chuẩn bị data đúng structure cho API
       const productData = {
         name: formData.name,
         slug: formData.slug,
@@ -380,12 +426,17 @@ const ProductManagement = () => {
         sub_images: [],
       };
 
-      console.log("Creating product with data:", productData);
-
       const newProduct = await createProduct(productData);
 
-      // 🔄 UPLOAD ẢNH NGẦM - không hiển thị thông báo
-      // Tạo mảng các promise upload ảnh
+      setProductImages((prev) => ({
+        ...prev,
+        [newProduct.id]: {
+          main: null,
+          sub: [],
+        },
+      }));
+
+      // 🔄 UPLOAD ẢNH NGẦM
       const uploadPromises = [];
 
       if (tempImageFiles.main) {
@@ -409,18 +460,14 @@ const ProductManagement = () => {
         );
       }
 
-      // Chờ tất cả upload hoàn thành NGẦM
-      // Không cần await, để chạy background
       if (uploadPromises.length > 0) {
         Promise.all(uploadPromises)
           .then((results) => {
             console.log("Upload ảnh hoàn tất:", results);
-            // Tự động refresh danh sách sản phẩm để hiển thị ảnh mới
             fetchProducts();
           })
           .catch((error) => {
             console.error("Lỗi khi upload ảnh ngầm:", error);
-            // KHÔNG hiển thị toast lỗi cho người dùng
           });
       }
 
@@ -448,7 +495,6 @@ const ProductManagement = () => {
 
   const handleUpdateProduct = async (formData) => {
     const updateToast = toast.loading("Đang cập nhật sản phẩm...");
-
     try {
       const updateData = {
         name: formData.name,
@@ -471,8 +517,6 @@ const ProductManagement = () => {
         },
       };
 
-      console.log("Updating product with data:", updateData);
-
       const updatedProduct = await updateProduct(editingProduct.id, updateData);
       const transformedProduct = transformProductForDisplay(updatedProduct);
 
@@ -482,7 +526,6 @@ const ProductManagement = () => {
         ),
       );
 
-      // Upload highlight image nếu có - CHẠY NGẦM
       if (formData.highlight_image_file) {
         handleHighlightImageUpload(
           editingProduct.id,
@@ -547,7 +590,7 @@ const ProductManagement = () => {
 
   const handleVariantUpdate = (updatedProduct) => {
     setProducts(
-      products?.map((product) =>
+      updatedProduct?.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product,
       ),
     );
@@ -573,7 +616,6 @@ const ProductManagement = () => {
     <div className={styles.productsPage}>
       <div className={styles.header}>
         <h1>Quản lý Sản phẩm</h1>
-        {/* 🎯 SỬA NÚT THÊM SẢN PHẨM */}
         <Button variant="primary" onClick={handleOpenCreateModal}>
           <Plus size={18} /> Thêm sản phẩm
         </Button>
@@ -591,7 +633,6 @@ const ProductManagement = () => {
         calculateProductFinalPrice={calculateProductFinalPrice}
       />
 
-      {/* 🎯 THÊM PROP loadingProductDetail VÀO ProductForm */}
       <ProductForm
         editingProduct={editingProduct}
         isOpen={isProductModalOpen}
@@ -604,9 +645,10 @@ const ProductManagement = () => {
         tempImageUrls={tempImageUrls}
         onFileChange={handleFileChange}
         onDeleteImage={handleDeleteImage}
+        onDeleteTempImage={handleDeleteTempImage}
         onDeleteAllImages={handleDeleteAllImages}
         resetForm={resetProductForm}
-        loadingProductDetail={loadingProductDetail} // 🎯 THÊM PROP NÀY
+        loadingProductDetail={loadingProductDetail}
       />
 
       {selectedProduct && (

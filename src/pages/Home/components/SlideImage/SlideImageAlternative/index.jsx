@@ -10,7 +10,7 @@ import { useAllComboDetail, useAllCombos } from "@/Hooks/useCombo";
 
 function SlideImageAlternative() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedProductIndex, setSelectedProductIndex] = useState(null);
+  const [selectedComboId, setSelectedComboId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Sử dụng React Query hooks
@@ -43,13 +43,16 @@ function SlideImageAlternative() {
   };
 
   const handleProductClick = (productIndex) => {
-    setSelectedProductIndex(productIndex);
-    setIsModalOpen(true);
+    const clickedProduct = productsSlice[productIndex];
+    if (clickedProduct && clickedProduct.combo_id) {
+      setSelectedComboId(clickedProduct.combo_id);
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedProductIndex(null);
+    setSelectedComboId(null);
   };
 
   // Hàm retry khi có lỗi
@@ -126,10 +129,9 @@ function SlideImageAlternative() {
         />
       </div>
 
-      {isModalOpen && selectedProductIndex !== null && (
+      {isModalOpen && selectedComboId && (
         <ProductModal
-          currentIndex={selectedProductIndex}
-          setCurrentIndex={setSelectedProductIndex}
+          selectedComboId={selectedComboId}
           onClose={handleCloseModal}
           products={productsDetail}
         />

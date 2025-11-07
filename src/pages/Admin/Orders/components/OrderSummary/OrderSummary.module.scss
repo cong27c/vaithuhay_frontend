@@ -1,0 +1,330 @@
+.orderSummary {
+  .header {
+    margin-bottom: 20px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+      }
+
+      svg {
+        color: #6b7280;
+      }
+    }
+  }
+}
+
+.section {
+  padding: 20px 0;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+  }
+}
+
+.editBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #2563eb;
+  }
+
+  &:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.editActions {
+  display: flex;
+  gap: 4px;
+
+  .saveBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    background: #059669;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #047857;
+    }
+  }
+
+  .cancelBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #4b5563;
+    }
+  }
+}
+
+.statusSection {
+  .statusEdit {
+    .statusSelect {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      margin-bottom: 8px;
+
+      &:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+      }
+    }
+  }
+
+  .statusDisplay {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.statusHelp {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+
+  strong {
+    color: #374151;
+  }
+}
+
+.paymentSummary {
+  .summaryRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+
+    .summaryLabel {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #6b7280;
+
+      svg {
+        color: #9ca3af;
+      }
+    }
+
+    .summaryValue {
+      font-size: 14px;
+      color: #e0e0e0;
+      font-weight: 500;
+
+      &.discount {
+        color: #dc2626;
+        font-weight: 600;
+      }
+
+      &.voucher {
+        color: #059669;
+        background: #f0fdf4;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+
+    &.total {
+      .summaryLabel {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1f2937;
+
+        svg {
+          color: #059669;
+        }
+      }
+
+      .summaryValue {
+        font-size: 18px;
+        font-weight: 700;
+        color: #059669;
+      }
+    }
+  }
+
+  .summaryDivider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 8px 0;
+  }
+}
+
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  label {
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  span {
+    font-size: 14px;
+    color: #e0e0e0;
+    font-weight: 500;
+  }
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  span {
+    font-size: 14px;
+    color: #e0e0e0;
+    font-weight: 500;
+  }
+
+  .paymentMethod {
+    text-transform: capitalize;
+    font-weight: 600;
+    color: #3b82f6;
+  }
+}
+
+.timeInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  span {
+    font-size: 14px;
+    color: #e0e0e0;
+    font-weight: 500;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .editBtn {
+    align-self: flex-start;
+  }
+
+  .editActions {
+    align-self: flex-start;
+  }
+
+  .paymentSummary {
+    .summaryRow {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+
+      .summaryValue {
+        align-self: flex-end;
+      }
+    }
+  }
+
+  .infoItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+
+    label {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    span {
+      font-size: 14px;
+      color: #e0e0e0;
+      font-weight: 500;
+    }
+  }
+
+  .timeItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import styles from "./ProductModal.module.scss";
@@ -6,31 +6,84 @@ import { SliderButton } from "@/components/SliderControls";
 import ProductImageGallery from "../ProductImageGallery";
 import ProductDetailsPanel from "../ProductDetailsPanel";
 
-const ProductModal = ({ currentIndex, setCurrentIndex, onClose, products }) => {
+const ProductModal = ({ selectedComboId, onClose, products }) => {
   const [fadeContentClass, setFadeContentClass] = useState("");
-  const [pendingIndex, setPendingIndex] = useState(null);
+  const [pendingComboId, setPendingComboId] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const handleChangeProduct = (newIndex) => {
+  // Tìm index hiện tại dựa trên selectedComboId
+  const findCurrentIndex = () => {
+    return products.findIndex(
+      (product) => product.combo_id === selectedComboId,
+    );
+  };
+
+  const [currentIndex, setCurrentIndex] = useState(findCurrentIndex());
+
+  // Cập nhật currentIndex khi selectedComboId hoặc products thay đổi
+  useEffect(() => {
+    const newIndex = findCurrentIndex();
+    if (newIndex !== -1) {
+      setCurrentIndex(newIndex);
+    }
+  }, [selectedComboId, products]);
+
+  const getAdjacentProductIndex = (direction) => {
+    if (products.length === 0) return -1;
+
+    let newIndex =
+      direction === "next"
+        ? (currentIndex + 1) % products.length
+        : (currentIndex - 1 + products.length) % products.length;
+
+    return newIndex;
+  };
+
+  const handleChangeProduct = (direction) => {
     if (isAnimating) return;
+
+    const newIndex = getAdjacentProductIndex(direction);
+    if (newIndex === -1) return;
+
+    const newProduct = products[newIndex];
+    if (!newProduct || !newProduct.combo_id) return;
+
     setFadeContentClass(styles.fadeOutContent);
-    setPendingIndex(newIndex);
+    setPendingComboId(newProduct.combo_id);
     setIsAnimating(true);
   };
 
   const handleAnimationEnd = () => {
-    if (fadeContentClass === styles.fadeOutContent && pendingIndex !== null) {
-      setCurrentIndex(pendingIndex);
+    if (fadeContentClass === styles.fadeOutContent && pendingComboId !== null) {
+      // Tìm index mới dựa trên pendingComboId
+      const newIndex = products.findIndex(
+        (product) => product.combo_id === pendingComboId,
+      );
+      if (newIndex !== -1) {
+        setCurrentIndex(newIndex);
+      }
       setFadeContentClass(styles.fadeInContent);
-      setPendingIndex(null);
+      setPendingComboId(null);
     } else {
       setFadeContentClass("");
       setIsAnimating(false);
     }
   };
 
-  const currentProduct = products[currentIndex];
-  console.log("currentProduct", currentProduct);
+  const currentProduct = currentIndex !== -1 ? products[currentIndex] : null;
+
+  // Nếu không tìm thấy product với combo_id tương ứng, đóng modal
+  useEffect(() => {
+    if (selectedComboId && currentIndex === -1) {
+      console.warn("Product not found with combo_id:", selectedComboId);
+      onClose();
+    }
+  }, [selectedComboId, currentIndex, onClose]);
+
+  // Nếu không có product nào hoặc không tìm thấy, không hiển thị modal
+  if (!currentProduct || currentIndex === -1) {
+    return null;
+  }
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -48,11 +101,7 @@ const ProductModal = ({ currentIndex, setCurrentIndex, onClose, products }) => {
             top: "50%",
             transform: "translateY(-50%)",
           }}
-          onClick={() =>
-            handleChangeProduct(
-              (currentIndex - 1 + products.length) % products.length,
-            )
-          }
+          onClick={() => handleChangeProduct("prev")}
         />
 
         <div
@@ -63,9 +112,15 @@ const ProductModal = ({ currentIndex, setCurrentIndex, onClose, products }) => {
           <ProductDetailsPanel
             currentProduct={currentProduct}
             products={products}
-            setCurrentIndex={setCurrentIndex}
             onClose={onClose}
-            onSelectProduct={handleChangeProduct}
+            onSelectProduct={(comboId) => {
+              const index = products.findIndex((p) => p.combo_id === comboId);
+              if (index !== -1) {
+                setFadeContentClass(styles.fadeOutContent);
+                setPendingComboId(comboId);
+                setIsAnimating(true);
+              }
+            }}
           />
         </div>
 
@@ -79,9 +134,7 @@ const ProductModal = ({ currentIndex, setCurrentIndex, onClose, products }) => {
             top: "50%",
             transform: "translateY(-50%)",
           }}
-          onClick={() =>
-            handleChangeProduct((currentIndex + 1) % products.length)
-          }
+          onClick={() => handleChangeProduct("next")}
         />
       </div>
     </div>
@@ -89,8 +142,7 @@ const ProductModal = ({ currentIndex, setCurrentIndex, onClose, products }) => {
 };
 
 ProductModal.propTypes = {
-  currentIndex: PropTypes.number.isRequired,
-  setCurrentIndex: PropTypes.func.isRequired,
+  selectedComboId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onClose: PropTypes.func.isRequired,
   products: PropTypes.array.isRequired,
 };

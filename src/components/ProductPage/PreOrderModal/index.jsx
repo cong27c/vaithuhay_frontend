@@ -29,6 +29,7 @@ const PreOrderModal = ({
   // Hàm xử lý cho typePreOrder = "upcoming" (giữ nguyên logic cũ)
   const handleOrderButtonClick = () => {
     const currentTierInfo = getCurrentTier();
+    console.log("currentTierInfo", currentTierInfo);
     const currentTier = currentTierInfo?.tier || null;
     const variantPrice = getCurrentVariantPrice();
     console.log("currentTierInfo", currentTierInfo);
@@ -427,7 +428,13 @@ const PreOrderModal = ({
                     Gói đang áp dụng: {currentTier.name}
                   </h4>
                   <div className={styles.tierDetails}>
-                    <p>Giá: {formatPrice(currentTier.price)}</p>
+                    <p>
+                      Giá:{" "}
+                      {calculatePreorderPrice(
+                        variantPrice,
+                        currentTier?.discountPercent,
+                      )}
+                    </p>
                     <p>Giảm: {currentTier.discountPercent}%</p>
                     <p>
                       Đã bán: {currentTier.soldQuantity || 0}/

@@ -1,0 +1,256 @@
+.shippingInfo {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+      }
+
+      svg {
+        color: #6b7280;
+      }
+    }
+  }
+}
+
+.actions {
+  .editBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #2563eb;
+    }
+  }
+
+  .editActions {
+    display: flex;
+    gap: 8px;
+
+    .saveBtn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #059669;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #047857;
+      }
+    }
+
+    .cancelBtn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #6b7280;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #4b5563;
+      }
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  .sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #d1d5db;
+      margin: 0;
+    }
+
+    svg {
+      color: #6b7280;
+    }
+  }
+}
+
+.addressInfo {
+  .addressDetails {
+    .addressRow {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 8px;
+
+      strong {
+        font-size: 16px;
+        color: #d1d5db;
+      }
+
+      span {
+        font-size: 14px;
+        color: #6b7280;
+      }
+    }
+
+    .addressLine {
+      font-size: 14px;
+      color: #d1d5db;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.shippingDetails {
+  .detailGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  span {
+    font-size: 14px;
+    color: #d1d5db;
+    font-weight: 500;
+  }
+
+  &.fullWidth {
+    grid-column: 1 / -1;
+  }
+}
+
+.trackingCode {
+  font-family: monospace;
+  background: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.shippingFee {
+  font-weight: 600;
+  color: #059669;
+}
+
+.failedReason {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 4px solid #dc2626;
+}
+
+.statusSelect,
+.textInput {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  color: #1f2937;
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+
+  svg {
+    margin-bottom: 12px;
+    color: #d1d5db;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .detailGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .addressRow {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+
+  .editActions {
+    width: 100%;
+
+    button {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+}

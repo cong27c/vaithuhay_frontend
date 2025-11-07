@@ -169,7 +169,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
             <label>Danh mục áp dụng</label>
             <div className={styles.multiSelect}>
               {mockCategories?.map((cat) => {
-                const isSelected = condition_value?.includes(cat.id.toString());
+                const isSelected = condition_value?.includes(cat.id);
                 return (
                   <label key={cat.id} className={styles.checkboxItem}>
                     <input
@@ -177,9 +177,11 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                       checked={isSelected}
                       onChange={() => {
                         const currentValues = condition_value || [];
+                        console.log("currentValues", currentValues);
                         const updatedValues = isSelected
                           ? currentValues.filter((id) => id !== cat.id)
                           : [...currentValues, cat.id];
+
                         updateCondition(
                           index,
                           "condition_value",
@@ -389,7 +391,7 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
       ) : (
         <div className={styles.conditionsList}>
           {localConditions?.map((condition, index) => (
-            <div key={condition.id} className={styles.conditionItem}>
+            <div key={condition.id || index} className={styles.conditionItem}>
               <div className={styles.conditionHeader}>
                 <div className={styles.conditionTitle}>
                   <span className={styles.conditionNumber}>
@@ -424,9 +426,19 @@ const VoucherConditions = ({ conditions = [], onChange }) => {
                         const validOps = getOperatorOptions(newType);
                         // Lấy toán tử đầu tiên làm mặc định
                         const defaultOp = validOps[0]?.value || "=";
-                        // Reset lại cả condition_type + operator
-                        updateCondition(index, "condition_type", newType);
-                        updateCondition(index, "operator", defaultOp);
+                        // Reset lại cả condition_type + operator + condition_value
+                        const updatedCondition = {
+                          ...condition,
+                          condition_type: newType,
+                          operator: defaultOp,
+                          condition_value: "", // Reset giá trị khi đổi loại điều kiện
+                        };
+
+                        const updatedConditions = localConditions.map(
+                          (cond, i) => (i === index ? updatedCondition : cond),
+                        );
+                        setLocalConditions(updatedConditions);
+                        onChange(updatedConditions);
                       }}
                     >
                       {conditionTypes?.map((type) => (

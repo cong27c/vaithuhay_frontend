@@ -5,10 +5,11 @@ const getVouchers = async () => {
   return response.data;
 };
 
-const applyVoucher = async (cartId, voucherCode) => {
+const applyVoucher = async (cartId, voucherCode, cartItems) => {
   const response = await httpRequest.post("/vouchers/apply", {
     cartId,
     voucherCode,
+    cartItems,
   });
   return response.data;
 };

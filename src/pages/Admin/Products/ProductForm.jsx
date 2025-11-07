@@ -23,8 +23,10 @@ const ProductForm = ({
   tempImageUrls,
   onFileChange,
   onDeleteImage,
+  onDeleteTempImage,
   onDeleteAllImages,
   resetForm,
+  loadingProductDetail,
 }) => {
   const {
     register,
@@ -35,7 +37,6 @@ const ProductForm = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      // Product fields
       name: "",
       slug: "",
       price: "",
@@ -47,8 +48,6 @@ const ProductForm = ({
       main_image: "",
       sub_images: [],
       discount_type: "percent",
-
-      // ProductDetail fields
       title: "",
       long_description: "",
       specifications: [],
@@ -70,11 +69,6 @@ const ProductForm = ({
   const [highlightImageFile, setHighlightImageFile] = useState(null);
   const [highlightImagePreview, setHighlightImagePreview] = useState("");
 
-  // 🎯 THÊM: State quản lý hình ảnh
-  const [localProductImages, setLocalProductImages] = useState([]);
-  const [localTempImageUrls, setLocalTempImageUrls] = useState([]);
-  const [localTempImageFiles, setLocalTempImageFiles] = useState([]);
-
   const watchedValues = watch();
 
   // 🎯 CẬP NHẬT: Reset form khi isOpen thay đổi
@@ -84,7 +78,7 @@ const ProductForm = ({
     }
   }, [isOpen, editingProduct]);
 
-  // 🎯 CẬP NHẬT: Hàm reset state của form
+  // 🎯 Hàm reset state của form
   const resetFormState = useCallback(() => {
     setSpecifications([]);
     setHighlights({
@@ -93,9 +87,6 @@ const ProductForm = ({
     });
     setHighlightImageFile(null);
     setHighlightImagePreview("");
-    setLocalProductImages([]);
-    setLocalTempImageUrls([]);
-    setLocalTempImageFiles([]);
 
     // Reset form values
     reset({
@@ -123,12 +114,10 @@ const ProductForm = ({
     });
   }, [reset]);
 
-  // 🎯 CẬP NHẬT: Set giá trị form khi editing - FIX SPECIFICATIONS PARSING
+  // 🎯 Set giá trị form khi editing
   useEffect(() => {
     if (editingProduct && isOpen) {
       const productDetail = editingProduct.detail || {};
-
-      console.log("Original specifications:", productDetail.specifications); // Debug
 
       // Parse specifications từ HTML string
       let parsedSpecifications = [];
@@ -139,39 +128,36 @@ const ProductForm = ({
             productDetail.specifications,
             "text/html",
           );
-          const rows = doc.querySelectorAll("tbody tr");
 
-          parsedSpecifications = Array.from(rows)
-            .map((row) => {
-              const cells = row.querySelectorAll("td");
-              if (cells.length >= 2) {
-                const keyCell = cells[0];
-                const valueCell = cells[1];
+          const body = doc.querySelector("body");
+          const childNodes = Array.from(body?.childNodes || []);
 
-                // Extract và làm sạch nội dung
-                let key = keyCell.innerHTML || keyCell.textContent || "";
-                let value = valueCell.innerHTML || valueCell.textContent || "";
+          for (let i = 0; i < childNodes.length; i++) {
+            const node = childNodes[i];
 
-                // Remove strong tags và &nbsp; từ key
-                key = key
-                  .replace(/<strong>/gi, "")
-                  .replace(/<\/strong>/gi, "")
-                  .replace(/&nbsp;/g, " ")
-                  .trim();
-                value = value.replace(/<br>/gi, "\n").trim();
+            if (
+              node.nodeType === Node.ELEMENT_NODE &&
+              node.tagName === "STRONG"
+            ) {
+              let key = node.textContent?.replace(/&nbsp;/g, " ").trim() || "";
 
-                // Chỉ trả về nếu cả key và value đều có giá trị
-                if (key && value && key !== "&nbsp;" && value !== "&nbsp;") {
-                  return { key, value };
+              if (i + 1 < childNodes.length) {
+                const nextNode = childNodes[i + 1];
+                if (nextNode.nodeType === Node.TEXT_NODE) {
+                  let value =
+                    nextNode.textContent?.trim().replace(/^"|"$/g, "") || "";
+
+                  if (key && value) {
+                    parsedSpecifications.push({ key, value });
+                  }
                 }
               }
-              return null;
-            })
-            .filter((spec) => spec !== null);
+            }
+          }
 
-          console.log("Parsed specifications:", parsedSpecifications); // Debug
+          console.log("Parsed specifications:", parsedSpecifications);
         } catch (e) {
-          console.error("Error parsing specifications:", e);
+          console.log("Error parsing specifications:", e);
           parsedSpecifications = [];
         }
       }
@@ -200,13 +186,6 @@ const ProductForm = ({
           parsedHighlights = productDetail.highlights;
         }
       }
-
-      // 🎯 CẬP NHẬT: Set state cho hình ảnh
-      setLocalProductImages(
-        [editingProduct.main_image, ...editingProduct.sub_images].filter(
-          Boolean,
-        ),
-      );
 
       setSpecifications(parsedSpecifications);
       setHighlights(parsedHighlights);
@@ -243,76 +222,6 @@ const ProductForm = ({
     { value: "pre_order", label: "pre_order" },
     { value: "available", label: "available" },
   ];
-
-  // 🎯 THÊM: Handlers cho hình ảnh local
-  const handleLocalFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 0) {
-      const newTempFiles = [...localTempImageFiles];
-      const newTempUrls = [...localTempImageUrls];
-
-      files.forEach((file) => {
-        if (file.type.startsWith("image/")) {
-          const previewUrl = URL.createObjectURL(file);
-          newTempFiles.push(file);
-          newTempUrls.push(previewUrl);
-        }
-      });
-
-      setLocalTempImageFiles(newTempFiles);
-      setLocalTempImageUrls(newTempUrls);
-      onFileChange(e); // Gọi callback từ parent nếu cần
-    }
-  };
-
-  const handleLocalDeleteImage = (index, isTemp = false) => {
-    if (isTemp) {
-      // Xóa ảnh tạm
-      const newTempUrls = localTempImageUrls.filter((_, i) => i !== index);
-      const newTempFiles = localTempImageFiles.filter((_, i) => i !== index);
-
-      // Clean up object URL
-      if (localTempImageUrls[index].startsWith("blob:")) {
-        URL.revokeObjectURL(localTempImageUrls[index]);
-      }
-
-      setLocalTempImageUrls(newTempUrls);
-      setLocalTempImageFiles(newTempFiles);
-    } else {
-      // Xóa ảnh từ server
-      const newProductImages = localProductImages.filter((_, i) => i !== index);
-      setLocalProductImages(newProductImages);
-
-      // Cập nhật main_image và sub_images trong form
-      if (index === 0) {
-        // Nếu xóa main image
-        setValue("main_image", newProductImages[0] || "");
-        setValue("sub_images", newProductImages.slice(1));
-      } else {
-        setValue("sub_images", newProductImages.slice(1));
-      }
-    }
-    onDeleteImage(index, isTemp); // Gọi callback từ parent
-  };
-
-  const handleLocalDeleteAllImages = () => {
-    // Clean up all temp URLs
-    localTempImageUrls.forEach((url) => {
-      if (url.startsWith("blob:")) {
-        URL.revokeObjectURL(url);
-      }
-    });
-
-    setLocalProductImages([]);
-    setLocalTempImageUrls([]);
-    setLocalTempImageFiles([]);
-
-    // Reset form values
-    setValue("main_image", "");
-    setValue("sub_images", []);
-
-    onDeleteAllImages(); // Gọi callback từ parent
-  };
 
   // Specifications handlers
   const addSpecification = () => {
@@ -452,8 +361,6 @@ const ProductForm = ({
 
       // File uploads
       highlight_image_file: highlightImageFile,
-      temp_image_files: localTempImageFiles,
-      existing_images: localProductImages,
     };
 
     console.log("Submitting form data:", formData);
@@ -466,18 +373,9 @@ const ProductForm = ({
       URL.revokeObjectURL(highlightImagePreview);
     }
 
-    localTempImageUrls.forEach((url) => {
-      if (url.startsWith("blob:")) {
-        URL.revokeObjectURL(url);
-      }
-    });
-
     resetFormState();
     onClose();
   };
-
-  // Kết hợp tất cả hình ảnh để hiển thị
-  const allDisplayImages = [...localProductImages, ...localTempImageUrls];
 
   return (
     <Modal
@@ -528,7 +426,7 @@ const ProductForm = ({
           />
         </div>
 
-        {/* Images Section */}
+        {/* Images Section - SỬ DỤNG HOÀN TOÀN PROPS TỪ PARENT */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Hình ảnh sản phẩm</h3>
           <ImageUploadSection
@@ -540,6 +438,7 @@ const ProductForm = ({
             tempImageUrls={tempImageUrls}
             onFileChange={onFileChange}
             onDeleteImage={onDeleteImage}
+            onDeleteTempImage={onDeleteTempImage}
             onDeleteAllImages={onDeleteAllImages}
             setValue={setValue}
           />

@@ -3,6 +3,7 @@ import { getProvinces, getDistricts, getWards } from "vietnam-provinces";
 // Hàm quy đổi mã số thành tên địa chỉ
 export const convertAddressCodesToNames = (address) => {
   try {
+    console.log("convertAddressCodesToNames", address);
     // Lấy danh sách tỉnh/thành phố
     const provinces = getProvinces();
     const districts = getDistricts(address.province);

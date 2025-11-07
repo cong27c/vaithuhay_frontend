@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Slider from "@/components/Slider";
 
 function SlideHalfImageAlternative({ title, backGroundImage, products }) {
+  console.log("SlideHalfImageAlternative", products);
   return (
     <div className={styles.wrapper}>
       <div className={styles.Slider4}>

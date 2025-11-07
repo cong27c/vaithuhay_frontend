@@ -1,0 +1,220 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  line-height: 1;
+
+  // Order Status
+  &.order {
+    &.pending {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fed7aa;
+    }
+
+    &.confirmed {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    &.processing {
+      background: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    &.shipped {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    &.delivered {
+      background: #dcfce7;
+      color: #16a34a;
+      border: 1px solid #86efac;
+    }
+
+    &.cancelled {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+  }
+
+  // Payment Status
+  &.payment {
+    &.pending {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fed7aa;
+    }
+
+    &.paid {
+      background: #dcfce7;
+      color: #16a34a;
+      border: 1px solid #86efac;
+    }
+
+    &.failed {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    &.refunded {
+      background: #faf5ff;
+      color: #9333ea;
+      border: 1px solid #d8b4fe;
+    }
+  }
+
+  // Shipment Status
+  &.shipment {
+    &.waiting {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fed7aa;
+    }
+
+    &.shipping {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    &.delivered {
+      background: #dcfce7;
+      color: #16a34a;
+      border: 1px solid #86efac;
+    }
+
+    &.failed {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+  }
+}
+
+// With dot indicator
+.badgeWithDot {
+  position: relative;
+  padding-left: 24px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  // Order status dots
+  &.order {
+    &.pending::before {
+      background: #d97706;
+    }
+
+    &.confirmed::before {
+      background: #1d4ed8;
+    }
+
+    &.processing::before {
+      background: #0369a1;
+    }
+
+    &.shipped::before {
+      background: #15803d;
+    }
+
+    &.delivered::before {
+      background: #16a34a;
+    }
+
+    &.cancelled::before {
+      background: #dc2626;
+    }
+  }
+
+  // Payment status dots
+  &.payment {
+    &.pending::before {
+      background: #d97706;
+    }
+
+    &.paid::before {
+      background: #16a34a;
+    }
+
+    &.failed::before {
+      background: #dc2626;
+    }
+
+    &.refunded::before {
+      background: #9333ea;
+    }
+  }
+
+  // Shipment status dots
+  &.shipment {
+    &.waiting::before {
+      background: #d97706;
+    }
+
+    &.shipping::before {
+      background: #1d4ed8;
+    }
+
+    &.delivered::before {
+      background: #16a34a;
+    }
+
+    &.failed::before {
+      background: #dc2626;
+    }
+  }
+}
+
+// Small variant
+.badgeSmall {
+  padding: 4px 8px;
+  font-size: 10px;
+
+  &.badgeWithDot {
+    padding-left: 18px;
+
+    &::before {
+      left: 6px;
+      width: 4px;
+      height: 4px;
+    }
+  }
+}
+
+// Large variant
+.badgeLarge {
+  padding: 8px 16px;
+  font-size: 14px;
+
+  &.badgeWithDot {
+    padding-left: 28px;
+
+    &::before {
+      left: 12px;
+      width: 8px;
+      height: 8px;
+    }
+  }
+}

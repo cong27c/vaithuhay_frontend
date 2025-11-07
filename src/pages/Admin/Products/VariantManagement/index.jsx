@@ -1,8 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Edit2, Trash2, Image as ImageIcon, Loader2 } from "lucide-react";
+import { useForm, useFieldArray } from "react-hook-form";
+import {
+  Edit2,
+  Trash2,
+  Image as ImageIcon,
+  Loader2,
+  Plus,
+  X,
+} from "lucide-react";
 import Modal from "@/components/Admin/ui/Modal";
 import Button from "@/components/Admin/ui/Button";
 import Input from "@/components/Admin/ui/Input";
@@ -10,6 +17,8 @@ import {
   createProductVariant,
   updateProductVariant,
   deleteProductVariant,
+  getProductVariant,
+  getProductVariantsByProduct,
 } from "@/Services/productAdminService";
 import styles from "../Products.module.scss";
 
@@ -17,12 +26,21 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
   const [editingVariant, setEditingVariant] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [variants, setVariants] = useState([]);
+
+  // Mock data attributes từ database
+  const availableAttributes = [
+    { id: 1, name: "Màu sắc", display_order: 4 },
+    { id: 8, name: "Kích thước", display_order: 3 },
+    { id: 9, name: "Kiểu dáng", display_order: 0 },
+  ].sort((a, b) => a.display_order - b.display_order); // Sắp xếp theo display_order
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    control,
     watch,
     formState: { errors },
   } = useForm({
@@ -32,19 +50,23 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
       price: "",
       stock: "",
       image_url: "",
-      variant_type_color: "",
-      variant_type_size: "",
-      variant_type_material: "",
-      variant_value_color: "",
-      variant_value_size: "",
-      variant_value_material: "",
+      variant_attributes: [{ attribute_type: "", attribute_value: "" }],
     },
   });
 
-  // Theo dõi giá trị form để cập nhật real-time
-  const watchedValues = watch();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "variant_attributes",
+  });
 
-  // Reset form khi modal mở/đóng hoặc khi chỉnh sửa thay đổi
+  // Load variants khi modal mở hoặc product thay đổi
+  useEffect(() => {
+    if (isOpen && product?.id) {
+      loadProductVariants();
+    }
+  }, [isOpen, product?.id]);
+
+  // Reset form khi modal mở/đóng
   useEffect(() => {
     if (!isOpen) {
       resetForm();
@@ -53,25 +75,36 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
 
   useEffect(() => {
     if (editingVariant) {
-      // Điền dữ liệu biến thể vào form khi chỉnh sửa
       populateFormWithVariantData(editingVariant);
     } else {
-      // Reset về giá trị mặc định khi tạo mới
       reset({
         name: "",
         sku: "",
         price: product?.price?.toString() || "",
         stock: "",
         image_url: "",
-        variant_type_color: "",
-        variant_type_size: "",
-        variant_type_material: "",
-        variant_value_color: "",
-        variant_value_size: "",
-        variant_value_material: "",
+        variant_attributes: [{ attribute_type: "", attribute_value: "" }],
       });
     }
   }, [editingVariant, product, reset]);
+
+  // Hàm load variants từ API
+  const loadProductVariants = async () => {
+    try {
+      setLoading(true);
+      const response = await getProductVariantsByProduct(product.id, {
+        includeAttributes: true,
+        includeStock: true,
+      });
+      console.log("getProductVariantsByProduct", response);
+      setVariants(response.data || []);
+    } catch (error) {
+      console.error("Lỗi khi tải biến thể:", error);
+      setVariants([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const populateFormWithVariantData = (variant) => {
     setValue("name", variant.name || "");
@@ -80,49 +113,44 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
     setValue("stock", variant.stock?.toString() || "");
     setValue("image_url", variant.image_url || "");
 
-    // Reset tất cả các trường variant
-    setValue("variant_type_color", "");
-    setValue("variant_type_size", "");
-    setValue("variant_type_material", "");
-    setValue("variant_value_color", "");
-    setValue("variant_value_size", "");
-    setValue("variant_value_material", "");
+    // Xử lý dữ liệu variant attributes từ API
+    let variantAttributes = [{ attribute_type: "", attribute_value: "" }];
 
-    // Ưu tiên variant_attributes nếu có (component structure)
-    if (
-      variant.variant_attributes &&
-      Array.isArray(variant.variant_attributes)
+    console.log("Variant data:", variant);
+
+    if (variant.attribute_values && Array.isArray(variant.attribute_values)) {
+      variantAttributes = variant.attribute_values.map((attr) => ({
+        attribute_type: attr.attribute_id?.toString() || "", // Sử dụng attribute_id thay vì attribute_type
+        attribute_value: attr.value || "", // Sử dụng value thay vì attribute_value
+      }));
+    }
+
+    // Fallback: sử dụng variant_type và variant_value nếu attribute_values không có
+    else if (
+      variant.variant_type &&
+      variant.variant_value &&
+      Array.isArray(variant.variant_type) &&
+      Array.isArray(variant.variant_value)
     ) {
-      variant.variant_attributes.forEach((attr) => {
-        const type = attr.attribute_type?.toLowerCase();
-        if (type.includes("color") || type.includes("màu")) {
-          setValue("variant_type_color", attr.attribute_type || "");
-          setValue("variant_value_color", attr.attribute_value || "");
-        } else if (type.includes("size") || type.includes("kích thước")) {
-          setValue("variant_type_size", attr.attribute_type || "");
-          setValue("variant_value_size", attr.attribute_value || "");
-        } else if (type.includes("material") || type.includes("chất liệu")) {
-          setValue("variant_type_material", attr.attribute_type || "");
-          setValue("variant_value_material", attr.attribute_value || "");
-        }
+      variantAttributes = variant.variant_type.map((type, index) => {
+        // Tìm attribute_id từ tên attribute trong availableAttributes
+        const attribute = availableAttributes.find(
+          (attr) => attr.name === type,
+        );
+        return {
+          attribute_type: attribute?.id?.toString() || "",
+          attribute_value: variant.variant_value[index] || "",
+        };
       });
     }
-    // Fallback: sử dụng variant_type và variant_value (model structure)
-    else if (variant.variant_type && variant.variant_value) {
-      Object.entries(variant.variant_type).forEach(([key, typeValue]) => {
-        const value = variant.variant_value[key];
-        if (key.includes("color") || key.includes("màu")) {
-          setValue("variant_type_color", typeValue || "");
-          setValue("variant_value_color", value || "");
-        } else if (key.includes("size") || key.includes("kích thước")) {
-          setValue("variant_type_size", typeValue || "");
-          setValue("variant_value_size", value || "");
-        } else if (key.includes("material") || key.includes("chất liệu")) {
-          setValue("variant_type_material", typeValue || "");
-          setValue("variant_value_material", value || "");
-        }
-      });
+
+    // Đảm bảo luôn có ít nhất 1 bản ghi
+    if (variantAttributes.length === 0) {
+      variantAttributes = [{ attribute_type: "", attribute_value: "" }];
     }
+
+    console.log("Processed variantAttributes:", variantAttributes);
+    setValue("variant_attributes", variantAttributes);
   };
 
   const resetForm = () => {
@@ -132,12 +160,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
       price: product?.price?.toString() || "",
       stock: "",
       image_url: "",
-      variant_type_color: "",
-      variant_type_size: "",
-      variant_type_material: "",
-      variant_value_color: "",
-      variant_value_size: "",
-      variant_value_material: "",
+      variant_attributes: [{ attribute_type: "", attribute_value: "" }],
     });
     setEditingVariant(null);
     setSubmitting(false);
@@ -156,51 +179,28 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
       }
     } catch (error) {
       console.error("Lỗi khi gửi biến thể:", error);
-      alert("Có lỗi xảy ra khi lưu biến thể. Vui lòng thử lại.");
+      alert(
+        error.message || "Có lỗi xảy ra khi lưu biến thể. Vui lòng thử lại.",
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Chuyển đổi dữ liệu biến thể để gửi API - ĐÃ ĐỒNG BỘ
+  // Chuyển đổi dữ liệu biến thể để gửi API
   const transformVariantForAPI = (formData) => {
-    // Tạo variant_attributes theo cấu trúc component
-    const variant_attributes = [
-      ...(formData.variant_type_color && formData.variant_value_color
-        ? [
-            {
-              attribute_type: formData.variant_type_color,
-              attribute_value: formData.variant_value_color,
-            },
-          ]
-        : []),
-      ...(formData.variant_type_size && formData.variant_value_size
-        ? [
-            {
-              attribute_type: formData.variant_type_size,
-              attribute_value: formData.variant_value_size,
-            },
-          ]
-        : []),
-      ...(formData.variant_type_material && formData.variant_value_material
-        ? [
-            {
-              attribute_type: formData.variant_type_material,
-              attribute_value: formData.variant_value_material,
-            },
-          ]
-        : []),
-    ];
+    console.log("transformVariantForAPI - formData:", formData);
 
-    // Tạo variant_type và variant_value theo cấu trúc model
-    const variant_type = {};
-    const variant_value = {};
+    // Lọc các cặp attribute có giá trị
+    const validAttributes = formData.variant_attributes.filter(
+      (attr) => attr.attribute_type && attr.attribute_value,
+    );
 
-    variant_attributes.forEach((attr) => {
-      const key = attr.attribute_type.toLowerCase().replace(/\s+/g, "_");
-      variant_type[key] = attr.attribute_type;
-      variant_value[key] = attr.attribute_value;
-    });
+    // Tạo variant_attributes với ID số
+    const variant_attributes = validAttributes.map((attr) => ({
+      attribute_type: parseInt(attr.attribute_type), // Chuyển sang number
+      attribute_value: attr.attribute_value,
+    }));
 
     return {
       name: formData.name,
@@ -208,44 +208,37 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
       price: parseFloat(formData.price) || product.price,
       stock: parseInt(formData.stock) || 0,
       image_url: formData.image_url,
-      product_id: product.id,
-      // Cả hai định dạng để đảm bảo đồng bộ
-      variant_attributes,
-      variant_type,
-      variant_value,
+      variant_attributes, // Chỉ gửi variant_attributes
     };
   };
 
   const handleCreateVariant = async (variantData) => {
-    const newVariant = await createProductVariant(product.id, variantData);
+    console.log("handleCreateVariant", variantData);
+    const response = await createProductVariant(product.id, variantData);
 
-    // Cập nhật sản phẩm với biến thể mới
-    const updatedProduct = {
-      ...product,
-      variants: [...(product.variants || []), newVariant],
-    };
+    // Load lại danh sách variants
+    await loadProductVariants();
 
-    onUpdate(updatedProduct);
+    // Cập nhật parent component
+    if (onUpdate) {
+      onUpdate();
+    }
+
     resetForm();
     alert("Thêm biến thể thành công!");
   };
 
   const handleUpdateVariant = async (variantData) => {
-    const updatedVariant = await updateProductVariant(
-      editingVariant.id,
-      variantData,
-    );
+    const response = await updateProductVariant(editingVariant.id, variantData);
 
-    const updatedProduct = {
-      ...product,
-      variants: product.variants?.map((variant) =>
-        variant.id === editingVariant.id
-          ? { ...variant, ...updatedVariant }
-          : variant,
-      ),
-    };
+    // Load lại danh sách variants
+    await loadProductVariants();
 
-    onUpdate(updatedProduct);
+    // Cập nhật parent component
+    if (onUpdate) {
+      onUpdate();
+    }
+
     resetForm();
     alert("Cập nhật biến thể thành công!");
   };
@@ -258,106 +251,116 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
     try {
       await deleteProductVariant(variantId);
 
-      const updatedProduct = {
-        ...product,
-        variants: product.variants.filter(
-          (variant) => variant.id !== variantId,
-        ),
-      };
+      // Load lại danh sách variants
+      await loadProductVariants();
 
-      onUpdate(updatedProduct);
+      // Cập nhật parent component
+      if (onUpdate) {
+        onUpdate();
+      }
+
       alert("Xóa biến thể thành công!");
     } catch (error) {
       console.error("Lỗi khi xóa biến thể:", error);
-      alert("Có lỗi xảy ra khi xóa biến thể. Vui lòng thử lại.");
+      alert(
+        error.message || "Có lỗi xảy ra khi xóa biến thể. Vui lòng thử lại.",
+      );
     }
   };
 
-  const handleEditVariant = (variant) => {
-    setEditingVariant(variant);
+  const handleEditVariant = async (variant) => {
+    try {
+      // Load chi tiết variant để lấy đầy đủ thông tin attributes
+      const response = await getProductVariant(variant.id, {
+        includeAttributes: true,
+      });
+      setEditingVariant(response.data);
+    } catch (error) {
+      console.error("Lỗi khi tải chi tiết biến thể:", error);
+      // Fallback: sử dụng variant cơ bản nếu không load được chi tiết
+      setEditingVariant(variant);
+    }
   };
 
   const handleCancelEdit = () => {
     resetForm();
   };
 
-  // Lấy loại và giá trị biến thể hiện tại để hiển thị
-  const getCurrentVariantAttributes = () => {
-    const attributes = [];
-
-    if (watchedValues.variant_type_color && watchedValues.variant_value_color) {
-      attributes.push({
-        type: watchedValues.variant_type_color,
-        value: watchedValues.variant_value_color,
-      });
-    }
-
-    if (watchedValues.variant_type_size && watchedValues.variant_value_size) {
-      attributes.push({
-        type: watchedValues.variant_type_size,
-        value: watchedValues.variant_value_size,
-      });
-    }
-
-    if (
-      watchedValues.variant_type_material &&
-      watchedValues.variant_value_material
-    ) {
-      attributes.push({
-        type: watchedValues.variant_type_material,
-        value: watchedValues.variant_value_material,
-      });
-    }
-
-    return attributes;
+  // Thêm bản ghi mới
+  const handleAddAttribute = () => {
+    append({ attribute_type: "", attribute_value: "" });
   };
 
-  // Hàm hiển thị thuộc tính biến thể - ĐÃ ĐỒNG BỘ
+  // Xóa bản ghi
+  const handleRemoveAttribute = (index) => {
+    if (fields.length > 1) {
+      remove(index);
+    }
+  };
+
+  // Lấy attributes hiện tại để hiển thị preview
+  const getCurrentVariantAttributes = () => {
+    const watchedAttributes = watch("variant_attributes") || [];
+    return watchedAttributes.filter(
+      (attr) => attr.attribute_type && attr.attribute_value,
+    );
+  };
+
+  // Hàm lấy tên attribute từ ID
+  // Hàm lấy tên attribute từ ID
+  const getAttributeName = (attributeId) => {
+    if (!attributeId) return "Chọn thuộc tính";
+
+    const attribute = availableAttributes.find(
+      (attr) => attr.id === parseInt(attributeId),
+    );
+    return attribute ? attribute.name : `Unknown (${attributeId})`;
+  };
+  // Hàm hiển thị thuộc tính biến thể
   const renderVariantAttributes = (variant) => {
-    // Ưu tiên hiển thị từ variant_attributes
-    if (
-      variant.variant_attributes &&
-      Array.isArray(variant.variant_attributes) &&
-      variant.variant_attributes.length > 0
-    ) {
+    console.log("Rendering variant attributes:", variant);
+
+    // Hiển thị từ attribute_values (cấu trúc mới)
+    if (variant.attribute_values && Array.isArray(variant.attribute_values)) {
       return (
         <div className={styles.variantAttributes}>
-          {variant.variant_attributes.map((attr, index) => (
+          {variant.attribute_values.map((attr, index) => (
             <div key={index} className={styles.attribute}>
               <span className={styles.attributeKey}>
-                {attr.attribute_type}:
+                {attr.attribute?.name || `Attribute ${attr.attribute_id}`}:
               </span>
-              <span className={styles.attributeValue}>
-                {attr.attribute_value}
-              </span>
+              <span className={styles.attributeValue}>{attr.value}</span>
             </div>
           ))}
         </div>
       );
     }
-    // Fallback: hiển thị từ variant_type và variant_value
+
+    // Hiển thị từ variant_type và variant_value
     else if (
       variant.variant_type &&
-      Object.keys(variant.variant_type).length > 0
+      variant.variant_value &&
+      Array.isArray(variant.variant_type) &&
+      Array.isArray(variant.variant_value)
     ) {
       return (
         <div className={styles.variantAttributes}>
-          {Object.entries(variant.variant_type).map(([key, typeValue]) =>
-            typeValue && variant.variant_value?.[key] ? (
-              <div key={key} className={styles.attribute}>
-                <span className={styles.attributeKey}>{typeValue}:</span>
-                <span className={styles.attributeValue}>
-                  {variant.variant_value[key]}
-                </span>
-              </div>
-            ) : null,
-          )}
+          {variant.variant_type.map((type, index) => (
+            <div key={index} className={styles.attribute}>
+              <span className={styles.attributeKey}>{type}:</span>
+              <span className={styles.attributeValue}>
+                {variant.variant_value[index]}
+              </span>
+            </div>
+          ))}
         </div>
       );
     } else {
       return <div className={styles.noAttributes}>Không có thuộc tính</div>;
     }
   };
+
+  const watchedValues = watch();
 
   return (
     <Modal
@@ -454,56 +457,70 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
               </div>
             </div>
 
-            {/* Thuộc tính Biến thể */}
+            {/* Thuộc tính Biến thể - Dạng động */}
             <div className={styles.formSection}>
-              <h5>Thuộc tính Biến thể</h5>
-
-              <div className={styles.attributeGroup}>
-                <label className={styles.attributeLabel}>
-                  Biến thể Màu sắc
-                </label>
-                <div className={styles.formRow}>
-                  <Input
-                    placeholder="Loại (VD: Màu sắc)"
-                    register={register("variant_type_color")}
-                  />
-                  <Input
-                    placeholder="Giá trị (VD: Đen)"
-                    register={register("variant_value_color")}
-                  />
-                </div>
+              <div className={styles.sectionHeader}>
+                <h5>Thuộc tính Biến thể</h5>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAddAttribute}
+                  className={styles.addButton}
+                >
+                  <Plus size={16} />
+                  Thêm thuộc tính
+                </Button>
               </div>
 
-              <div className={styles.attributeGroup}>
-                <label className={styles.attributeLabel}>
-                  Biến thể Kích thước
-                </label>
-                <div className={styles.formRow}>
-                  <Input
-                    placeholder="Loại (VD: Kích thước)"
-                    register={register("variant_type_size")}
-                  />
-                  <Input
-                    placeholder="Giá trị (VD: Lớn)"
-                    register={register("variant_value_size")}
-                  />
-                </div>
-              </div>
+              <div className={styles.attributesList}>
+                {fields.map((field, index) => (
+                  <div key={field.id} className={styles.attributeRow}>
+                    <div className={styles.attributeInputs}>
+                      <select
+                        {...register(
+                          `variant_attributes.${index}.attribute_type`,
+                          {
+                            required: "Loại thuộc tính là bắt buộc",
+                          },
+                        )}
+                        className={`${styles.attributeSelect} ${errors.variant_attributes?.[index]?.attribute_type ? styles.error : ""}`}
+                      >
+                        <option value="">Chọn thuộc tính</option>
+                        {availableAttributes.map((attr) => (
+                          <option key={attr.id} value={attr.id}>
+                            {attr.name}
+                          </option>
+                        ))}
+                      </select>
 
-              <div className={styles.attributeGroup}>
-                <label className={styles.attributeLabel}>
-                  Biến thể Chất liệu
-                </label>
-                <div className={styles.formRow}>
-                  <Input
-                    placeholder="Loại (VD: Chất liệu)"
-                    register={register("variant_type_material")}
-                  />
-                  <Input
-                    placeholder="Giá trị (VD: Cotton)"
-                    register={register("variant_value_material")}
-                  />
-                </div>
+                      <Input
+                        placeholder="Giá trị (VD: Đỏ, L)"
+                        register={register(
+                          `variant_attributes.${index}.attribute_value`,
+                          {
+                            required: "Giá trị thuộc tính là bắt buộc",
+                          },
+                        )}
+                        className={styles.attributeInput}
+                        error={
+                          errors.variant_attributes?.[index]?.attribute_value
+                            ?.message
+                        }
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleRemoveAttribute(index)}
+                      disabled={fields.length <= 1}
+                      className={styles.removeButton}
+                    >
+                      <X size={16} />
+                    </Button>
+                  </div>
+                ))}
               </div>
 
               {/* Xem trước thuộc tính hiện tại */}
@@ -515,12 +532,10 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
                   <div className={styles.previewTags}>
                     {getCurrentVariantAttributes().map((attr, index) => (
                       <span key={index} className={styles.previewTag}>
-                        {attr.type}: {attr.value}
+                        {getAttributeName(attr.attribute_type)}:{" "}
+                        {attr.attribute_value}
                       </span>
                     ))}
-                  </div>
-                  <div className={styles.previewNote}>
-                    * Thuộc tính sẽ được lưu theo cả hai định dạng: mảng và JSON
                   </div>
                 </div>
               )}
@@ -593,10 +608,15 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
 
         {/* Danh sách Biến thể */}
         <div className={styles.variantList}>
-          <h4>Biến thể Hiện có ({product?.variants?.length || 0})</h4>
-          {product?.variants?.length > 0 ? (
+          <h4>Biến thể Hiện có ({variants.length})</h4>
+          {loading ? (
+            <div className={styles.loading}>
+              <Loader2 size={24} className={styles.spinner} />
+              <p>Đang tải biến thể...</p>
+            </div>
+          ) : variants.length > 0 ? (
             <div className={styles.variantsGrid}>
-              {product.variants.map((variant) => (
+              {variants.map((variant) => (
                 <div
                   key={variant.id}
                   className={`${styles.variantCard} ${editingVariant?.id === variant.id ? styles.editing : ""}`}
@@ -635,7 +655,7 @@ const VariantManagement = ({ isOpen, onClose, product, onUpdate }) => {
                     </div>
                   </div>
 
-                  {/* Thuộc tính Biến thể - ĐÃ ĐỒNG BỘ */}
+                  {/* Thuộc tính Biến thể */}
                   {renderVariantAttributes(variant)}
 
                   <div className={styles.variantActions}>

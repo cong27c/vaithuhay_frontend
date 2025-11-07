@@ -17,7 +17,7 @@ const ProductList = ({
   formatVND,
   calculateProductFinalPrice,
 }) => {
-  const filteredProducts = products.filter(
+  const filteredProducts = products?.filter(
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.slug.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -72,7 +72,7 @@ const ProductList = ({
         </table>
       )}
 
-      {!loading && filteredProducts.length === 0 && (
+      {!loading && filteredProducts?.length === 0 && (
         <div className={styles.emptyState}>
           <p>Không tìm thấy sản phẩm nào</p>
         </div>

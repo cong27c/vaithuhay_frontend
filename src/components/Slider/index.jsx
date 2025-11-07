@@ -15,6 +15,7 @@ function Slider({
   externalIndex,
   onIndexChange,
   onProductClick,
+  showButtons = true,
 }) {
   const isControlled = externalIndex !== undefined;
   const [internalIndex, setInternalIndex] = useState(0);
@@ -101,17 +102,19 @@ function Slider({
 
   return (
     <div className={styles.sliderContainer}>
-      <SliderButton
-        fontSize="36px"
-        direction="left"
-        width="100px"
-        height="100px"
-        position={{ left: "-9%", top: "50%", transform: "translateY(-50%)" }}
-        onClick={(e) => {
-          e.stopPropagation();
-          handlePrev();
-        }}
-      />
+      {showButtons && (
+        <SliderButton
+          fontSize="36px"
+          direction="left"
+          width="100px"
+          height="100px"
+          position={{ left: "-9%", top: "50%", transform: "translateY(-50%)" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrev();
+          }}
+        />
+      )}
       <div className={styles.sliderWrapper}>
         <div
           className={clsx(styles.slidesContainer, {
@@ -155,17 +158,19 @@ function Slider({
               })}
         </div>
       </div>
-      <SliderButton
-        fontSize="36px"
-        direction="right"
-        width="100px"
-        height="100px"
-        position={{ right: "-8%", top: "52%", transform: "translateY(-50%)" }}
-        onClick={(e) => {
-          e.stopPropagation();
-          handleNext();
-        }}
-      />
+      {showButtons && (
+        <SliderButton
+          fontSize="36px"
+          direction="right"
+          width="100px"
+          height="100px"
+          position={{ right: "-8%", top: "52%", transform: "translateY(-50%)" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNext();
+          }}
+        />
+      )}
     </div>
   );
 }

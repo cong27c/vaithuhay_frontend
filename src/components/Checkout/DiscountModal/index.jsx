@@ -6,7 +6,7 @@ import { getVouchers } from "@/Services/voucherService";
 import { applyVoucher } from "@/Services/voucherService"; // Import hàm applyVoucher
 import { toast } from "react-toastify";
 
-export default function DiscountModal({ onClose, onApply, cartId }) {
+export default function DiscountModal({ onClose, onApply, cartId, cartItems }) {
   // Thêm cartId prop
   const [vouchers, setVouchers] = useState([]);
   const [showAll, setShowAll] = useState(false);
@@ -34,7 +34,7 @@ export default function DiscountModal({ onClose, onApply, cartId }) {
 
     try {
       // Gọi API apply voucher
-      const result = await applyVoucher(cartId, voucherCode);
+      const result = await applyVoucher(cartId, voucherCode, cartItems);
       console.log(result);
 
       if (result.success) {

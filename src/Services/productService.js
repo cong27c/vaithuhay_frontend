@@ -25,6 +25,16 @@ const getProductBySlug = async (slug) => {
   return response.data;
 };
 
+const getRelatedProducts = async (productId) => {
+  try {
+    const response = await httpRequest.get(`/products/related/${productId}`);
+    console.log("response", response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getHighlightsProduct = async (productId) => {
   const response = await httpRequest.get(`/products/${productId}/highlights`);
   return response.data;
@@ -48,4 +58,5 @@ export {
   getProductBySlug,
   getHighlightsProduct,
   getBlogsProduct,
+  getRelatedProducts,
 };

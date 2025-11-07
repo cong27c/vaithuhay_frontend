@@ -669,3 +669,34 @@
   border-top: 1px solid #e2e8f0;
   margin-top: 2rem;
 }
+
+.attributeInputs {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  color: black;
+}
+
+.attributeSelect,
+.attributeInput {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    outline: none;
+  }
+}
+
+.attributeSelect {
+  max-width: 180px;
+}

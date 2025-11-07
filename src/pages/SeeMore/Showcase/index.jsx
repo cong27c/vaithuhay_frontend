@@ -203,7 +203,7 @@ function Collections() {
         <nav className={styles.breadcrumb}>
           <a href="/">Trang chủ</a>
           <span>/</span>
-          <a href="/danh-muc">Danh mục</a>
+          <a href="/collections">Danh mục</a>
           <span>/</span>
           <span className={styles.current}>HÀNG CLEARANCE | NO RESTOCK</span>
         </nav>
@@ -284,13 +284,23 @@ function Collections() {
         <div className={styles.container}>
           {box1Products.length > 0 && (
             <div className={styles.box1}>
-              <Slider slides={box1Products} type="half-image" wrap={true} />
+              <Slider
+                slides={box1Products}
+                showButtons={false}
+                type="half-image"
+                wrap={true}
+              />
               <div className={styles.background}></div>
             </div>
           )}
           {box2Products.length > 0 && (
             <div className={styles.box2}>
-              <Slider slides={box2Products} type="half-image" wrap={true} />
+              <Slider
+                slides={box2Products}
+                showButtons={false}
+                type="half-image"
+                wrap={true}
+              />
               <div className={styles.background}></div>
             </div>
           )}

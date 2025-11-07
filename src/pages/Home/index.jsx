@@ -44,7 +44,7 @@ function Home() {
       <Hero />
       <Carousel />
       <SlideImageDefault />
-      <Banner />
+      {/* <Banner /> */}
       <SlideImageAlternative />
       <SlideHalfImageDefault />
 
@@ -67,11 +67,8 @@ function Home() {
         }}
       />
 
-      <Workspace />
-      <SlideHalfImageAlternative
-        title="SẢN PHẨM CHƯA TỪNG XUẤT HIỆN TRÊN THỊ TRƯỜNG"
-        backGroundImage="//theme.hstatic.net/1000069970/1001119059/14/block_home_category3.jpg?v=7149"
-      />
+      {/* <Workspace /> */}
+
       <Youtube />
       <Category />
       <Service />

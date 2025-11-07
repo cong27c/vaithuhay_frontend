@@ -26,48 +26,18 @@ const deleteProduct = async (id) => {
   return response.data;
 };
 
-// 🔄 Product Variant Operations
 const createProductVariant = async (productId, variantData) => {
-  const transformedVariantData = {
-    name: variantData.name,
-    sku: variantData.sku,
-    price: parseFloat(variantData.price),
-    stock: parseInt(variantData.stock),
-    image_url: variantData.image_url,
-    // Transform variant attributes to match backend structure
-    variant_attributes: Object.entries(variantData.variant_type || {})?.map(
-      ([key, value]) => ({
-        attribute_type: key,
-        attribute_value: variantData.variant_value?.[key] || value,
-      }),
-    ),
-  };
-
   const response = await adminHttpRequest.post(
     `/products/${productId}/variants`,
-    transformedVariantData,
+    variantData,
   );
   return response.data;
 };
 
 const updateProductVariant = async (variantId, variantData) => {
-  const transformedVariantData = {
-    name: variantData.name,
-    sku: variantData.sku,
-    price: parseFloat(variantData.price),
-    stock: parseInt(variantData.stock),
-    image_url: variantData.image_url,
-    variant_attributes: Object.entries(variantData.variant_type || {})?.map(
-      ([key, value]) => ({
-        attribute_type: key,
-        attribute_value: variantData.variant_value?.[key] || value,
-      }),
-    ),
-  };
-
   const response = await adminHttpRequest.put(
     `/products/variants/${variantId}`,
-    transformedVariantData,
+    variantData,
   );
   return response.data;
 };
@@ -77,6 +47,52 @@ const deleteProductVariant = async (variantId) => {
     `/products/variants/${variantId}`,
   );
   return response.data;
+};
+
+// 🔍 GET Product Variant Functions
+const getProductVariant = async (variantId, options = {}) => {
+  try {
+    const params = {};
+
+    if (options.includeAttributes) {
+      params.includeAttributes = true;
+    }
+    if (options.includeProduct) {
+      params.includeProduct = true;
+    }
+
+    const response = await adminHttpRequest.get(`/variants/${variantId}`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch product variant",
+    );
+  }
+};
+
+const getProductVariantsByProduct = async (productId, options = {}) => {
+  try {
+    const params = {};
+
+    if (options.includeAttributes) {
+      params.includeAttributes = true;
+    }
+    if (options.includeStock) {
+      params.includeStock = true;
+    }
+
+    const response = await adminHttpRequest.get(
+      `/products/variants/product/${productId}`,
+      { params },
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch product variants",
+    );
+  }
 };
 
 // 🖼️ Product Images Operations
@@ -240,4 +256,6 @@ export {
   bulkDeleteProducts,
   transformProductForDisplay,
   calculateFinalPrice,
+  getProductVariant,
+  getProductVariantsByProduct,
 };

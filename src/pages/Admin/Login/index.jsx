@@ -143,17 +143,17 @@ const Login = () => {
 
           <div className={styles.formFooter}>
             <label className={styles.checkbox}>
-              <input
+              {/* <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
                 disabled={loading}
-              />
-              <span>Nhớ đăng nhập</span>
+              /> */}
+              {/* <span>Nhớ đăng nhập</span> */}
             </label>
-            <a href="#" className={styles.forgotLink}>
+            {/* <a href="#" className={styles.forgotLink}>
               Quên mật khẩu?
-            </a>
+            </a> */}
           </div>
 
           <button
@@ -171,15 +171,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        <div className={styles.footer}>
-          <p>
-            Cần hỗ trợ?{" "}
-            <a href="#" className={styles.supportLink}>
-              Liên hệ với chúng tôi
-            </a>
-          </p>
-        </div>
       </div>
 
       <div className={styles.bgDecoration}></div>

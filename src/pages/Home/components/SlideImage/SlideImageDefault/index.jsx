@@ -49,14 +49,14 @@ function SlideImageDefault() {
         <h2 className={styles.title}>
           CÙNG VAITHUHAY ĐẶT HÀNG VỀ TAY SỚM NHẤT
         </h2>
-        <div className={styles["list-bar"]}>
+        {/* <div className={styles["list-bar"]}>
           <Button tabButton size="small">{`DỰ ÁN THỊNH HÀNH`}</Button>
           <Button tabButton size="small">{`MỚI RA MẮT`}</Button>
           <Button tabButton size="small">{`MỞ BÁN ĐỢT 2`}</Button>
           <Button tabButton size="small">{`SẮP KẾT THÚC`}</Button>
           <Button tabButton size="small">{`SẮP VỀ HÀNG`}</Button>
           <Button tabButton size="small">{`XEM TẤT CẢ `}</Button>
-        </div>
+        </div> */}
 
         <Slider slides={campaigns} type="image" />
       </div>

@@ -13,7 +13,8 @@ function Navigation() {
     <>
       <nav className={styles.wrapper}>
         <Accordion defaultIndex={-1} collapseOthers={false} trigger="hover">
-          <AccordionItem header="Trang chủ" />
+          <AccordionItem header="Trang chủ" to="/" />
+
           <AccordionItem header="Khám phá" isMegaMenu={true}>
             <MegaMenu />
           </AccordionItem>
@@ -35,7 +36,11 @@ function Navigation() {
                 <a href="https://quatanghay.com/">Quà tặng hay</a>
               </li>
               <li>
-                <a href="https://www.facebook.com/groups/gocvaithuhay">
+                <a
+                  href="https://www.facebook.com/groups/gocvaithuhay"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Cộng đồng Hayer
                 </a>
               </li>

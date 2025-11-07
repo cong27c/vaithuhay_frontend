@@ -3,6 +3,7 @@ import styles from "./Accordion.module.scss";
 import Button from "../Button";
 import clsx from "clsx";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 function Accordion({
   defaultIndex = 0,
@@ -85,31 +86,48 @@ function Accordion({
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
             >
-              <button
-                ref={(el) => {
-                  if (trigger !== "hover") {
-                    buttonRefs.current[index] = el;
-                  }
-                }}
-                className={clsx(
-                  className,
-                  styles.btn,
-                  trigger === "hover" && styles.noFocusStyle,
-                  isMegaMenu && styles.megaMenuBtn,
-                )}
-                onClick={() => {
-                  if (trigger === "click") toggleIndex(index);
-                }}
-                onKeyDown={(e) => {
-                  if (trigger !== "hover") handleKeyDown(e, index);
-                }}
-                tabIndex={trigger === "hover" ? -1 : 0}
-              >
-                {header}
-                <i
-                  className={clsx("fa-solid", "fa-chevron-down", styles.icon)}
-                ></i>
-              </button>
+              {accordion.props.to ? (
+                <Link
+                  to={accordion.props.to}
+                  className={clsx(
+                    className,
+                    styles.btn,
+                    trigger === "hover" && styles.noFocusStyle,
+                    isMegaMenu && styles.megaMenuBtn,
+                  )}
+                >
+                  {header}
+                  <i
+                    className={clsx("fa-solid", "fa-chevron-down", styles.icon)}
+                  ></i>
+                </Link>
+              ) : (
+                <button
+                  ref={(el) => {
+                    if (trigger !== "hover") {
+                      buttonRefs.current[index] = el;
+                    }
+                  }}
+                  className={clsx(
+                    className,
+                    styles.btn,
+                    trigger === "hover" && styles.noFocusStyle,
+                    isMegaMenu && styles.megaMenuBtn,
+                  )}
+                  onClick={() => {
+                    if (trigger === "click") toggleIndex(index);
+                  }}
+                  onKeyDown={(e) => {
+                    if (trigger !== "hover") handleKeyDown(e, index);
+                  }}
+                  tabIndex={trigger === "hover" ? -1 : 0}
+                >
+                  {header}
+                  <i
+                    className={clsx("fa-solid", "fa-chevron-down", styles.icon)}
+                  ></i>
+                </button>
+              )}
 
               {isMegaMenu ? (
                 <div

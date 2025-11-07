@@ -65,7 +65,11 @@ export default function OrderSummary({
     setDiscountError("");
 
     try {
-      const result = await applyVoucher(cartId, discountInput.trim());
+      const result = await applyVoucher(
+        cartId,
+        discountInput.trim(),
+        cartItems,
+      );
       console.log(result);
 
       if (result.success) {
@@ -212,6 +216,7 @@ export default function OrderSummary({
           onClose={onCloseDiscountModal}
           onApply={handleApplyFromModal}
           cartId={cartId}
+          cartItems={cartItems}
         />
       )}
     </>

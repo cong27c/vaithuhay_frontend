@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ReviewsSection.module.scss";
 import clsx from "clsx";
 import Button from "@/components/Button";
@@ -9,6 +9,7 @@ import QuestionsForm from "../QuestionsForm";
 import ReviewComments from "../ReviewComments";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { getReviewableOrders } from "@/Services/reviewService";
 
 const ReviewsSection = ({ product }) => {
   const [activeReviewsContent, setActiveReviewsContent] = useState(false);
@@ -18,7 +19,45 @@ const ReviewsSection = ({ product }) => {
   const [commentsContent, setCommentsContent] = useState(false);
   const [questions, setQuestions] = useState(false);
 
+  console.log("product", product);
+
+  // THÊM: State cho reviewable orders
+  const [reviewableOrders, setReviewableOrders] = useState([]);
+  const [selectedOrderId, setSelectedOrderId] = useState("");
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [orderError, setOrderError] = useState("");
+
   const currentUser = useSelector((state) => state.auth.currentUser);
+
+  // THÊM: Hàm load reviewable orders
+  useEffect(() => {
+    const loadReviewableOrders = async () => {
+      if (!product?.id) return;
+
+      try {
+        setLoadingOrders(true);
+        setOrderError("");
+        const response = await getReviewableOrders(product.id);
+        console.log("loadReviewableOrders", response.orders);
+        setReviewableOrders(response.orders || []);
+
+        // Auto select first order if available
+        if (response.orders && response.orders.length > 0) {
+          setSelectedOrderId(response.orders[0].id);
+        }
+      } catch (error) {
+        console.error("Lỗi tải đơn hàng:", error);
+        setOrderError("Không thể tải thông tin đơn hàng");
+      } finally {
+        setLoadingOrders(false);
+      }
+    };
+
+    // Chỉ load orders khi mở tab reviews hoặc có product
+    if (activeReviewsContent || product?.id) {
+      loadReviewableOrders();
+    }
+  }, [product?.id, activeReviewsContent]);
 
   const handleCommentsContent = () => {
     setCommentsContent(!commentsContent);
@@ -40,6 +79,21 @@ const ReviewsSection = ({ product }) => {
     setActiveReviewsContent(false);
   };
 
+  // THÊM: Hiển thị thông báo trạng thái đơn hàng
+  const renderOrderStatus = () => {
+    if (loadingOrders) {
+      return (
+        <div className={styles.orderStatus}>Đang kiểm tra đơn hàng...</div>
+      );
+    }
+
+    if (orderError) {
+      return <div className={styles.orderError}>{orderError}</div>;
+    }
+
+    return null;
+  };
+
   const ratings = [
     { stars: 5, percentage: 100, count: 4 },
     { stars: 4, percentage: 0, count: 0 },
@@ -59,23 +113,47 @@ const ReviewsSection = ({ product }) => {
           onReviewsClick={handleReviewsClick}
         />
       </div>
+
       <div className={styles.bodySection}>
+        {/* THÊM: Hiển thị trạng thái đơn hàng */}
+        {renderOrderStatus()}
+
         <div className={styles.tabsContent}>
           {activeReviewsContent && (
-            <ReviewsForm
-              product={product}
-              username={currentUser.username}
-              email={currentUser.email}
-              phone={currentUser.phone}
-              rating={rating}
-              setRating={setRating}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-            />
+            <>
+              {/* Chỉ hiển thị form nếu có order để review */}
+              {reviewableOrders.length > 0 && selectedOrderId ? (
+                <ReviewsForm
+                  product={product}
+                  orderId={selectedOrderId} // 👈 TRUYỀN orderId vào
+                  username={currentUser?.username}
+                  email={currentUser?.email}
+                  phone={currentUser?.phone}
+                  rating={rating}
+                  setRating={setRating}
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                />
+              ) : (
+                !loadingOrders && (
+                  <div className={styles.noOrderMessage}>
+                    <p>Bạn cần mua sản phẩm này trước khi đánh giá</p>
+                    <Button
+                      onClick={() =>
+                        (window.location.href = `/product/${product.slug}`)
+                      }
+                    >
+                      Mua ngay
+                    </Button>
+                  </div>
+                )
+              )}
+            </>
           )}
           {activeQuestionsContent && <QuestionsForm />}
         </div>
       </div>
+
       <div className={styles.footerSection}>
         <div className={styles.toggleContainer}>
           <div className={styles.toggleBtn}>

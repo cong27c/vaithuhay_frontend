@@ -10,6 +10,7 @@ import PreOrderModal from "../PreOrderModal/index";
 import RegisterFormModal from "../RegisterFormModal";
 import { refreshCart } from "@/features/cart/cartThunks";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function ProductHero({
   productId = null,
@@ -36,6 +37,7 @@ function ProductHero({
   const currentUser = useCurrentUser();
   const isLoggedIn = !!currentUser;
   const customerId = currentUser?.customerId;
+  const navigate = useNavigate();
 
   const [isPreOrderModalOpen, setIsPreOrderModalOpen] = useState(false);
   const [isRegisterFormModalOpen, setIsRegisterFormModalOpen] = useState(false);
@@ -77,10 +79,10 @@ function ProductHero({
       const matched = findMatchedVariantBySelected();
       const variantId = matched?.id || null;
       setVariantId(variantId);
-      if (!variantId) {
-        toast.warn("Không tìm được biến thể phù hợp để đặt trước.");
-        return;
-      }
+      // if (!variantId) {
+      //   toast.warn("Không tìm được biến thể phù hợp để đặt trước.");
+      //   return;
+      // }
 
       setSelectedVariantForModal({
         variantId,
@@ -228,27 +230,27 @@ function ProductHero({
   };
 
   // addToCart: find matched variantId (if any) and send it
-  const handleAddToCart = async () => {
+  const addToCartLogic = async () => {
     try {
-      const keys = Object.keys(attributes || {});
-      if (keys.some((k) => !selectedVariants[k])) {
-        toast.warn("Vui lòng chọn đầy đủ thuộc tính!");
-        return;
-      }
+      // const keys = Object.keys(attributes || {});
+      // if (keys.some((k) => !selectedVariants[k])) {
+      //   toast.warn("Vui lòng chọn đầy đủ thuộc tính!");
+      //   return false; // trả false để biết là chưa thêm thành công
+      // }
 
       const matched = findMatchedVariantBySelected();
       const variantId = matched?.id || null;
 
-      const res = await addToCart(
-        { productId, variantId, quantity },
-        isLoggedIn,
-      );
+      await addToCart({ productId, variantId, quantity }, isLoggedIn);
 
       toast.success("Đã thêm vào giỏ hàng!");
       dispatch(refreshCart());
+
+      return true; // thành công
     } catch (err) {
       console.error("Add to cart error:", err);
       toast.error("Thêm vào giỏ thất bại!");
+      return false;
     }
   };
 
@@ -449,14 +451,20 @@ function ProductHero({
                     +
                   </button>
                 </div>
-                <div className={styles.cartIcon} onClick={handleAddToCart}>
+                <div className={styles.cartIcon} onClick={addToCartLogic}>
                   <img
                     src="https://theme.hstatic.net/1000069970/1001119059/14/cro_addcart_img.png?v=7221"
                     alt=""
                   />
                 </div>
                 <div className={styles.button}>
-                  <Button tabButton onClick={handleAddToCart}>
+                  <Button
+                    tabButton
+                    onClick={async () => {
+                      const ok = await addToCartLogic();
+                      if (ok) navigate("/cart");
+                    }}
+                  >
                     Đặt hàng ngay
                   </Button>
                 </div>
@@ -466,7 +474,7 @@ function ProductHero({
         </div>
       </div>
 
-      <ProductProgress />
+      {/* <ProductProgress /> */}
 
       {/* PRE-ORDER MODAL */}
       <PreOrderModal

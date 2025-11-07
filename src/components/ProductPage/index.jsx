@@ -11,6 +11,7 @@ import {
   getHighlightsProduct,
   getProductBySlug,
   getProductVariantsBySlug,
+  getRelatedProducts,
 } from "@/Services/productService";
 
 // Sử dụng React.memo cho các component con
@@ -28,6 +29,8 @@ function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [variants, setVariants] = useState({});
   const [attributes, setAttributes] = useState({});
+  const [productId, setProductId] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   // Sử dụng useCallback để tránh tạo hàm mới mỗi lần render
   const fetchData = useCallback(async () => {
@@ -39,7 +42,7 @@ function ProductPage() {
         getProductBySlug(slug),
         getProductVariantsBySlug(slug),
       ]);
-
+      setProductId(productData?.id || null);
       setProduct(productData);
       setVariants(productVariants?.variants);
       setAttributes(productVariants?.attributes);
@@ -49,6 +52,20 @@ function ProductPage() {
       setLoading(false);
     }
   }, [slug]);
+  useEffect(() => {
+    if (!productId) return;
+
+    const fetchRelated = async () => {
+      try {
+        const related = await getRelatedProducts(productId);
+        setRelatedProducts(related?.data);
+      } catch (err) {
+        console.error("Fetch related products error:", err);
+      }
+    };
+
+    fetchRelated();
+  }, [productId]);
 
   useEffect(() => {
     fetchData();
@@ -128,6 +145,7 @@ function ProductPage() {
       <MemoizedProductInfoLayout
         blogsProduct={blogs}
         specifications={product.detail?.specifications}
+        relatedProducts={relatedProducts}
       />
       <MemoizedProductReviews product={product} />
       <MemoizedProductSlider />

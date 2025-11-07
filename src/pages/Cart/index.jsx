@@ -319,6 +319,7 @@ const Cart = () => {
   // Hàm toggle select sản phẩm
   const handleCheckboxChange = (id) => {
     const product = cartItems.find((item) => item.id === id);
+    console.log("handleCheckboxChange", product);
     if (product) {
       dispatch(toggleSelectProduct(product));
     }
@@ -483,75 +484,108 @@ const Cart = () => {
           {cartItems.length === 0 && combos.length === 0 ? (
             <div className={styles.emptyCart}>
               <p>Giỏ hàng của bạn đang trống</p>
-              <Link to="/" className={styles.continueShopping}>
+              <Link
+                to="/collections/setup-goc-lam-viec"
+                className={styles.continueShopping}
+              >
                 Tiếp tục mua sắm
               </Link>
             </div>
           ) : cartItems.length > 0 ? (
             <>
               <h2 className={styles.sectionTitle}>Sản Phẩm Đơn Lẻ</h2>
-              {cartItems?.map((item) => (
-                <div key={item.id} className={styles.cartItem}>
-                  <input
-                    type="checkbox"
-                    checked={item.checked || false}
-                    onChange={() => handleCheckboxChange(item.id)}
-                    className={styles.checkbox}
-                  />
-                  <img
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.name}
-                    className={styles.productImage}
-                  />
-                  <div className={styles.productInfo}>
-                    <Link to={`/products/${item.slug}`}>
-                      <h3 className={styles.productName}>{item.name}</h3>
-                    </Link>
-                    <p className={styles.productVariant}>{item.variant}</p>
-                    <div className={styles.flex}>
-                      <p className={styles.productPrice}>
-                        {item.price.toLocaleString("vi-VN")}đ
-                      </p>
+              {cartItems?.map((item) => {
+                const hasRealDiscount =
+                  item.discount > 0 && item.originalPrice > item.price;
+
+                return (
+                  <div key={item.id} className={styles.cartItem}>
+                    <input
+                      type="checkbox"
+                      checked={item.checked || false}
+                      onChange={() => handleCheckboxChange(item.id)}
+                      className={styles.checkbox}
+                    />
+                    <img
+                      src={item.image || "/placeholder.svg"}
+                      alt={item.name}
+                      className={styles.productImage}
+                    />
+                    <div className={styles.productInfo}>
+                      <Link to={`/products/${item.slug}`}>
+                        <h3 className={styles.productName}>{item.name}</h3>
+                      </Link>
+                      <p className={styles.productVariant}>{item.variant}</p>
+                      {hasRealDiscount && (
+                        <div className={styles.discountBadge}>
+                          -{item.discount}%
+                        </div>
+                      )}
+
+                      <div className={styles.flex}>
+                        {/* Hiển thị giá */}
+                        <div className={styles.priceContainer}>
+                          {hasRealDiscount ? (
+                            <>
+                              <p className={styles.originalPrice}>
+                                {item.originalPrice.toLocaleString("vi-VN")}đ
+                              </p>
+                              <p className={styles.discountedPrice}>
+                                {item.price.toLocaleString("vi-VN")}đ
+                              </p>
+                            </>
+                          ) : (
+                            <p className={styles.productPrice}>
+                              {item.price.toLocaleString("vi-VN")}đ
+                            </p>
+                          )}
+                        </div>
+
+                        <button
+                          className={styles.attributesChange}
+                          onClick={() => handleChangeVariant(item)}
+                          disabled={isUpdating(item.id)}
+                        >
+                          {isUpdating(item.id)
+                            ? "Đang cập nhật..."
+                            : "Thay đổi thuộc tính"}
+                          <span>
+                            <FontAwesomeIcon icon={faPen} />
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <div className={styles.actions}>
                       <button
-                        className={styles.attributesChange}
-                        onClick={() => handleChangeVariant(item)}
+                        className={styles.removeBtn}
+                        onClick={() => handleRemoveClick(item.id)}
                         disabled={isUpdating(item.id)}
                       >
-                        {isUpdating(item.id)
-                          ? "Đang cập nhật..."
-                          : "Thay đổi thuộc tính"}
-                        <span>
-                          <FontAwesomeIcon icon={faPen} />
-                        </span>
+                        ✕
                       </button>
+                      <div className={styles.quantityControl}>
+                        <button
+                          onClick={() =>
+                            handleProductQuantityChange(item.id, -1)
+                          }
+                          disabled={isUpdating(item.id)}
+                        >
+                          {isUpdating(item.id) ? "..." : "−"}
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button
+                          onClick={() =>
+                            handleProductQuantityChange(item.id, 1)
+                          }
+                          disabled={isUpdating(item.id)}
+                        >
+                          {isUpdating(item.id) ? "..." : "+"}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.actions}>
-                    <button
-                      className={styles.removeBtn}
-                      onClick={() => handleRemoveClick(item.id)}
-                      disabled={isUpdating(item.id)}
-                    >
-                      ✕
-                    </button>
-                    <div className={styles.quantityControl}>
-                      <button
-                        onClick={() => handleProductQuantityChange(item.id, -1)}
-                        disabled={isUpdating(item.id)}
-                      >
-                        {isUpdating(item.id) ? "..." : "−"}
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button
-                        onClick={() => handleProductQuantityChange(item.id, 1)}
-                        disabled={isUpdating(item.id)}
-                      >
-                        {isUpdating(item.id) ? "..." : "+"}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </>
           ) : null}
         </div>

@@ -504,7 +504,6 @@ const Vouchers = () => {
                             code: e.target.value.toUpperCase(),
                           })
                         }
-                        disabled={editingVoucher}
                       />
                       {formErrors.code && (
                         <span className={styles.errorText}>

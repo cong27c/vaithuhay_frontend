@@ -8,14 +8,17 @@ import { checkoutSchema } from "@/schema/checkoutSchema";
 import { useCurrentUser } from "@/Hooks/useCurrentUser";
 import { checkout } from "@/Services/stuffService";
 import ChangeAddressModal from "../ChangeAddressModal";
-import { convertAllAddressesToNames } from "../ConvertAddressCodesToNames";
+import {
+  convertAddressCodesToNames,
+  convertAllAddressesToNames,
+} from "../ConvertAddressCodesToNames";
 import {
   deleteAddress,
   getAddressesByCustomer,
 } from "@/Services/addressService";
 import { toast } from "react-toastify";
 import AddressSelector from "../AddressSelector"; // Import AddressSelector component
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Shipping from "../Shipping";
 
@@ -259,6 +262,12 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
       paymentMethod: formData.paymentMethod || "cod",
       shippingMethodId: shippingMethodId,
       shippingFee: shippingFee,
+      shippingInfo: convertAddressCodesToNames({
+        province: formData.province,
+        district: formData.district,
+        ward: formData.ward,
+        street_address: formData.address || formData.specificAddress,
+      }),
     };
 
     return checkoutData;
@@ -591,7 +600,7 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
       <div className={styles.header}>
         <h1 className={styles.title}>Vài Thứ Hay</h1>
         <div className={styles.breadcrumb}>
-          <span>Giỏ hàng</span>
+          <Link to={"/cart"}>Giỏ hàng</Link>
           <span className={styles.separator}>›</span>
           <span>Thông tin giao hàng</span>
         </div>
@@ -638,9 +647,10 @@ export default function OrderInfor({ onShippingFeeUpdate }) {
           <PaymentMethods register={register} errors={errors} />
 
           <div className={styles.footer}>
-            <a href="#" className={styles.backLink}>
+            <Link to={"/cart"} className={styles.backLink}>
               Giỏ hàng
-            </a>
+            </Link>
+
             <button type="submit" className={styles.submitButton}>
               Hoàn tất đơn hàng
             </button>

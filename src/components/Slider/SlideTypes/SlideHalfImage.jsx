@@ -22,7 +22,7 @@ function SlideHalfImage({
   show = false,
   order = false,
   link = "",
-  sale,
+  discount,
   slug,
   longDescription,
 }) {
@@ -30,6 +30,7 @@ function SlideHalfImage({
 
   const handleAddToCart = async () => {
     try {
+      console.log("productId", productId);
       const res = await addToCart({ productId, quantity: 1 });
 
       dispatch(refreshCart());
@@ -90,9 +91,9 @@ function SlideHalfImage({
         </div>
       ) : (
         <div className={styles.alternative}>
-          {sale && (
+          {discount !== "null" && (
             <div className={styles.saleBadge}>
-              {sale} <br />
+              {discount} % <br />
               OFF
             </div>
           )}
@@ -106,8 +107,8 @@ function SlideHalfImage({
             <div className={styles.price}>{price}</div>
             <div className={styles.notification}>{notification}</div>
             <div className={styles.buttonList}>
-              <button className={styles.btn}>
-                {content} {originalPrice}
+              <button className={styles.btn} onClick={handleAddToCart}>
+                {content}
                 <div className={styles["cart-icon"]}>
                   <i className="fa-solid fa-cart-plus"></i>
                 </div>
