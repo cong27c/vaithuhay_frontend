@@ -16,7 +16,7 @@ import Pagination from "@/components/Pagination";
 import SlideImageAlternative from "@/pages/Home/components/SlideImage/SlideImageAlternative";
 import Youtube from "@/pages/Home/components/Youtube";
 import CollectionTab from "./CollectionTab";
-import { useProductsByCollectionSlug } from "@/hooks/useCollection"; // Import hook
+import { useProductsByCollectionSlug } from "@/Hooks/useCollection"; // Import hook
 import { useParams, useSearchParams } from "react-router-dom";
 import { getVouchers } from "@/Services/voucherService";
 
