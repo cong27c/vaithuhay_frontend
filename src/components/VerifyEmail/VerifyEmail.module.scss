@@ -1,0 +1,199 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 100%);
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(255, 193, 7, 0.15);
+  padding: 40px;
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.logo {
+  margin-bottom: 30px;
+
+  h1 {
+    color: #ff9800;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #fff3e0;
+  border-top: 4px solid #ff9800;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.successIcon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.errorIcon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #f44336, #ff5722);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.successTitle {
+  color: #4caf50;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.errorTitle {
+  color: #f44336;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.successMessage {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.errorMessage {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.homeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #ff9800, #ffc107);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  min-width: 200px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+    text-decoration: none;
+    color: white;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 32px 24px;
+  }
+
+  .logo h1 {
+    font-size: 24px;
+  }
+
+  .successTitle,
+  .errorTitle {
+    font-size: 20px;
+  }
+
+  .successMessage,
+  .errorMessage {
+    font-size: 14px;
+  }
+}

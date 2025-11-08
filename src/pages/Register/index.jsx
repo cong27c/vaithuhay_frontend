@@ -50,9 +50,8 @@ function Register() {
         [registerType]: registerType === "email" ? data.email : data.phone,
       };
       const res = await dispatch(registerUser(payLoad));
-      console.log(res);
       if (res.payload?.message) {
-        toast.success(res.payload?.message);
+        toast.success(res.payload?.message || "Đăng ký thành công");
       }
 
       navigate("/login");
