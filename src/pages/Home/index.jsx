@@ -41,6 +41,7 @@ function Home() {
 
   return (
     <div className={styles.wrapper}>
+      {"BUILD MOIWS"}
       <Hero />
       <Carousel />
       <SlideImageDefault />
