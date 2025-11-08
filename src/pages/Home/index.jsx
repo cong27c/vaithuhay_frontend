@@ -12,7 +12,7 @@ import SlideHalfImageAlternative from "./components/SlideHalfImages/SlideHalfIma
 import Workspace from "./components/Workspace";
 import SlideImageAlternative from "./components/SlideImage/SlideImageAlternative";
 import Youtube from "./components/Youtube";
-import { useCollectionSlideBySlug } from "@/hooks/useCollection";
+import { useCollectionSlideBySlug } from "@/Hooks/useCollection";
 
 function Home() {
   // Lấy dữ liệu electronic products

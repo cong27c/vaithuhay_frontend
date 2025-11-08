@@ -3,7 +3,7 @@ import styles from "./SlideHalfImageDefault.module.scss";
 import Button from "@/components/Button";
 import Slider from "@/components/Slider";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useCollectionSlideBySlug } from "@/hooks/useCollection";
+import { useCollectionSlideBySlug } from "@/Hooks/useCollection";
 
 function SlideHalfImageDefault() {
   const slug = "cong-nghe-tien-ich-co-san";
