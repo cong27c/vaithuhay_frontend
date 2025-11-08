@@ -1,14 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-function ScrollTop() {
-  const location = useLocation();
+export default function useScrollTop() {
+  const { pathname } = useLocation();
 
   useEffect(() => {
+    // Cuộn mượt mà lên đầu khi đổi route
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [location.pathname]);
-
-  return null;
+  }, [pathname]);
 }
-
-export default ScrollTop;

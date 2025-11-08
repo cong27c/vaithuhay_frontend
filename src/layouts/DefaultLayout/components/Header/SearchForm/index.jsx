@@ -78,7 +78,6 @@ function SearchForm() {
       handleSearch(searchTerm, searchType);
     }
   };
-  console.log(searchResults);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("vi-VN", {

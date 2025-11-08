@@ -49,7 +49,7 @@ function SlideHalfImage({
           data-discount={discountPercent ? `-${discountPercent}%` : ""}
         >
           <div className={styles.images}>
-            <Link to={`${import.meta.env.VITE_FRONTEND_URL}/products/${link}`}>
+            <Link to={`/products/${slug}`}>
               <img src={image} alt="" />
             </Link>
             <div className={styles.price}>
@@ -60,7 +60,7 @@ function SlideHalfImage({
             </div>
           </div>
           <div className={styles.content}>
-            <Link to={`${import.meta.env.VITE_FRONTEND_URL}/products/${link}`}>
+            <Link to={`/products/${slug}`}>
               <div className={styles.name}>{name}</div>
             </Link>
 

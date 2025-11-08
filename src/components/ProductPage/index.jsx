@@ -13,6 +13,7 @@ import {
   getProductVariantsBySlug,
   getRelatedProducts,
 } from "@/Services/productService";
+import useScrollTop from "@/Hooks/useScrollTop";
 
 // Sử dụng React.memo cho các component con
 const MemoizedProductHero = memo(ProductHero);
@@ -22,6 +23,7 @@ const MemoizedProductReviews = memo(ProductReviews);
 const MemoizedProductSlider = memo(ProductSlider);
 
 function ProductPage() {
+  useScrollTop();
   const { slug } = useParams();
   const [product, setProduct] = useState({});
   const [highlights, setHighlights] = useState(null);

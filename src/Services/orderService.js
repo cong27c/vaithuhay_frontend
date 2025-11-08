@@ -17,4 +17,14 @@ const getPaymentStatus = async (orderId) => {
   }
 };
 
+export const getPaymentByOrderId = async (orderId) => {
+  try {
+    const response = await httpRequest.get(`/orders/${orderId}/payment`);
+    return response.data;
+  } catch (error) {
+    console.error("Get payment error:", error);
+    return null;
+  }
+};
+
 export { getOrderById, getPaymentStatus };

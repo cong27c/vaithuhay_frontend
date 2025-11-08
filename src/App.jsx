@@ -7,9 +7,9 @@ import UserProvider from "./components/UserProvider";
 function App() {
   return (
     <Router>
-      <ScrollTop />
       <UserProvider />
       <AppRoutes />
+      <ScrollTop />
     </Router>
   );
 }

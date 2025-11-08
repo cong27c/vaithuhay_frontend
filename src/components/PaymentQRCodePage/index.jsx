@@ -4,19 +4,23 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./PaymentQRCodePage.module.scss";
 import { toast } from "react-toastify";
-import { getPaymentStatus, getOrderById } from "@/Services/orderService"; // ĐÃ ĐỔI TÊN HÀM
+import {
+  getPaymentStatus,
+  getOrderById,
+  getPaymentByOrderId,
+} from "@/Services/orderService";
 import socketClient from "@/utils/socketClient";
 
 const PaymentQRCodePage = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
+  const [payment, setPayment] = useState(null); // THÊM STATE CHO PAYMENT
   const [isLoading, setIsLoading] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState("pending");
-  const [orderStatus, setOrderStatus] = useState("pending"); // THÊM ORDER STATUS
+  const [orderStatus, setOrderStatus] = useState("pending");
   const [connectionState, setConnectionState] = useState("disconnected");
   const channelRef = useRef(null);
-  const hasRedirected = useRef(false); // NGĂN CHẶN CHUYỂN HƯỚNG TRÙNG LẶP
+  const hasRedirected = useRef(false);
 
   // 📡 Theo dõi trạng thái kết nối Pusher
   useEffect(() => {
@@ -32,29 +36,28 @@ const PaymentQRCodePage = () => {
     };
   }, []);
 
-  // 📡 Khởi tạo Pusher channel cho order - ĐÃ CẬP NHẬT EVENT NAMES
+  // 📡 Khởi tạo Pusher channel cho order
   useEffect(() => {
     if (!orderId) return;
 
     const initializePusher = async () => {
       try {
-        // Subscribe đến private channel của order
         const channel = socketClient.subscribe(`private-order-${orderId}`);
         channelRef.current = channel;
 
-        // Listen event thanh toán thành công từ BE (GIỮ NGUYÊN)
+        // Listen event thanh toán thành công
         channel.bind("payment-success", (data) => {
           console.log("💰 Payment success received:", data);
           handlePaymentSuccess(data);
         });
 
-        // Listen event payment error (GIỮ NGUYÊN)
+        // Listen event payment error
         channel.bind("payment-error", (data) => {
           console.error("❌ Payment error received:", data);
           toast.error(`Lỗi thanh toán: ${data.error}`);
         });
 
-        // THÊM EVENT MỚI: Cập nhật trạng thái order
+        // Event cập nhật trạng thái order
         channel.bind("order-status-update", (data) => {
           console.log("🔄 Order status update:", data);
           if (data.status) {
@@ -78,7 +81,6 @@ const PaymentQRCodePage = () => {
 
     initializePusher();
 
-    // Cleanup khi component unmount
     return () => {
       if (channelRef.current) {
         channelRef.current.unbind_all();
@@ -87,40 +89,48 @@ const PaymentQRCodePage = () => {
     };
   }, [orderId]);
 
-  // 🧭 Lấy dữ liệu order từ BE khi vào trang - ĐÃ CẬP NHẬT
+  // 🧭 Lấy dữ liệu order và payment từ BE
   useEffect(() => {
-    const fetchOrder = async () => {
+    const fetchOrderAndPayment = async () => {
       try {
         setIsLoading(true);
-        const data = await getOrderById(orderId);
 
-        if (!data || !data.success || !data.order) {
+        // Lấy thông tin order
+        const orderData = await getOrderById(orderId);
+        if (!orderData || !orderData.success || !orderData.order) {
           toast.error("Không tìm thấy đơn hàng!");
           navigate("/");
           return;
         }
-        console.log(data);
 
-        setOrder(data.order);
-        setPaymentStatus(data.order.payment_status || "pending");
-        setOrderStatus(data.order.status || "pending"); // CẬP NHẬT ORDER STATUS
+        console.log("fetchOrder", orderData);
+        setOrder(orderData.order);
+        setOrderStatus(orderData.order.status || "pending");
 
-        // KIỂM TRA TRẠNG THÁI ĐỂ CHUYỂN HƯỚNG
-        if (data.order.payment_status === "paid" && !hasRedirected.current) {
-          handlePaymentSuccess({
-            orderId: data.order.id,
-            transactionId: data.order.transaction_id,
-            paidAt: data.order.paid_at,
-            amount: data.order.total_amount,
-          });
+        // Lấy thông tin payment
+        const paymentData = await getPaymentByOrderId(orderId);
+        console.log("fetchPayment", paymentData);
+
+        if (paymentData && paymentData.success) {
+          setPayment(paymentData.payment);
+
+          // KIỂM TRA NẾU ĐÃ THANH TOÁN THÀNH CÔNG
+          if (
+            paymentData.payment?.status === "paid" &&
+            !hasRedirected.current
+          ) {
+            handlePaymentSuccess({
+              orderId: orderData.order.id,
+              transactionId: paymentData.payment.transaction_id,
+              paidAt: paymentData.payment.paid_at,
+              amount: paymentData.payment.amount,
+            });
+          }
         }
 
-        // NẾU ORDER ĐÃ BỊ HỦY HOẶC LỖI
-        if (
-          data.order.status === "cancelled" ||
-          data.order.payment_status === "amount_mismatch"
-        ) {
-          toast.error("Đơn hàng đã bị hủy do lỗi thanh toán!");
+        // NẾU ORDER ĐÃ BỊ HỦY
+        if (orderData.order.status === "cancelled") {
+          toast.error("Đơn hàng đã bị hủy!");
           setTimeout(() => {
             navigate("/cart");
           }, 3000);
@@ -132,67 +142,70 @@ const PaymentQRCodePage = () => {
         setIsLoading(false);
       }
     };
-    fetchOrder();
+
+    fetchOrderAndPayment();
   }, [orderId, navigate]);
 
-  // 🎯 Xử lý khi nhận được thông báo thanh toán thành công - ĐÃ CẬP NHẬT
-  const handlePaymentSuccess = (data) => {
-    // Prevent multiple success handling
-    if (paymentStatus === "paid" || hasRedirected.current) return;
+  // 🎯 Xử lý khi nhận được thông báo thanh toán thành công
+  const handlePaymentSuccess = async (data) => {
+    if (hasRedirected.current) return;
 
-    console.log("🎉 Handling payment success:", data);
-    hasRedirected.current = true;
+    console.log("🎉 handlePaymentSuccess", data);
 
-    toast.success("💰 Thanh toán thành công! Đang chuyển hướng...");
+    // Fetch lại thông tin payment để xác nhận
+    try {
+      const paymentData = await getPaymentByOrderId(orderId);
+      if (paymentData?.success && paymentData.payment?.status === "paid") {
+        hasRedirected.current = true;
 
-    // Cập nhật UI ngay lập tức
-    setPaymentStatus("paid");
-    setOrderStatus("confirmed"); // CẬP NHẬT ORDER STATUS
+        toast.success("💰 Thanh toán thành công! Đang chuyển hướng...");
 
-    // Cập nhật order data với thông tin mới nhất
-    setOrder((prev) =>
-      prev
-        ? {
-            ...prev,
-            payment_status: "paid",
-            status: "confirmed", // CẬP NHẬT ORDER STATUS
-            paid_at: data.paidAt,
-            transaction_id: data.transactionId,
-          }
-        : null,
-    );
+        // Cập nhật UI ngay lập tức
+        setOrderStatus("confirmed");
+        setPayment(paymentData.payment);
 
-    // Chuyển hướng sau 2 giây
-    setTimeout(() => {
-      navigate(`/order-success/${orderId}`);
-    }, 2000);
+        // Cập nhật order data
+        setOrder((prev) =>
+          prev
+            ? {
+                ...prev,
+                status: "confirmed",
+              }
+            : null,
+        );
+
+        // Chuyển hướng sau 2 giây
+        setTimeout(() => {
+          navigate(`/order-success/${orderId}`);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Error confirming payment:", error);
+    }
   };
 
-  // 🔁 Hàm kiểm tra thanh toán thủ công - ĐÃ CẬP NHẬT SỬ DỤNG HÀM MỚI
+  // 🔁 Hàm kiểm tra thanh toán thủ công
   const handleCheckPayment = async () => {
     setIsLoading(true);
     try {
-      const result = await getPaymentStatus(orderId); // SỬ DỤNG HÀM MỚI
+      // Kiểm tra trạng thái payment
+      const paymentData = await getPaymentByOrderId(orderId);
 
-      if (!result || !result.success) {
+      if (!paymentData || !paymentData.success) {
         toast.error("Không thể kiểm tra trạng thái thanh toán!");
         return;
       }
 
-      // XỬ LÝ CÁC TRẠNG THÁI KHÁC NHAU
-      if (result.payment_status === "paid") {
+      // XỬ LÝ CÁC TRẠNG THÁI
+      if (paymentData.payment?.status === "paid") {
         handlePaymentSuccess({
-          orderId: result.order_id,
-          transactionId: result.transaction_id,
-          paidAt: result.paid_at,
-          amount: order?.total_amount,
+          orderId: order.id,
+          transactionId: paymentData.payment.transaction_id,
+          paidAt: paymentData.payment.paid_at,
+          amount: paymentData.payment.amount,
         });
-      } else if (result.payment_status === "amount_mismatch") {
-        toast.error("Số tiền thanh toán không khớp với đơn hàng!");
-        setPaymentStatus("amount_mismatch");
-      } else if (result.order_status === "cancelled") {
+      } else if (orderStatus === "cancelled") {
         toast.error("Đơn hàng đã bị hủy!");
-        setOrderStatus("cancelled");
       } else {
         toast.info("Thanh toán chưa được xác nhận. Vui lòng thử lại sau!");
       }
@@ -204,21 +217,21 @@ const PaymentQRCodePage = () => {
     }
   };
 
-  // ⏰ Tự động kiểm tra định kỳ - ĐÃ CẬP NHẬT
+  // ⏰ Tự động kiểm tra định kỳ
   useEffect(() => {
-    if (!orderId || paymentStatus === "paid" || hasRedirected.current) return;
+    if (!orderId || hasRedirected.current) return;
 
     const interval = setInterval(async () => {
       try {
         console.log("🕒 Auto-checking payment status...");
-        const result = await getPaymentStatus(orderId); // SỬ DỤNG HÀM MỚI
+        const paymentData = await getPaymentByOrderId(orderId);
 
-        if (result?.success && result?.payment_status === "paid") {
+        if (paymentData?.success && paymentData.payment?.status === "paid") {
           handlePaymentSuccess({
-            orderId: result.order_id,
-            transactionId: result.transaction_id,
-            paidAt: result.paid_at,
-            amount: order?.total_amount,
+            orderId: order.id,
+            transactionId: paymentData.payment.transaction_id,
+            paidAt: paymentData.payment.paid_at,
+            amount: paymentData.payment.amount,
           });
           clearInterval(interval);
         }
@@ -228,7 +241,7 @@ const PaymentQRCodePage = () => {
     }, 30000); // Kiểm tra mỗi 30 giây
 
     return () => clearInterval(interval);
-  }, [orderId, paymentStatus]);
+  }, [orderId]);
 
   // Hàm format tiền
   const formatCurrency = (amount) =>
@@ -240,11 +253,15 @@ const PaymentQRCodePage = () => {
 
   // Hàm hiển thị trạng thái - ĐÃ CẬP NHẬT
   const renderStatusText = () => {
-    if (paymentStatus === "paid") return "Đã thanh toán ✅";
-    if (paymentStatus === "amount_mismatch") return "Lỗi số tiền ❌";
+    if (payment?.status === "paid") return "Đã thanh toán ✅";
     if (orderStatus === "cancelled") return "Đơn hàng đã hủy 🚫";
+    if (payment?.status === "failed") return "Thanh toán thất bại ❌";
     return "Chờ thanh toán ⏳";
   };
+
+  // Kiểm tra đã thanh toán chưa
+  const isPaid = payment?.status === "paid";
+  const isCancelled = orderStatus === "cancelled";
 
   // Nếu chưa có dữ liệu
   if (!order && isLoading) {
@@ -265,17 +282,13 @@ const PaymentQRCodePage = () => {
   }
 
   // KIỂM TRA NẾU ORDER KHÔNG THỂ THANH TOÁN
-  if (orderStatus === "cancelled" || paymentStatus === "amount_mismatch") {
+  if (isCancelled) {
     return (
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.errorState}>
             <h2>Không thể tiếp tục thanh toán</h2>
-            <p>
-              {paymentStatus === "amount_mismatch"
-                ? "Số tiền thanh toán không khớp với giá trị đơn hàng."
-                : "Đơn hàng đã bị hủy."}
-            </p>
+            <p>Đơn hàng đã bị hủy.</p>
             <button
               className={styles.backButton}
               onClick={() => navigate("/cart")}
@@ -301,24 +314,38 @@ const PaymentQRCodePage = () => {
             </span>
           </div>
 
-          {/* Real-time Status Indicator - ĐÃ CẬP NHẬT */}
+          {/* Real-time Status Indicator */}
           <div
-            className={`${styles.status} ${styles[paymentStatus]} ${styles[orderStatus]}`}
+            className={`${styles.status} ${styles[payment?.status]} ${styles[orderStatus]}`}
           >
             Trạng thái: {renderStatusText()}
           </div>
 
-          {/* HIỂN THỊ THÔNG TIN BỔ SUNG */}
-          {(paymentStatus === "amount_mismatch" ||
-            orderStatus === "cancelled") && (
-            <div className={styles.statusDetail}>
-              <p>Vui lòng kiểm tra lại đơn hàng hoặc liên hệ hỗ trợ.</p>
+          {/* HIỂN THỊ THÔNG TIN THANH TOÁN NẾU ĐÃ THANH TOÁN */}
+          {isPaid && payment && (
+            <div className={styles.paymentInfo}>
+              <div className={styles.infoItem}>
+                <span className={styles.label}>Mã giao dịch:</span>
+                <span className={styles.value}>{payment.transaction_id}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.label}>Số tiền thanh toán:</span>
+                <span className={styles.value}>
+                  {formatCurrency(payment.amount)}
+                </span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.label}>Thời gian thanh toán:</span>
+                <span className={styles.value}>
+                  {new Date(payment.paid_at).toLocaleString("vi-VN")}
+                </span>
+              </div>
             </div>
           )}
         </div>
 
         {/* QR Code Section - ẨN NẾU ĐÃ THANH TOÁN HOẶC LỖI */}
-        {paymentStatus === "pending" && orderStatus === "pending" && (
+        {!isPaid && !isCancelled && (
           <>
             <div className={styles.qrSection}>
               <div className={styles.qrContainer}>
@@ -363,33 +390,29 @@ const PaymentQRCodePage = () => {
           </>
         )}
 
-        {/* Check Payment Button - ĐÃ CẬP NHẬT DISABLED STATES */}
+        {/* Check Payment Button */}
         <button
           className={styles.checkButton}
           onClick={handleCheckPayment}
-          disabled={
-            isLoading || paymentStatus === "paid" || orderStatus === "cancelled"
-          }
+          disabled={isLoading || isPaid || isCancelled}
         >
           {isLoading
             ? "Đang kiểm tra..."
-            : paymentStatus === "paid"
+            : isPaid
               ? "Đã thanh toán ✅"
-              : orderStatus === "cancelled"
+              : isCancelled
                 ? "Đơn hàng đã hủy"
                 : "Kiểm tra thanh toán"}
         </button>
 
-        {/* Additional Info - ĐÃ CẬP NHẬT NỘI DUNG */}
+        {/* Additional Info */}
         <div className={styles.footer}>
           <p>
-            {paymentStatus === "paid"
+            {isPaid
               ? "Thanh toán đã được xác nhận. Đang chuyển hướng..."
-              : paymentStatus === "amount_mismatch"
-                ? "Số tiền thanh toán không khớp. Vui lòng liên hệ hỗ trợ."
-                : orderStatus === "cancelled"
-                  ? "Đơn hàng đã bị hủy. Vui lòng đặt hàng lại."
-                  : "Vui lòng quét mã QR hoặc chuyển khoản theo thông tin trên để hoàn tất thanh toán."}
+              : isCancelled
+                ? "Đơn hàng đã bị hủy. Vui lòng đặt hàng lại."
+                : "Vui lòng quét mã QR hoặc chuyển khoản theo thông tin trên để hoàn tất thanh toán."}
           </p>
 
           {/* Real-time Connection Status */}
