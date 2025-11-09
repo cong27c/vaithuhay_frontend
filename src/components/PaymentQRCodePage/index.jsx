@@ -175,9 +175,9 @@ const PaymentQRCodePage = () => {
         );
 
         // Chuyển hướng sau 2 giây
-        setTimeout(() => {
-          navigate(`/order-success/${orderId}`);
-        }, 2000);
+        // setTimeout(() => {
+        //   navigate(`/order-success/${orderId}`);
+        // }, 2000);
       }
     } catch (error) {
       console.error("Error confirming payment:", error);
@@ -236,6 +236,7 @@ const PaymentQRCodePage = () => {
           clearInterval(interval);
         }
       } catch (error) {
+        console.log("Lỗi ở đây", error);
         console.error("Auto check payment error:", error);
       }
     }, 30000); // Kiểm tra mỗi 30 giây
