@@ -94,7 +94,6 @@ const forgotPassword = async (data) => {
     console.log(error);
   }
 };
-
 const verify = async (token) => {
   try {
     const response = await httpRequest.get(`/auth/verify?token=${token}`);

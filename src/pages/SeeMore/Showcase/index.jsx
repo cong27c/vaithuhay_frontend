@@ -39,6 +39,7 @@ function Collections() {
 
   const products = productsData?.products || [];
   const totalPages = productsData?.totalCount || 1;
+  console.log("products", products);
 
   const itemsPerBox = 8;
   const box1Products = products.slice(0, itemsPerBox);
