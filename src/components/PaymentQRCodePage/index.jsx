@@ -225,15 +225,10 @@ const PaymentQRCodePage = () => {
       try {
         console.log("🕒 Auto-checking payment status...");
         const paymentData = await getPaymentByOrderId(orderId);
-        console.log("paymentData", paymentData);
-        console.log("paymentData?.success", paymentData?.success);
-        console.log(
-          " paymentData.payment?.status",
-          paymentData.payment?.status,
-        );
+
         if (paymentData?.success && paymentData.payment?.status === "paid") {
           handlePaymentSuccess({
-            orderId: order.id,
+            orderId: paymentData?.payment.order_id,
             transactionId: paymentData.payment.transaction_id,
             paidAt: paymentData.payment.paid_at,
             amount: paymentData.payment.amount,
